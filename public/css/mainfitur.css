@@ -1,0 +1,95 @@
+/* =========================================================
+   TOMBOL CHATBOT & JURUMATCH
+   FIXED KANAN BAWAH
+========================================================= */
+
+.right-buttons {
+
+    /*
+       FIXED = mengikuti layar/viewport.
+       Jadi tidak ikut bergerak saat halaman di-scroll.
+    */
+
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 15px;
+
+    /*
+       Sangat tinggi supaya tombol berada
+       di atas elemen halaman lainnya.
+    */
+
+    z-index: 9999;
+}
+
+/* =========================================================
+   TOMBOL FLOATING
+========================================================= */
+
+.floating-button {
+
+    width: 70px;
+
+    height: 70px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, 0.70);
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.20);
+
+    text-decoration: none;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* Gambar */
+
+.floating-button img {
+
+    width: 65px;
+
+    height: 65px;
+
+    display: block;
+
+    object-fit: contain;
+}
+
+
+/* Hover */
+
+.floating-button:hover {
+
+    transform: scale(1.08);
+
+    background: rgba(255, 255, 255, 0.95);
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.30);
+}

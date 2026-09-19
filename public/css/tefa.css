@@ -1,0 +1,628 @@
+/* =========================================================
+   TEFA ONLINE - KATALOG LAYANAN
+========================================================= */
+
+.tefa-hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #eef2f7;
+    background-image: url('../images/tefabg2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+.tefa-hero-inner {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 340px;
+    box-sizing: border-box;
+}
+
+.tefa-hero-text {
+    position: relative;
+    z-index: 2;
+    flex: 0 1 560px;
+    max-width: 560px;
+    padding-right: 24px;
+    box-sizing: border-box;
+}
+
+.tefa-hero-badge {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 6px;
+}
+
+.tefa-hero-title {
+    font-size: clamp(30px, 4.6vw, 54px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.5px;
+    color: #0b1220;
+    margin: 0 0 14px 0;
+}
+
+.tefa-hero-desc {
+    font-size: clamp(14px, 1.4vw, 18px);
+    line-height: 1.55;
+    color: #1f2937;
+    margin: 0 0 24px 0;
+    max-width: 520px;
+}
+
+/* ---------------------------------------------------------
+   FILTER / PILL JURUSAN
+--------------------------------------------------------- */
+.tefa-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.tefa-pill {
+    appearance: none;
+    cursor: pointer;
+    padding: 10px 26px;
+    min-width: 86px;
+    border: 1.5px solid #111827;
+    border-radius: 9px;
+    background-color: #ffffff;
+    color: #0b1220;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.tefa-pill:hover {
+    transform: translateY(-1px);
+}
+
+.tefa-pill.is-active {
+    background-color: #0b1220;
+    color: #ffffff;
+}
+
+/* ---------------------------------------------------------
+   LOGO TEACHING FACTORY (KANAN)
+--------------------------------------------------------- */
+.tefa-hero-logo {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: clamp(0px, 3vw, 40px);
+}
+
+.tefa-hero-logo img {
+    width: clamp(170px, 22vw, 310px);
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 12px 24px rgba(15, 23, 42, 0.22));
+}
+
+/* ---------------------------------------------------------
+   GRID KARTU LAYANAN
+--------------------------------------------------------- */
+.tefa-catalog {
+    width: 100%;
+    background-color: #ffffff;
+    padding: clamp(32px, 4.5vw, 56px) 24px clamp(48px, 6vw, 80px);
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+.tefa-grid {
+    max-width: 1040px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 26px;
+}
+
+.tefa-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #eef0f3;
+    border: 1px solid #d5d8dd;
+    border-radius: 14px;
+    padding: 22px 22px 24px;
+    box-sizing: border-box;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tefa-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+}
+
+.tefa-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.tefa-card-icon {
+    flex: 0 0 auto;
+    width: 62px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 2px solid #111827;
+    border-radius: 50%;
+    color: #0b1220;
+}
+
+.tefa-card-icon svg {
+    width: 34px;
+    height: 34px;
+}
+
+.tefa-card-info {
+    min-width: 0;
+}
+
+.tefa-card-title {
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.3;
+    color: #0b1220;
+    margin: 4px 0 8px 0;
+}
+
+.tefa-card-desc {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #1f2937;
+    margin: 0;
+}
+
+.tefa-card-divider {
+    height: 1px;
+    background-color: #111827;
+    opacity: 0.85;
+    margin: 20px 0 18px;
+}
+
+.tefa-card-price {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #0b1220;
+    margin-bottom: 22px;
+}
+
+.tefa-btn-booking {
+    display: block;
+    width: 100%;
+    padding: 11px 20px;
+    background-color: #ffcd11;
+    color: #0b1220;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.tefa-btn-booking:hover {
+    background-color: #f0bc00;
+    transform: translateY(-2px);
+}
+
+.tefa-empty {
+    display: none;
+    max-width: 1040px;
+    margin: 32px auto 0;
+    text-align: center;
+    font-size: 15px;
+    color: #64748b;
+}
+
+/* ---------------------------------------------------------
+   HALAMAN BOOKING
+--------------------------------------------------------- */
+.booking-section {
+    width: 100%;
+    background-color: #f6f6f6;
+    padding: clamp(32px, 5vw, 56px) 20px clamp(48px, 6vw, 80px);
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+.booking-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ---- Judul ---- */
+.booking-header {
+    text-align: center;
+    margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.booking-header-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.booking-line {
+    flex: 0 1 150px;
+    height: 2px;
+    background-color: #d9b679;
+    border-radius: 2px;
+}
+
+.booking-dot {
+    flex: 0 0 auto;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #2b2b2b;
+}
+
+.booking-title {
+    margin: 0;
+    font-size: clamp(26px, 3.2vw, 38px);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #ed9a18;
+}
+
+.booking-subtitle {
+    margin: 12px 0 0 0;
+    font-size: clamp(16px, 1.6vw, 20px);
+    font-weight: 700;
+    color: #111827;
+}
+
+/* ---- Tata letak dua kolom ---- */
+.booking-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) 1fr;
+    gap: clamp(24px, 3vw, 44px);
+    align-items: start;
+}
+
+/* ---- Kiri : kartu layanan terpilih ---- */
+.booking-aside {
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+    background-color: #ffffff;
+    border: 1.5px solid #e6c583;
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    box-sizing: border-box;
+}
+
+.booking-aside-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.booking-aside-icon {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff8e6;
+    border: 2px solid #f0b21e;
+    border-radius: 50%;
+    color: #b07d00;
+}
+
+.booking-aside-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.booking-aside-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.booking-aside-label {
+    font-size: 15px;
+    color: #374151;
+}
+
+.booking-aside-jurusan {
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.booking-aside-kategori {
+    margin: 20px 0 6px 0;
+    font-size: 16px;
+    color: #111827;
+}
+
+.booking-aside-kategori span {
+    font-weight: 700;
+}
+
+.booking-aside-desc {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #374151;
+}
+
+.booking-aside-price {
+    margin-top: auto;
+    padding-top: 20px;
+    text-align: right;
+    font-size: 15px;
+    color: #111827;
+}
+
+/* ---- Kiri : kolom layanan + tombol kembali ---- */
+.booking-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.booking-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 20px;
+    background-color: #ffffff;
+    color: #111827;
+    border: 1.5px solid #e6c583;
+    border-radius: 26px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.booking-back svg {
+    width: 18px;
+    height: 18px;
+}
+
+.booking-back:hover {
+    background-color: #fff8e6;
+    transform: translateY(-2px);
+}
+
+/* ---- Kanan : form ---- */
+.booking-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 28px;
+    row-gap: 18px;
+}
+
+.booking-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.booking-field--full {
+    margin-top: 18px;
+}
+
+.booking-field label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.booking-field input,
+.booking-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: #ffffff;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 15px;
+    color: #111827;
+    box-sizing: border-box;
+}
+
+.booking-field textarea {
+    min-height: 118px;
+    resize: vertical;
+}
+
+.booking-field input:focus,
+.booking-field textarea:focus {
+    outline: none;
+    border-color: #ed9a18;
+    box-shadow: 0 0 0 3px rgba(237, 154, 24, 0.18);
+}
+
+.booking-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 22px;
+}
+
+.booking-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    background-color: #f5c518;
+    color: #111827;
+    border: none;
+    border-radius: 26px;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.booking-submit svg {
+    width: 19px;
+    height: 19px;
+}
+
+.booking-submit:hover {
+    background-color: #e6b400;
+    transform: translateY(-2px);
+}
+
+/* ---- Notifikasi & validasi ---- */
+.booking-alert {
+    margin: 0 auto 26px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.booking-alert--success {
+    background-color: #e7f7ec;
+    border: 1px solid #9fd8b0;
+    color: #1c6b38;
+}
+
+.booking-alert--error {
+    background-color: #fdeaea;
+    border: 1px solid #f0a7a7;
+    color: #a12626;
+}
+
+.booking-alert ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.booking-error {
+    font-size: 13px;
+    color: #c0392b;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+--------------------------------------------------------- */
+@media (max-width: 900px) {
+    .tefa-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tefa-hero-text {
+        flex: 1 1 auto;
+        max-width: 100%;
+    }
+
+    .tefa-hero-logo img {
+        width: clamp(140px, 20vw, 200px);
+    }
+}
+
+@media (max-width: 768px) {
+    .booking-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .booking-aside {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .tefa-hero {
+        background-image:
+            linear-gradient(180deg, rgba(244, 246, 249, 0.9) 0%, rgba(244, 246, 249, 0.82) 100%),
+            url('../images/tefabg2.png');
+    }
+
+    .tefa-hero-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: auto;
+        padding: 28px 20px 32px;
+    }
+
+    .tefa-hero-text {
+        flex: 1 1 auto;
+        max-width: 100%;
+        padding-right: 0;
+    }
+
+    .tefa-hero-logo {
+        width: 100%;
+        padding-right: 0;
+        justify-content: center;
+    }
+
+    .tefa-hero-logo img {
+        width: clamp(150px, 45vw, 210px);
+    }
+
+    .tefa-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .booking-line {
+        flex: 0 1 60px;
+    }
+
+    .booking-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .booking-aside {
+        min-height: auto;
+    }
+
+    .booking-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .booking-actions {
+        justify-content: stretch;
+    }
+
+    .booking-submit {
+        width: 100%;
+        justify-content: center;
+    }
+}

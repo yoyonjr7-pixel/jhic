@@ -1,0 +1,1006 @@
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer {
+
+    width: 100%;
+
+    background: #e9e9e9;
+
+    color: #111;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    margin-top: 50px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.footer-container {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        0.8fr
+        1fr;
+
+    column-gap: 70px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   KOLOM SEKOLAH
+========================================================= */
+
+.footer-school {
+
+    min-width: 0;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.footer-logo {
+
+    width: 450px;
+
+    height: 175px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    margin-bottom: 25px;
+
+    max-width: 100%;
+}
+
+
+.footer-logo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    object-position: left center;
+
+    display: block;
+}
+
+
+/* =========================================================
+   DESKRIPSI
+========================================================= */
+
+.footer-description {
+
+    max-width: 520px;
+
+    margin-bottom: 25px;
+
+    font-size: 17px;
+
+    line-height: 1.55;
+
+    color: #111;
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.footer-contact {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   CONTACT ITEM
+========================================================= */
+
+.contact-item {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 14px;
+
+    line-height: 1.5;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   CONTACT ICON
+========================================================= */
+
+.contact-icon {
+
+    width: 38px;
+
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #d8d8d8;
+
+    border-radius: 8px;
+
+    font-size: 18px;
+
+    color: #111;
+}
+
+
+/* =========================================================
+   CONTACT CONTENT
+========================================================= */
+
+.contact-content {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    padding-top: 1px;
+}
+
+
+/* =========================================================
+   CONTACT LABEL
+========================================================= */
+
+.contact-label {
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+
+    color: #666;
+}
+
+
+/* =========================================================
+   EMAIL & TELEPON
+========================================================= */
+
+.contact-content a {
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+    line-height: 1.5;
+
+    word-break: break-word;
+
+    transition: color 0.2s ease;
+}
+
+
+.contact-content a:hover {
+
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   ALAMAT
+========================================================= */
+
+.contact-address {
+
+    display: block;
+
+    color: #111;
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+    line-height: 1.55;
+
+    max-width: 450px;
+}
+
+
+/* =========================================================
+   SOCIAL MEDIA
+========================================================= */
+
+.footer-social {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin-top: 35px;
+
+    padding-left: 30px;
+}
+
+
+/* =========================================================
+   SOCIAL ICON
+========================================================= */
+
+.footer-social .social-icon {
+
+    position: relative;
+
+    width: 44px;
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #111;
+
+    background: transparent;
+
+    text-decoration: none;
+
+    font-size: 21px;
+
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* =========================================================
+   LINGKARAN HOVER
+========================================================= */
+
+.footer-social .social-icon::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    transform: scale(0);
+
+    transition: transform 0.3s ease;
+
+    z-index: 0;
+}
+
+
+/* ICON BERADA DI ATAS BACKGROUND */
+
+.footer-social .social-icon i {
+
+    position: relative;
+
+    z-index: 1;
+
+    transition:
+        transform 0.3s ease;
+}
+
+
+/* =========================================================
+   HOVER UTAMA
+========================================================= */
+
+.footer-social .social-icon:hover {
+
+    transform:
+        translateY(-6px)
+        scale(1.08);
+
+    color: #1a1b1b;
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+
+.footer-social .social-icon:hover::before {
+
+    transform: scale(1);
+}
+
+
+.footer-social .social-icon:hover i {
+
+    transform: scale(1.12);
+}
+
+
+/* =========================================================
+   ACTIVE / SAAT DIKLIK
+========================================================= */
+
+.footer-social .social-icon:active {
+
+    transform:
+        translateY(-2px)
+        scale(0.95);
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   FOCUS - AKSESIBILITAS
+========================================================= */
+
+.footer-social .social-icon:focus-visible {
+
+    outline: 3px solid #2563eb;
+
+    outline-offset: 4px;
+}
+
+
+/* =========================================================
+   JUDUL KOLOM
+========================================================= */
+
+.footer-menu h3,
+.footer-news h3 {
+
+    font-size: 17px;
+
+    font-weight: 400;
+
+    margin: 10px 0 32px;
+
+    color: #111;
+}
+
+
+/* =========================================================
+   LIST MENU
+========================================================= */
+
+.footer-menu ul,
+.footer-news ul {
+
+    margin: 0;
+
+    padding-left: 17px;
+
+    list-style-type: disc;
+}
+
+
+.footer-menu li,
+.footer-news li {
+
+    margin-bottom: 8px;
+
+    padding-left: 1px;
+
+    font-size: 17px;
+}
+
+
+.footer-menu a,
+.footer-news a {
+
+    color: #111;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        padding-left 0.2s ease;
+}
+
+
+.footer-menu a:hover,
+.footer-news a:hover {
+
+    color: #2563eb;
+
+    padding-left: 4px;
+}
+
+
+/* =========================================================
+   LOKASI
+========================================================= */
+
+.footer-location {
+
+    margin-top: 50px;
+}
+
+
+.footer-location h3 {
+
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   MAP
+========================================================= */
+
+.map-container {
+
+    width: 100%;
+
+    max-width: 310px;
+
+    height: 220px;
+
+    overflow: hidden;
+
+    margin: 0 auto;
+
+    background: #ddd;
+
+    border-radius: 4px;
+}
+
+
+.map-container iframe {
+
+    width: 100%;
+
+    height: 100%;
+
+    border: 0;
+
+    display: block;
+}
+
+
+/* =========================================================
+   FOOTER BOTTOM
+========================================================= */
+
+.footer-bottom {
+
+    width: 100%;
+
+    padding: 15px 20px;
+
+    text-align: center;
+
+    background: #ddd;
+
+    border-top: 1px solid #ccc;
+}
+
+
+.footer-bottom p {
+
+    margin: 0;
+
+    font-size: 13px;
+
+    color: #333;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   LAPTOP
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .footer-container {
+
+        grid-template-columns:
+            1.3fr
+            0.8fr
+            1fr;
+
+        column-gap: 35px;
+
+        padding-left: 30px;
+
+        padding-right: 30px;
+    }
+
+
+    .footer-description {
+
+        font-size: 16px;
+    }
+
+
+    .footer-menu li,
+    .footer-news li {
+
+        font-size: 15px;
+    }
+
+
+    .footer-logo {
+
+        width: 210px;
+
+        height: 160px;
+    }
+
+
+    .contact-content a,
+    .contact-address {
+
+        font-size: 16px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .footer-container {
+
+        grid-template-columns:
+            1fr
+            1fr;
+
+        gap: 45px 30px;
+
+        padding: 40px 30px;
+    }
+
+
+    /* Sekolah mengambil lebar penuh */
+
+    .footer-school {
+
+        grid-column: 1 / -1;
+
+        max-width: 600px;
+    }
+
+
+    .footer-logo {
+
+        width: 220px;
+
+        height: 160px;
+    }
+
+
+    /* CONTACT */
+
+    .contact-content a,
+    .contact-address {
+
+        font-size: 16px;
+    }
+
+
+    .contact-address {
+
+        max-width: 550px;
+    }
+
+
+    /* SOCIAL */
+
+    .footer-social {
+
+        padding-left: 0;
+
+        margin-top: 30px;
+    }
+
+
+    /* MENU */
+
+    .footer-menu h3,
+    .footer-news h3 {
+
+        margin-bottom: 22px;
+    }
+
+
+    /* MAP */
+
+    .map-container {
+
+        max-width: 100%;
+
+        height: 220px;
+    }
+}
+
+
+/* =========================================================
+   HP
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .footer-container {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 40px;
+
+        padding: 35px 22px 30px;
+    }
+
+
+    /* =====================================================
+       SEKOLAH
+    ===================================================== */
+
+    .footer-school {
+
+        width: 100%;
+
+        text-align: left;
+    }
+
+
+    .footer-logo {
+
+        width: 210px;
+
+        height: 155px;
+
+        margin: 0 auto 20px;
+    }
+
+
+    .footer-description {
+
+        font-size: 15px;
+
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       CONTACT
+    ===================================================== */
+
+    .footer-contact {
+
+        gap: 18px;
+    }
+
+
+    .contact-item {
+
+        gap: 12px;
+    }
+
+
+    .contact-icon {
+
+        width: 36px;
+
+        height: 36px;
+
+        font-size: 17px;
+
+        border-radius: 7px;
+    }
+
+
+    .contact-label {
+
+        font-size: 12px;
+
+        letter-spacing: 0.6px;
+    }
+
+
+    .contact-content a,
+    .contact-address {
+
+        font-size: 15px;
+
+        line-height: 1.5;
+    }
+
+
+    .contact-address {
+
+        max-width: none;
+    }
+
+
+    /* =====================================================
+       SOCIAL
+    ===================================================== */
+
+    .footer-social {
+
+        padding-left: 0;
+
+        justify-content: flex-start;
+
+        margin-top: 25px;
+
+        gap: 12px;
+    }
+
+
+    .footer-social .social-icon {
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 19px;
+    }
+
+
+    /* =====================================================
+       MENU
+    ===================================================== */
+
+    .footer-menu,
+    .footer-news {
+
+        width: 100%;
+    }
+
+
+    .footer-menu h3,
+    .footer-news h3 {
+
+        font-size: 16px;
+
+        margin-bottom: 20px;
+    }
+
+
+    .footer-menu li,
+    .footer-news li {
+
+        font-size: 15px;
+
+        margin-bottom: 9px;
+    }
+
+
+    /* =====================================================
+       LOKASI
+    ===================================================== */
+
+    .footer-location {
+
+        margin-top: 35px;
+    }
+
+
+    .footer-location h3 {
+
+        text-align: left;
+
+        font-size: 16px;
+    }
+
+
+    .map-container {
+
+        width: 100%;
+
+        max-width: none;
+
+        height: 230px;
+    }
+
+
+    /* =====================================================
+       COPYRIGHT
+    ===================================================== */
+
+    .footer-bottom {
+
+        padding: 15px 18px;
+    }
+
+
+    .footer-bottom p {
+
+        font-size: 12px;
+
+        line-height: 1.5;
+    }
+}
+
+
+/* =========================================================
+   HP KECIL
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .footer-container {
+
+        padding-left: 16px;
+
+        padding-right: 16px;
+    }
+
+
+    .footer-logo {
+
+        width: 190px;
+
+        height: 140px;
+    }
+
+
+    .footer-description {
+
+        font-size: 14px;
+    }
+
+
+    /* CONTACT */
+
+    .contact-icon {
+
+        width: 34px;
+
+        height: 34px;
+
+        font-size: 16px;
+    }
+
+
+    .contact-content a,
+    .contact-address {
+
+        font-size: 14px;
+
+        line-height: 1.5;
+    }
+
+
+    .contact-label {
+
+        font-size: 11px;
+    }
+
+
+    /* SOCIAL */
+
+    .footer-social {
+
+        gap: 10px;
+    }
+
+
+    .footer-social .social-icon {
+
+        width: 40px;
+
+        height: 40px;
+
+        font-size: 18px;
+    }
+
+
+    .footer-menu li,
+    .footer-news li {
+
+        font-size: 14px;
+    }
+
+
+    .map-container {
+
+        height: 200px;
+    }
+}
+
+
+/* =========================================================
+   DEVICE TANPA HOVER
+   Contoh: HP / touchscreen
+========================================================= */
+
+@media (hover: none) {
+
+    .footer-social .social-icon:hover {
+
+        transform: none;
+
+        color: #111;
+
+        box-shadow: none;
+    }
+
+
+    .footer-social .social-icon:hover::before {
+
+        transform: scale(0);
+    }
+
+
+    .footer-social .social-icon:active {
+
+        transform: scale(0.92);
+
+        color: #2563eb;
+    }
+}
+
