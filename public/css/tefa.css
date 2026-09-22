@@ -540,6 +540,343 @@
 }
 
 /* ---------------------------------------------------------
+   POP-UP KONFIRMASI BOOKING
+--------------------------------------------------------- */
+body.booking-modal-open {
+    overflow: hidden;
+}
+
+.booking-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1080;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+.booking-modal.is-open {
+    display: flex;
+}
+
+.booking-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+}
+
+.booking-modal.is-open .booking-modal-backdrop {
+    animation: bookingBackdropIn 0.3s ease both;
+}
+
+.booking-modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 860px;
+}
+
+.booking-modal-scroll {
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+}
+
+.booking-modal.is-open .booking-modal-dialog {
+    animation: bookingModalIn 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bookingBackdropIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bookingModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.booking-modal-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-color: #ffffff;
+    color: #111827;
+    border: 1.5px solid #e6c583;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.booking-modal-close:hover {
+    background-color: #fff8e6;
+    transform: scale(1.06);
+}
+
+.booking-modal-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 16px;
+}
+
+.booking-modal-card {
+    background-color: #ffffff;
+    border: 1.5px solid #e6c583;
+    border-radius: 14px;
+    padding: 24px 26px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+    box-sizing: border-box;
+}
+
+.booking-modal-card--layanan {
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+}
+
+.booking-modal-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.booking-modal-icon {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff8e6;
+    border: 2px solid #f0b21e;
+    border-radius: 50%;
+    color: #b07d00;
+}
+
+.booking-modal-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.booking-modal-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.booking-modal-label {
+    font-size: 15px;
+    color: #374151;
+}
+
+.booking-modal-jurusan {
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.booking-modal-kategori {
+    margin: 20px 0 6px 0;
+    font-size: 16px;
+    color: #111827;
+}
+
+.booking-modal-kategori span {
+    font-weight: 700;
+}
+
+.booking-modal-desc {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #374151;
+}
+
+.booking-modal-price {
+    margin-top: auto;
+    padding-top: 20px;
+    text-align: right;
+    font-size: 15px;
+    color: #111827;
+}
+
+.booking-modal-title {
+    margin: 4px 0 18px 0;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #111827;
+}
+
+.booking-modal-code {
+    margin: 0 0 22px 0;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #0b1220;
+    text-transform: uppercase;
+}
+
+.booking-modal-detail {
+    margin: 0 0 20px 0;
+}
+
+.booking-modal-detail-row {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 4px 14px;
+    padding: 9px 0;
+    border-bottom: 1px dashed rgba(15, 23, 42, 0.12);
+}
+
+.booking-modal-detail-row:last-child {
+    border-bottom: 0;
+}
+
+.booking-modal-detail-row dt {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.booking-modal-detail-row dd {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #111827;
+    overflow-wrap: anywhere;
+}
+
+.booking-modal-detail-row .booking-modal-code {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: 0.4px;
+}
+
+.booking-modal-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border: 1px solid #e6c583;
+    border-radius: 999px;
+    background-color: #fff8e6;
+    color: #8a5a00;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.booking-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.booking-download,
+.booking-modal-action-close {
+    flex: 1 1 150px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 48px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.booking-download {
+    border: 0;
+    background-color: #f0b21e;
+    color: #1a1a1a;
+    box-shadow: 0 8px 18px rgba(240, 178, 30, 0.35);
+}
+
+.booking-download svg {
+    width: 19px;
+    height: 19px;
+}
+
+.booking-download:hover {
+    background-color: #ffc63d;
+    transform: translateY(-1px);
+}
+
+.booking-download:active {
+    transform: translateY(1px);
+}
+
+.booking-modal-action-close {
+    border: 1.5px solid #e6c583;
+    background-color: #ffffff;
+    color: #374151;
+}
+
+.booking-modal-action-close:hover {
+    background-color: #fff8e6;
+}
+
+.booking-modal-note {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1f2937;
+}
+
+@media (max-width: 640px) {
+    .booking-modal {
+        padding: 16px;
+    }
+
+    .booking-modal-scroll {
+        max-height: calc(100vh - 32px);
+    }
+
+    .booking-modal-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .booking-modal-detail-row {
+        grid-template-columns: 104px minmax(0, 1fr);
+        gap: 4px 12px;
+    }
+
+    .booking-download,
+    .booking-modal-action-close {
+        flex: 1 1 100%;
+        min-height: 46px;
+    }
+}
+
+/* ---------------------------------------------------------
    RESPONSIVE
 --------------------------------------------------------- */
 @media (max-width: 900px) {

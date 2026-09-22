@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('booking_tefa', function (Blueprint $table) {
-            $table->id('id_book');
+            $table->unsignedBigInteger('id_book')->primary();
             $table->foreignId('id_transaksi')
                 ->constrained('transaksi_tefa', 'id_transaksi')
                 ->cascadeOnDelete();

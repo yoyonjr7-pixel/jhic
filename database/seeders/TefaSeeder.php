@@ -21,6 +21,7 @@ class TefaSeeder extends Seeder
             'alumni_track',
             'transaksi_tefa',
             'siswa',
+            'guru',
             'layanan',
             'jurusan',
             'spmb',
@@ -47,6 +48,27 @@ class TefaSeeder extends Seeder
                 'nama_jurusan' => $nama,
                 'created_at'   => $now,
                 'updated_at'   => $now,
+            ]);
+        }
+
+        // =====================================================
+        // GURU
+        // =====================================================
+        $guruData = [
+            ['Argo Ciptono, S.Kom, ST, MM.', 'Teknik Sepeda Motor'],
+            ['Bambang Wijaya, S.T.', 'Teknik Kendaraan Ringan'],
+            ['Dian Puspita, S.Kom.', 'Teknik Jaringan Komputer dan Telekomunikasi'],
+            ['Sugeng Riyadi, S.T.', 'Teknik Pemesinan'],
+        ];
+
+        $guruId = [];
+
+        foreach ($guruData as [$nama, $jurusan]) {
+            $guruId[$nama] = DB::table('guru')->insertGetId([
+                'nama_guru'  => $nama,
+                'id_jurusan' => $jurusanId[$jurusan],
+                'created_at' => $now,
+                'updated_at' => $now,
             ]);
         }
 
@@ -116,26 +138,26 @@ class TefaSeeder extends Seeder
         // TRANSAKSI TEFA
         // =====================================================
         $transaksiData = [
-            ['Rina Wulandari', '2026-09-01', '081234500001', 'Servis rutin motor, oli dan rem', 'Servis Ringan Motor', 'Ahmad Fauzi'],
-            ['Agus Setiawan', '2026-09-03', '081234500002', 'Tune up motor, tarikan berat', 'Tune Up Mesin Motor', 'Budi Santoso'],
-            ['Dewi Kartika', '2026-09-05', '081234500003', 'Servis rem mobil dan kaki-kaki', 'Servis Rem & Kaki-kaki', 'Citra Ayu Lestari'],
-            ['Rudi Hartono', '2026-09-08', '081234500004', 'Instalasi jaringan LAN kantor', 'Instalasi Jaringan LAN', 'Eka Prasetya'],
-            ['Siti Aminah', '2026-09-10', '081234500005', 'Laptop lambat, minta install ulang', 'Servis & Perawatan Komputer', 'Fitri Nurhaliza'],
-            ['Bayu Nugroho', '2026-09-12', '081234500006', 'Pembuatan pagar besi minimalis', 'Pengelasan Las Listrik', 'Galih Ramadhan'],
+            ['Rina Wulandari', '2026-09-01', '081234500001', 'Servis rutin motor, oli dan rem', 'Servis Ringan Motor', 'Argo Ciptono, S.Kom, ST, MM.'],
+            ['Agus Setiawan', '2026-09-03', '081234500002', 'Tune up motor, tarikan berat', 'Tune Up Mesin Motor', 'Argo Ciptono, S.Kom, ST, MM.'],
+            ['Dewi Kartika', '2026-09-05', '081234500003', 'Servis rem mobil dan kaki-kaki', 'Servis Rem & Kaki-kaki', 'Bambang Wijaya, S.T.'],
+            ['Rudi Hartono', '2026-09-08', '081234500004', 'Instalasi jaringan LAN kantor', 'Instalasi Jaringan LAN', 'Dian Puspita, S.Kom.'],
+            ['Siti Aminah', '2026-09-10', '081234500005', 'Laptop lambat, minta install ulang', 'Servis & Perawatan Komputer', 'Dian Puspita, S.Kom.'],
+            ['Bayu Nugroho', '2026-09-12', '081234500006', 'Pembuatan pagar besi minimalis', 'Pengelasan Las Listrik', 'Sugeng Riyadi, S.T.'],
         ];
 
         $transaksiId = [];
 
-        foreach ($transaksiData as [$pelanggan, $tanggal, $telp, $deskripsi, $layanan, $siswa]) {
+        foreach ($transaksiData as [$pelanggan, $tanggal, $telp, $deskripsi, $layanan, $guru]) {
             $transaksiId[$pelanggan] = DB::table('transaksi_tefa')->insertGetId([
-                'nama_pelanggan'   => $pelanggan,
-                'tanggal'          => $tanggal,
-                'no_telp'          => $telp,
-                'deskripsi'        => $deskripsi,
-                'id_layanan'       => $layananId[$layanan],
-                'penanggung_jawab' => $siswaId[$siswa],
-                'created_at'       => $now,
-                'updated_at'       => $now,
+                'nama_pelanggan' => $pelanggan,
+                'tanggal'        => $tanggal,
+                'no_telp'        => $telp,
+                'deskripsi'      => $deskripsi,
+                'id_layanan'     => $layananId[$layanan],
+                'id_guru'        => $guruId[$guru],
+                'created_at'     => $now,
+                'updated_at'     => $now,
             ]);
         }
 
@@ -151,8 +173,17 @@ class TefaSeeder extends Seeder
             ['Bayu Nugroho', 'pending', 'Menunggu jadwal pengelasan'],
         ];
 
+        $usedIdBook = [];
+
         foreach ($bookingData as [$pelanggan, $status, $keterangan]) {
+            do {
+                $idBook = random_int(100000, 999999);
+            } while (in_array($idBook, $usedIdBook, true));
+
+            $usedIdBook[] = $idBook;
+
             DB::table('booking_tefa')->insert([
+                'id_book'      => $idBook,
                 'id_transaksi' => $transaksiId[$pelanggan],
                 'status_book'  => $status,
                 'keterangan'   => $keterangan,

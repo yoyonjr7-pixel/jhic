@@ -34,6 +34,20 @@ return [
         'tp'   => ['label' => 'TP',   'nama' => 'Teknik Pemesinan'],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | JAM OPERASIONAL BOOKING
+    |--------------------------------------------------------------------------
+    | Batas jam booking dalam format 24 jam (HH:MM). Nilai ini menjadi sumber
+    | tunggal untuk validasi server dan atribut data-* pada form booking.
+    |
+    */
+
+    'jam' => [
+        'buka'  => '07:00',
+        'tutup' => '13:15',
+    ],
+
     'layanan' => [
 
         // =====================================================

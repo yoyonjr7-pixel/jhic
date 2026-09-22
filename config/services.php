@@ -35,4 +35,18 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | MABOT (Chatbot n8n)
+    |--------------------------------------------------------------------------
+    | URL webhook workflow n8n yang menjadi sumber balasan chatbot.
+    | Atur pada .env dengan MABOT_WEBHOOK_URL agar mudah diganti tanpa
+    | mengubah markup maupun JavaScript.
+    |
+    */
+
+    'mabot' => [
+        'webhook' => env('MABOT_WEBHOOK_URL'),
+    ],
+
 ];

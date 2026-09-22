@@ -23,9 +23,9 @@ class TransaksiTefa extends Model
         return $this->belongsTo(Layanan::class, 'id_layanan', 'id_layanan');
     }
 
-    public function penanggungJawab(): BelongsTo
+    public function guru(): BelongsTo
     {
-        return $this->belongsTo(Siswa::class, 'penanggung_jawab', 'id_siswa');
+        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     }
 
     public function booking(): HasOne

@@ -22,4 +22,9 @@ class Jurusan extends Model
     {
         return $this->hasMany(Siswa::class, 'id_jurusan', 'id_jurusan');
     }
+
+    public function guru(): HasMany
+    {
+        return $this->hasMany(Guru::class, 'id_jurusan', 'id_jurusan');
+    }
 }
