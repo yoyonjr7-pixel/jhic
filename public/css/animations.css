@@ -1,0 +1,35 @@
+/* =========================================================
+   ANIMASI GLOBAL
+   - Saat halaman dibuka: konten muncul dari depan (zoom + fade)
+   - Saat scroll: konten muncul dengan fade + naik (js/animations.js)
+========================================================= */
+
+/* Dipakai oleh <main> dan footer saat halaman dibuka (muncul dari depan) */
+@keyframes jhicPageZoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+main,
+.site-footer {
+    transform-origin: 50% 0;
+    animation: jhicPageZoomIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* Dipakai elemen saat masuk ke area pandang (scroll) */
+@keyframes jhicRevealUp {
+    from {
+        opacity: 0;
+        translate: 0 32px;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
