@@ -28,19 +28,19 @@
                     <h1>Mata pelajaran apa yang paling kamu sukai?</h1>
 
                     <div class="answer-list">
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan3">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan3?jawaban=TSM">
                             <span class="answer-letter">A</span>
                             <span>Prakarya / keterampilan mesin</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan3">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan3?jawaban=TKR">
                             <span class="answer-letter">B</span>
                             <span>Fisika terapan / mekanika</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan3">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan3?jawaban=TJKT">
                             <span class="answer-letter">C</span>
                             <span>Informasi / TIK</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan3">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan3?jawaban=TP">
                             <span class="answer-letter">D</span>
                             <span>Kriya logam / keterampilan tangan</span>
                         </a>
@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/pertanyaan2.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>

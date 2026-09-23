@@ -29,7 +29,7 @@ body {
 }
 
 .download-shell {
-    width: min(100%, 720px);
+    width: min(100%, 1040px);
     margin: 0 auto;
 }
 
@@ -44,14 +44,14 @@ body {
 .download-heading,
 .download-subheading {
     margin: 0 0 23px;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1;
     font-weight: 400;
     text-decoration: underline;
 }
 
 .download-subheading {
-    margin-bottom: 25px;
+    margin-bottom: 28px;
     font-weight: 600;
 }
 
@@ -68,24 +68,24 @@ body {
 .download-table__header,
 .download-table__row {
     display: grid;
-    grid-template-columns: 64px minmax(0, 1fr) 108px 40px;
+    grid-template-columns: 82px minmax(0, 1fr) 150px 52px;
     align-items: center;
 }
 
 .download-table__header {
-    min-height: 20px;
+    min-height: 32px;
     color: #ffffff;
     background: var(--blue);
-    font-size: 9px;
+    font-size: 13px;
     line-height: 1;
 }
 
 .download-table__row {
-    min-height: 23px;
+    min-height: 36px;
     color: #111111;
     background: var(--row-gray);
     border-bottom: 1px solid #b5b5b5;
-    font-size: 9px;
+    font-size: 13px;
     line-height: 1;
 }
 
@@ -122,7 +122,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 23px;
+    height: 36px;
     margin: 0;
     padding: 0;
     border: 0;
@@ -136,8 +136,8 @@ body {
 }
 
 .download-btn svg {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     fill: #000000;
 }
 

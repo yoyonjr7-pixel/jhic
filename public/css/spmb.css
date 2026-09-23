@@ -97,8 +97,8 @@
 .spmb-hero__image {
     position: relative;
     flex: 0 0 auto;
-    width: clamp(200px, 22vw, 280px);
-    margin-right: clamp(40px, 6vw, 100px);
+    width: clamp(280px, 29vw, 370px);
+    margin-right: clamp(50px, 7vw, 110px);
     padding: 0 7%;
     box-sizing: border-box;
     align-self: flex-end;
@@ -106,8 +106,8 @@
 
 .spmb-hero__arch {
     position: absolute;
-    left: 3%;
-    right: 3%;
+    left: 11%;
+    right: 11%;
     top: 17%;
     height: 83%;
     border-radius: 50% 50% 0 0 / 34% 34% 0 0;
@@ -120,6 +120,8 @@
     display: block;
     width: 100%;
     height: auto;
+    transform: scale(1.55);
+    transform-origin: bottom center;
     filter: drop-shadow(0 10px 14px rgba(15, 23, 42, 0.16));
 }
 
@@ -234,8 +236,8 @@
 /* --- Desktop (= 700 px) ------------------------------------- */
 @media (min-width: 700px) {
     .spmb-hero {
-        min-height: 380px;
-        max-height: 420px;
+        min-height: 420px;
+        max-height: 500px;
     }
 
     /* -- Alur pendaftaran desktop (unchanged from original) -- */
@@ -337,7 +339,7 @@
     }
 
     .spmb-hero__image {
-        width: min(60%, 220px);
+        width: min(82%, 320px);
         align-self: center;
         margin-right: 0;
         margin-bottom: 0;

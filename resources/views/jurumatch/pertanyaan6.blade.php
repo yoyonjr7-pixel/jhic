@@ -28,19 +28,19 @@
                     <h1>Kalau ada barang rusak di rumah, biasanya kamu......</h1>
 
                     <div class="answer-list">
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan7">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan7?jawaban=TSM">
                             <span class="answer-letter">A</span>
                             <span>Coba otak-atik motor sendiri</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan7">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan7?jawaban=TKR">
                             <span class="answer-letter">B</span>
                             <span>Penasaran cek bagian mesin kendaraan</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan7">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan7?jawaban=TJKT">
                             <span class="answer-letter">C</span>
                             <span>Coba benerin settingan komputer</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan7">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan7?jawaban=TP">
                             <span class="answer-letter">D</span>
                             <span>Tertarik ke bagian rangka / bagian logamnya</span>
                         </a>
@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/pertanyaan6.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>

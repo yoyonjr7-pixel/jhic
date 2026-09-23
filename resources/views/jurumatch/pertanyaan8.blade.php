@@ -28,19 +28,19 @@
                     <h1>Kegiatan ekstrakulikuler mana yang paling menarik perhatianmu?</h1>
 
                     <div class="answer-list">
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan9">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan9?jawaban=TSM">
                             <span class="answer-letter">A</span>
                             <span>Klub otomotif sepeda motor</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan9">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan9?jawaban=TKR">
                             <span class="answer-letter">B</span>
                             <span>Klub otomotif mobil</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan9">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan9?jawaban=TJKT">
                             <span class="answer-letter">C</span>
                             <span>Klub komputer / robotik</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan9">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan9?jawaban=TP">
                             <span class="answer-letter">D</span>
                             <span>Klub kerja bangku / keterampilan teknik</span>
                         </a>
@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/pertanyaan8.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>

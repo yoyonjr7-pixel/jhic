@@ -225,9 +225,9 @@
     display: inline-block;
     background-color: #2563eb;
     color: #ffffff;
-    padding: 8px 18px;
+    padding: 10px 22px;
     border-radius: 9999px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
@@ -254,8 +254,8 @@
     }
 
     .btn-download {
-        padding: 7px 14px;
-        font-size: 12px;
+        padding: 9px 17px;
+        font-size: 13px;
     }
 }
 
@@ -361,7 +361,8 @@
         text-align: center;
         width: 100%;
         box-sizing: border-box;
-        padding: 10px 0;
+        padding: 11px 0;
+        font-size: 14px;
         background-color: #2563eb;
     }
 }

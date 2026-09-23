@@ -19,7 +19,46 @@ Route::get('/jurumatch', function () {
 })->name('jurumatch');
 
 Route::get('/jurumatch/hasil', function () {
-    return view('jurumatch.hasil');
+    $hasil = [
+        'TSM' => [
+            'nama' => 'Teknik Sepeda Motor',
+            'deskripsi' => 'Mempelajari perawatan, perbaikan, dan teknologi sepeda motor.',
+            'poin' => ['Servis dan perawatan sepeda motor', 'Sistem mesin dan kelistrikan', 'Praktik kerja bengkel'],
+        ],
+        'TKR' => [
+            'nama' => 'Teknik Kendaraan Ringan',
+            'deskripsi' => 'Mempelajari perawatan dan perbaikan kendaraan ringan seperti mobil.',
+            'poin' => ['Perawatan mesin kendaraan', 'Sistem pemindah tenaga', 'Diagnosis kerusakan mobil'],
+        ],
+        'TJKT' => [
+            'nama' => 'Teknik Jaringan Komputer dan Telekomunikasi',
+            'deskripsi' => 'Mempelajari jaringan komputer, perangkat digital, dan teknologi komunikasi.',
+            'poin' => ['Instalasi jaringan', 'Administrasi sistem', 'Perangkat dan layanan digital'],
+        ],
+        'TP' => [
+            'nama' => 'Teknik Pemesinan',
+            'deskripsi' => 'Mempelajari proses pemesinan, pengelasan, dan pembuatan benda kerja.',
+            'poin' => ['Pengoperasian mesin perkakas', 'Pengukuran teknik', 'Pembuatan dan penyambungan logam'],
+        ],
+    ];
+
+    $points = session('jurumatch.points', array_fill_keys(array_keys($hasil), 0));
+    $kodeJawaban = strtoupper((string) request('jawaban'));
+
+    if (array_key_exists($kodeJawaban, $points)) {
+        $points[$kodeJawaban]++;
+        session(['jurumatch.points' => $points]);
+    }
+
+    $kode = array_key_first($points);
+    foreach ($points as $itemKode => $itemPoints) {
+        if ($itemPoints > ($points[$kode] ?? 0)) {
+            $kode = $itemKode;
+        }
+    }
+    $maxPoints = 10;
+
+    return view('jurumatch.hasil', compact('kode', 'hasil', 'points', 'maxPoints'));
 })->name('jurumatch.hasil');
 
 Route::get('/jurumatch/pertanyaan1', function () {
@@ -61,6 +100,24 @@ Route::get('/jurumatch/pertanyaan9', function () {
 Route::get('/jurumatch/pertanyaan10', function () {
     return view('jurumatch.pertanyaan10');
 })->name('jurumatch.pertanyaan10');
+
+Route::get('/jurumatch/quiz', function () {
+    session()->forget('jurumatch.points');
+    return view('jurumatch.pertanyaan1');
+})->name('jurumatch.quiz');
+
+Route::get('/jurumatch/quiz/pertanyaan{number}', function (int $number) {
+    $kodeJawaban = strtoupper((string) request('jawaban'));
+    $kodeTersedia = ['TSM', 'TKR', 'TJKT', 'TP'];
+    $points = session('jurumatch.points', array_fill_keys($kodeTersedia, 0));
+
+    if (in_array($kodeJawaban, $kodeTersedia, true)) {
+        $points[$kodeJawaban]++;
+        session(['jurumatch.points' => $points]);
+    }
+
+    return view('jurumatch.pertanyaan' . $number);
+})->where('number', '[2-9]|10')->name('jurumatch.quiz.pertanyaan');
 
 Route::get('/profil-guru', function () {
     return view('profil-guru.profil-guru');

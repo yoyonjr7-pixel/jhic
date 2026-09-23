@@ -28,19 +28,19 @@
                     <h1>Lingkungan kerja seperti apa yang kamu bayangkan cocok buatmu?</h1>
 
                     <div class="answer-list">
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan8">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan8?jawaban=TSM">
                             <span class="answer-letter">A</span>
                             <span>Bengkel motor yang ramai pelanggan</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan8">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan8?jawaban=TKR">
                             <span class="answer-letter">B</span>
                             <span>Bengkel mobil / karoseri</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan8">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan8?jawaban=TJKT">
                             <span class="answer-letter">C</span>
                             <span>Ruang server / kantor IT</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan8">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan8?jawaban=TP">
                             <span class="answer-letter">D</span>
                             <span>Bengkel las / area konstruksi</span>
                         </a>
@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/pertanyaan7.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>

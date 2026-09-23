@@ -28,19 +28,19 @@
                     <h1>Kamu lebih tertarik pekerjaan yang sifatnya.....</h1>
 
                     <div class="answer-list">
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan10">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan10?jawaban=TSM">
                             <span class="answer-letter">A</span>
                             <span>Manual, pegang alat &amp; mesin motor langsung</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan10">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan10?jawaban=TKR">
                             <span class="answer-letter">B</span>
                             <span>Manual, menangani sistem mesin kendaraan</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan10">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan10?jawaban=TJKT">
                             <span class="answer-letter">C</span>
                             <span>Digital, terkait dengan jaringan &amp; software</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan10">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan10?jawaban=TP">
                             <span class="answer-letter">D</span>
                             <span>Manual presisi, membentuk &amp; menyambung logam</span>
                         </a>
@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/pertanyaan9.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>

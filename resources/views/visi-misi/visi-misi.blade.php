@@ -54,7 +54,6 @@
             </aside>
         </div>
     </main>
-    <script src="{{ asset('js/visi-misi.js') }}"></script>
 </body>
 </html>
 

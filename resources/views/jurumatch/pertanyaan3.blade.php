@@ -28,19 +28,19 @@
                     <h1>Kalau ada waktu luang kamu lebih suka.....</h1>
 
                     <div class="answer-list">
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan4">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan4?jawaban=TSM">
                             <span class="answer-letter">A</span>
                             <span>Nonton vidio modifikasi motor</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan4">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan4?jawaban=TKR">
                             <span class="answer-letter">B</span>
                             <span>Nonton review &amp; modifikasi mobil</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan4">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan4?jawaban=TJKT">
                             <span class="answer-letter">C</span>
                             <span>Main game / rakit PC</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan4">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan4?jawaban=TP">
                             <span class="answer-letter">D</span>
                             <span>Bikin kerajinan dari besi / logam</span>
                         </a>
@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/pertanyaan3.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>

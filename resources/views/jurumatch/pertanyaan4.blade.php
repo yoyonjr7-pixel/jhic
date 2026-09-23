@@ -28,19 +28,19 @@
                     <h1>Bayangan Pekerjaan Masa Depan Yang Paling Menarik ?</h1>
 
                     <div class="answer-list">
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan5">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan5?jawaban=TSM">
                             <span class="answer-letter">A</span>
                             <span>Punya bengkel motor sendiri</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan5">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan5?jawaban=TKR">
                             <span class="answer-letter">B</span>
                             <span>Kerja di bengkel / dealer resmi mobil</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan5">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan5?jawaban=TJKT">
                             <span class="answer-letter">C</span>
                             <span>Jadi teknisi jaringan / IT support</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan5">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan5?jawaban=TP">
                             <span class="answer-letter">D</span>
                             <span>Kerja sebagai welder di pabrik / galangan kapal</span>
                         </a>
@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/pertanyaan4.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>

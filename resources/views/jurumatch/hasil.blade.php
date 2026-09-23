@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/hasil.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>

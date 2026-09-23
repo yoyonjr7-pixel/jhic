@@ -28,19 +28,19 @@
                     <h1>Alat Kerja Mana Yang Paling Menarik untuk kamu pelajari?</h1>
 
                     <div class="answer-list">
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan6">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan6?jawaban=TSM">
                             <span class="answer-letter">A</span>
                             <span>Kunci-kunci bengkel motor</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan6">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan6?jawaban=TKR">
                             <span class="answer-letter">B</span>
                             <span>Alat scanner dianostik mobil</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan6">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan6?jawaban=TJKT">
                             <span class="answer-letter">C</span>
                             <span>Router dan kabel jaringan</span>
                         </a>
-                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan6">
+                        <a class="answer-option" href="/jurumatch/quiz/pertanyaan6?jawaban=TP">
                             <span class="answer-letter">D</span>
                             <span>Mesin las</span>
                         </a>
@@ -54,7 +54,5 @@
             </main>
         </div>
 
-        <script src="/js/jurumatch/pertanyaan5.js"></script>
-        <script src="/js/jurumatch/motion.js"></script>
     </body>
 </html>
