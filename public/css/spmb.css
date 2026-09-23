@@ -1,0 +1,349 @@
+﻿:root {
+    --yellow: #f4c400;
+    --blue: #00aeda;
+    --orange: #ff8500;
+    --red: #ff3b49;
+    --black: #111111;
+}
+
+* { box-sizing: border-box; }
+
+/* --- Page wrapper ------------------------------------------- */
+.spmb-page {
+    background: #ffffff;
+    color: var(--black);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* --- Shell: wraps only the alur-pendaftaran section -------- */
+.spmb-shell {
+    width: min(100% - 48px, 1120px);
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+/* --- Hero: full-viewport-width, direct child of .spmb-page - */
+.spmb-hero {
+    width: 100%;
+    min-height: 380px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    background: #fff8f6;
+    overflow: hidden;
+}
+
+.spmb-hero__copy {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px clamp(40px, 6vw, 100px);
+}
+
+.spmb-hero h1 {
+    margin: 0 0 18px;
+    font-size: clamp(36px, 4vw, 56px);
+    line-height: 1;
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -.03em;
+}
+
+.spmb-hero p {
+    max-width: 480px;
+    margin: 0;
+    font-size: clamp(14px, 1.3vw, 18px);
+    line-height: 1.5;
+    color: var(--black);
+}
+
+.spmb-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.spmb-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 146px;
+    height: 46px;
+    padding: 0 22px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.spmb-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(17, 17, 17, .16);
+}
+
+.spmb-button--blue  { background: #009be8; }
+.spmb-button--orange {
+    background: var(--orange);
+    color: #111111;
+}
+
+/* Foto hero: mengikuti gaya .prestasi-figure */
+.spmb-hero__image {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(200px, 22vw, 280px);
+    margin-right: clamp(40px, 6vw, 100px);
+    padding: 0 7%;
+    box-sizing: border-box;
+    align-self: flex-end;
+}
+
+.spmb-hero__arch {
+    position: absolute;
+    left: 3%;
+    right: 3%;
+    top: 17%;
+    height: 83%;
+    border-radius: 50% 50% 0 0 / 34% 34% 0 0;
+    background-color: #f5a21a;
+}
+
+.spmb-hero__image img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 14px rgba(15, 23, 42, 0.16));
+}
+
+/* --- Alur Pendaftaran --------------------------------------- */
+.spmb-process {
+    min-height: 405px;
+    padding: 30px 20px 36px;
+    background: #ffffff;
+}
+
+.spmb-process > h2 {
+    margin: 0 0 31px;
+    color: #f0b900;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 500;
+    text-align: center;
+}
+
+.spmb-process > h2 strong { color: var(--black); }
+
+.spmb-timeline {
+    position: relative;
+    max-width: 310px;
+    min-height: 295px;
+    margin: 0 auto;
+}
+
+.spmb-timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: var(--red);
+}
+
+.spmb-step {
+    position: relative;
+    min-height: 74px;
+}
+
+.spmb-step__icon {
+    position: absolute;
+    top: 3px;
+    left: calc(50% - 50px);
+    width: 29px;
+    height: 29px;
+}
+
+.spmb-step--right .spmb-step__icon { left: calc(50% - 50px); }
+.spmb-step--left  .spmb-step__icon { left: calc(50% + 28px); }
+
+.spmb-step__icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.spmb-step__number {
+    position: absolute;
+    top: 0;
+    left: calc(50% + 8px);
+    z-index: 1;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--blue);
+    font-size: 11px;
+    line-height: 19px;
+    text-align: center;
+}
+
+.spmb-step__text {
+    position: absolute;
+    top: 3px;
+    width: 128px;
+    padding-top: 3px;
+}
+
+.spmb-step--right .spmb-step__text {
+    left: calc(50% + 28px);
+    padding-left: 0;
+}
+
+.spmb-step--left .spmb-step__text {
+    right: calc(50% + 28px);
+    padding-right: 8px;
+    text-align: right;
+}
+
+.spmb-step--left .spmb-step__number {
+    left: calc(50% - 27px);
+}
+
+.spmb-step h3 {
+    margin: 0 0 6px;
+    font-size: 9px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.spmb-step p {
+    margin: 0;
+    font-size: 6px;
+    line-height: 1.2;
+}
+
+/* --- Desktop (= 700 px) ------------------------------------- */
+@media (min-width: 700px) {
+    .spmb-hero {
+        min-height: 380px;
+        max-height: 420px;
+    }
+
+    /* -- Alur pendaftaran desktop (unchanged from original) -- */
+    .spmb-process {
+        min-height: 935px;
+        padding: 67px 0 70px;
+    }
+
+    .spmb-process > h2 {
+        margin-bottom: 72px;
+        font-size: 20px;
+    }
+
+    .spmb-timeline {
+        max-width: 600px;
+        min-height: 670px;
+        margin: 0 auto;
+    }
+
+    .spmb-timeline::before {
+        left: 50%;
+        width: 3px;
+    }
+
+    .spmb-step {
+        min-height: 167px;
+    }
+
+    .spmb-step:nth-child(1) { min-height: 195px; }
+    .spmb-step:nth-child(2) { min-height: 170px; }
+    .spmb-step:nth-child(3) { min-height: 185px; }
+    .spmb-step:nth-child(4) { min-height: 120px; }
+
+    .spmb-step__icon {
+        top: 8px;
+        width: 58px;
+        height: 58px;
+    }
+
+    .spmb-step--right .spmb-step__icon { left: calc(50% - 108px); }
+    .spmb-step--left  .spmb-step__icon { left: calc(50% + 34px);  }
+
+    .spmb-step__number {
+        top: 0;
+        left: calc(50% + 30px);
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        line-height: 40px;
+    }
+
+    .spmb-step--left .spmb-step__number { left: calc(50% - 82px); }
+
+    .spmb-step__text {
+        top: 12px;
+        width: 270px;
+        padding-top: 0;
+    }
+
+    .spmb-step--right .spmb-step__text { left: calc(50% + 93px); }
+
+    .spmb-step--left .spmb-step__text {
+        right: calc(50% + 103px);
+        width: 270px;
+        padding-right: 0;
+        text-align: right;
+    }
+
+    .spmb-step h3 {
+        margin-bottom: 17px;
+        font-size: 20px;
+    }
+
+    .spmb-step p {
+        font-size: 15px;
+        line-height: 1.18;
+    }
+}
+
+/* --- Mobile (= 699 px) -------------------------------------- */
+@media (max-width: 699px) {
+    .spmb-shell {
+        width: min(100% - 32px, 1120px);
+    }
+
+    .spmb-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: 0;
+        max-height: none;
+    }
+
+    .spmb-hero__copy {
+        padding: 38px 26px 24px;
+    }
+
+    .spmb-hero h1 {
+        font-size: clamp(29px, 9vw, 38px);
+    }
+
+    .spmb-hero__image {
+        width: min(60%, 220px);
+        align-self: center;
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+
+    .spmb-process {
+        padding-top: 31px;
+    }
+}

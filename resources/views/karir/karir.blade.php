@@ -53,7 +53,7 @@
       <div class="skills">
         <div class="skills-label">Skill yang di butuhkan :</div>
         <ul>
-          @foreach ($loker->skills as $skill)
+          @foreach ((array) $loker->skills as $skill)
           <li>{{ $skill }}</li>
           @endforeach
         </ul>
@@ -118,15 +118,7 @@
 
 </div>
 
-<script>
-  const tabs = document.querySelectorAll('.tab-btn');
-  tabs.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      tabs.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-</script>
+<script src="/js/karir.js" defer></script>
 
 @include('karir.partials.mentoring-modal')
 @endsection

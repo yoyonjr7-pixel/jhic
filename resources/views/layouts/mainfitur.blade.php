@@ -11,7 +11,7 @@
     <div class="right-buttons">
 
         {{-- JuruMatch --}}
-        <a href="#" class="floating-button">
+        <a href="{{ route('jurumatch') }}" class="floating-button">
 
             <img
                 src="/mainfiturimages/jurumatch.png"

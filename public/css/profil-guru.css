@@ -1,0 +1,91 @@
+:root {
+    color: #111;
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-synthesis: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+}
+
+.teacher-page {
+    overflow: hidden;
+}
+
+.teacher-intro {
+    min-height: 291px;
+    padding: 57px 32px 48px;
+    text-align: center;
+    background: #f8f8f8;
+}
+
+.teacher-intro h1 {
+    margin: 0 0 35px;
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.teacher-intro p {
+    width: min(100%, 706px);
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 1.15;
+}
+
+.teacher-list {
+    padding: 39px 0 88px;
+    background: #fff;
+}
+
+.teacher-grid {
+    width: min(100% - 40px, 768px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 57px;
+}
+
+.teacher-row-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 760px) {
+    .teacher-intro {
+        min-height: auto;
+        padding: 42px 22px 38px;
+    }
+
+    .teacher-intro h1 {
+        margin-bottom: 26px;
+        font-size: 19px;
+    }
+
+    .teacher-intro p {
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    .teacher-list {
+        padding: 35px 20px 60px;
+    }
+
+    .teacher-grid {
+        width: min(100%, 768px);
+        gap: 28px;
+    }
+}
+
+@media (max-width: 420px) {
+    .teacher-grid {
+        width: 100%;
+    }
+}

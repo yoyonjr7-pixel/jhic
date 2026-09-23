@@ -33,3 +33,22 @@ main,
         translate: 0 0;
     }
 }
+
+/* Kontainer tingkat halaman di bawah kontainer teratas: muncul dari bawah
+   dengan jeda bertingkat. Kelas .anim-block dan .is-visible diset oleh
+   js/animations.js supaya halaman tanpa JavaScript tetap tampil normal. */
+html.anim-ready .anim-block {
+    opacity: 0;
+}
+
+html.anim-ready .anim-block.is-visible {
+    animation: jhicRevealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Hormati preferensi pengguna */
+@media (prefers-reduced-motion: reduce) {
+    main,
+    .site-footer {
+        animation: none;
+    }
+}

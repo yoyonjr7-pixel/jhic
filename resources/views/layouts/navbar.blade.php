@@ -72,10 +72,10 @@
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li><a href="#" class="dropdown-link">Prestasi Sekolah</a></li>
-                            <li><a href="#" class="dropdown-link">Fasilitas Sekolah</a></li>
-                            <li><a href="#" class="dropdown-link">Profil Guru</a></li>
-                            <li><a href="#" class="dropdown-link">Visi &amp; Misi</a></li>
+                            <li><a href="{{ route('prestasi') }}" class="dropdown-link">Prestasi Sekolah</a></li>
+                            <li><a href="{{ route('fasilitas') }}" class="dropdown-link">Fasilitas Sekolah</a></li>
+                            <li><a href="{{ route('profil-guru') }}" class="dropdown-link">Profil Guru</a></li>
+                            <li><a href="{{ route('visi-misi') }}" class="dropdown-link">Visi &amp; Misi</a></li>
                         </ul>
                     </li>
 
@@ -96,17 +96,17 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="#" class="menu-link">PPDB</a>
+                        <a href="{{ route('spmb') }}" class="menu-link">SPMB</a>
                     </li>
 
                     <li class="menu-item btn-item">
                         <a
-                            href="{{ asset('files/informasi.pdf') }}"
-                            target="_blank"
+                            href="{{ route('download-information') }}"
+                            
                             class="btn-download"
                         >
-                            UNDUH INFORMASI
-                        </a>
+                            UNDUH     INFORMASI
+                        </a>        
                     </li>
 
                 </ul>

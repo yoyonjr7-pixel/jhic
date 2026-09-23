@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jurusan;
 use App\Models\Lowongan;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +17,7 @@ class KarirController extends Controller
      */
     public function tjkt(): View
     {
-        return view('karir.karir', ['lowongan' => $this->lowongan()]);
+        return $this->halaman('karir.karir', 'tjkt');
     }
 
     /**
@@ -24,7 +25,7 @@ class KarirController extends Controller
      */
     public function tkr(): View
     {
-        return view('karir.tkr', ['lowongan' => $this->lowongan()]);
+        return $this->halaman('karir.tkr', 'tkr');
     }
 
     /**
@@ -32,7 +33,7 @@ class KarirController extends Controller
      */
     public function tbsm(): View
     {
-        return view('karir.tbsm', ['lowongan' => $this->lowongan()]);
+        return $this->halaman('karir.tbsm', 'tsm');
     }
 
     /**
@@ -40,7 +41,7 @@ class KarirController extends Controller
      */
     public function tp(): View
     {
-        return view('karir.tp', ['lowongan' => $this->lowongan()]);
+        return $this->halaman('karir.tp', 'tp');
     }
 
     /**
@@ -59,12 +60,44 @@ class KarirController extends Controller
     }
 
     /**
-     * Mengambil daftar lowongan kerja yang sedang dibuka.
+     * Menampilkan halaman karir satu jurusan beserta lowongannya.
      */
-    private function lowongan(): Collection
+    private function halaman(string $view, string $kodeJurusan): View
     {
+        return view($view, ['lowongan' => $this->lowongan($kodeJurusan)]);
+    }
+
+    /**
+     * Mengambil daftar lowongan yang dibuka untuk jurusan tertentu,
+     * dicocokkan lewat id_jurusan pada tabel lowongan_kerja.
+     */
+    private function lowongan(string $kodeJurusan): Collection
+    {
+        $idJurusan = $this->idJurusan($kodeJurusan);
+
+        if (! $idJurusan) {
+            return new Collection();
+        }
+
         return Lowongan::where('status', 'dibuka')
+            ->where('id_jurusan', $idJurusan)
             ->latest('id_lowongan')
             ->get();
+    }
+
+    /**
+     * Mencari id jurusan berdasarkan kode pada config/tefa.php.
+     */
+    private function idJurusan(string $kodeJurusan): ?int
+    {
+        $namaJurusan = config("tefa.jurusan.{$kodeJurusan}.nama");
+
+        if (! $namaJurusan) {
+            return null;
+        }
+
+        $idJurusan = Jurusan::where('nama_jurusan', $namaJurusan)->value('id_jurusan');
+
+        return $idJurusan !== null ? (int) $idJurusan : null;
     }
 }

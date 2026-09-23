@@ -576,7 +576,7 @@ body.booking-modal-open {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 860px;
+    max-width: 540px;
 }
 
 .booking-modal-scroll {
@@ -639,7 +639,7 @@ body.booking-modal-open {
 
 .booking-modal-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
 }
 
@@ -650,78 +650,6 @@ body.booking-modal-open {
     padding: 24px 26px;
     box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
     box-sizing: border-box;
-}
-
-.booking-modal-card--layanan {
-    display: flex;
-    flex-direction: column;
-    min-height: 260px;
-}
-
-.booking-modal-head {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.booking-modal-icon {
-    flex: 0 0 auto;
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff8e6;
-    border: 2px solid #f0b21e;
-    border-radius: 50%;
-    color: #b07d00;
-}
-
-.booking-modal-icon svg {
-    width: 28px;
-    height: 28px;
-}
-
-.booking-modal-titles {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.booking-modal-label {
-    font-size: 15px;
-    color: #374151;
-}
-
-.booking-modal-jurusan {
-    font-size: 20px;
-    font-weight: 800;
-    color: #111827;
-}
-
-.booking-modal-kategori {
-    margin: 20px 0 6px 0;
-    font-size: 16px;
-    color: #111827;
-}
-
-.booking-modal-kategori span {
-    font-weight: 700;
-}
-
-.booking-modal-desc {
-    margin: 0;
-    font-size: 14.5px;
-    line-height: 1.55;
-    color: #374151;
-}
-
-.booking-modal-price {
-    margin-top: auto;
-    padding-top: 20px;
-    text-align: right;
-    font-size: 15px;
-    color: #111827;
 }
 
 .booking-modal-title {

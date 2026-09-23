@@ -699,3 +699,11 @@
 .lowongan:active {
     transform: translateY(0);
 }
+
+/* Saat pindah jurusan tanpa refresh */
+.page.is-loading #cardsWrap,
+.page.is-loading .mentor-grid,
+.page.is-loading .hero-art {
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
+}

@@ -58,27 +58,6 @@
                 <div class="booking-modal-scroll">
                     <div class="booking-modal-grid">
 
-                        <aside class="booking-modal-card booking-modal-card--layanan">
-                            <div class="booking-modal-head">
-                                <div class="booking-modal-icon" data-field="icon">
-                                    @include('tefa.partials.icon', ['type' => $booking['ikon'] ?? 'mesin'])
-                                </div>
-
-                                <div class="booking-modal-titles">
-                                    <span class="booking-modal-label">Layanan di pilih :</span>
-                                    <span class="booking-modal-jurusan" data-field="jurusan">{{ $booking['jurusan'] ?? '' }}</span>
-                                </div>
-                            </div>
-
-                            <p class="booking-modal-kategori">
-                                Kategori : <span data-field="kategori">{{ $booking['kategori'] ?? '' }}</span>
-                            </p>
-
-                            <p class="booking-modal-desc" data-field="deskripsi">{{ $booking['deskripsi'] ?? '' }}</p>
-
-                            <div class="booking-modal-price" data-field="harga">{{ $booking['harga'] ?? '' }}</div>
-                        </aside>
-
                         <div class="booking-modal-card booking-modal-card--info">
                             <h2 class="booking-modal-title" id="bookingModalTitle">BOOKING DITERIMA</h2>
 
@@ -113,6 +92,11 @@
                                 <div class="booking-modal-detail-row">
                                     <dt>Jadwal</dt>
                                     <dd data-field="jadwal">{{ $booking['jadwal'] ?? '' }}</dd>
+                                </div>
+
+                                <div class="booking-modal-detail-row">
+                                    <dt>Biaya</dt>
+                                    <dd data-field="harga">{{ $booking['harga'] ?? '' }}</dd>
                                 </div>
                             </dl>
 
@@ -505,18 +489,11 @@
 
                     setField('jurusan', data.jurusan);
                     setField('kategori', data.kategori);
-                    setField('deskripsi', data.deskripsi);
                     setField('harga', data.harga);
                     setField('kode', data.kode ? String(data.kode).toUpperCase() : '');
                     setField('tugas', data.tugas);
                     setField('status', data.status);
                     setField('jadwal', data.jadwal);
-
-                    var iconBox = modal.querySelector('[data-field="icon"]');
-
-                    if (iconBox && result.body.icon) {
-                        iconBox.innerHTML = result.body.icon;
-                    }
 
                     form.reset();
                     openModal();

@@ -1,0 +1,154 @@
+:root {
+    --blue: #078cf0;
+    --row-gray: #d9d9d9;
+    --text: #111111;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100%;
+    background: #ffffff;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    border-top: 2px solid #f4c400;
+}
+
+.download-page {
+    min-height: calc(100vh - 2px);
+    padding: 25px 16px 44px;
+    background: #ffffff;
+}
+
+.download-shell {
+    width: min(100%, 720px);
+    margin: 0 auto;
+}
+
+.download-section {
+    margin: 0 0 36px;
+}
+
+.download-section--inner {
+    margin-top: 0;
+}
+
+.download-heading,
+.download-subheading {
+    margin: 0 0 23px;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+.download-subheading {
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.download-subheading span {
+    font-weight: 600;
+}
+
+.download-table {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.download-table__header,
+.download-table__row {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 108px 40px;
+    align-items: center;
+}
+
+.download-table__header {
+    min-height: 20px;
+    color: #ffffff;
+    background: var(--blue);
+    font-size: 9px;
+    line-height: 1;
+}
+
+.download-table__row {
+    min-height: 23px;
+    color: #111111;
+    background: var(--row-gray);
+    border-bottom: 1px solid #b5b5b5;
+    font-size: 9px;
+    line-height: 1;
+}
+
+.download-table__row:last-child {
+    border-bottom: 0;
+}
+
+.download-table__header span,
+.download-table__row span {
+    min-width: 0;
+    padding: 0 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+}
+
+.download-table__header span:first-child,
+.download-table__row span:first-child {
+    padding-left: 5px;
+}
+
+.download-table__header span:nth-child(2),
+.download-table__row span:nth-child(2) {
+    padding-left: 0;
+}
+
+.download-table__header span:nth-child(3),
+.download-table__row span:nth-child(3) {
+    padding-left: 0;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 23px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.download-btn:hover,
+.download-btn:focus-visible {
+    opacity: 0.65;
+}
+
+.download-btn svg {
+    width: 12px;
+    height: 12px;
+    fill: #000000;
+}
+
+@media (max-width: 520px) {
+    .download-page {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .download-table__header,
+    .download-table__row {
+        grid-template-columns: 64px minmax(0, 1fr) 108px 40px;
+    }
+}
