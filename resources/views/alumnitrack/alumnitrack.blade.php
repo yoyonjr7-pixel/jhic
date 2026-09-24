@@ -69,7 +69,7 @@
 
             <!-- Card Body / Form -->
             <div class="form-card-body">
-                <form id="alumniForm" action="#" method="POST">
+                <form id="alumniForm" action="#" method="POST" novalidate>
                     @csrf
 
                     <!-- Row 1: Nama Lengkap & NISN -->
@@ -81,14 +81,20 @@
                         <div class="form-group">
                             <label for="nisn">NISN</label>
                             <input type="text" id="nisn" name="nisn" placeholder="98765421652376" required>
+                            <span id="nisn-status" class="nisn-status" role="status" aria-live="polite"></span>
                         </div>
                     </div>
 
                     <!-- Row 2: Jurusan & Tahun Lulus -->
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="jurusan">Jurusan</label>
-                            <input type="text" id="jurusan" name="jurusan" placeholder="Teknik Jaringan Komputer" required>
+                            <label for="id_jurusan">Jurusan</label>
+                            <select id="id_jurusan" name="id_jurusan" required>
+                                <option value="" selected disabled>Pilih jurusan</option>
+                                @foreach ($jurusan as $item)
+                                    <option value="{{ $item->id_jurusan }}">{{ $item->nama_jurusan }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="tahun_lulus">Tahun Lulus</label>
@@ -100,11 +106,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="no_whatsapp">No. WhatsApp</label>
-                            <input type="text" id="no_whatsapp" name="no_whatsapp" placeholder="092731767" required>
+                            <input type="text" id="no_whatsapp" name="no_whatsapp" placeholder="08*******" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="dyyasamlambung@gmail.com" required>
+                            <input type="email" id="email" name="email" placeholder="dyygantenksekali@gmail.com" required>
                         </div>
                     </div>
 
@@ -119,7 +125,7 @@
                         </div>
                         <div class="warning-text">
                             <h4>Perhatian</h4>
-                            <p>Pastikan data yang anda masukkan benar, kode verifikasi akan di kirim ke nomer WatsApp & email yang anda daftarkan</p>
+                            <p>Pastikan data yang anda masukkan sudah benar dan simpan kode pengambilan di akhir sesi.</p>
                         </div>
                     </div>
 
@@ -256,7 +262,7 @@
                     </div>
 
                     <!-- Code -->
-                    <h2 class="result-code" id="result-code">DTA - 76523</h2>
+                    <h2 class="result-code" id="result-code"></h2>
                     <p class="result-code-subtitle">Kartu bukti pengisian data alumni</p>
 
                     <!-- Summary Table -->
@@ -270,7 +276,7 @@
                     </table>
 
                     <!-- Code repeated -->
-                    <p class="result-code-bottom" id="result-code-bottom">DTA - 76523</p>
+                    <p class="result-code-bottom" id="result-code-bottom"></p>
 
                     <!-- Yellow info box -->
                     <div class="result-info-box">
@@ -278,9 +284,15 @@
                     </div>
                 </div>
 
-                <!-- SELESAI button -->
-                <div class="btn-container-left" style="margin-top: 24px;">
-                    <button type="button" class="btn-orange" onclick="resetForm()">SELESAI</button>
+                <div class="result-actions">
+                    <button type="button" class="btn-download" onclick="downloadVerificationCard()">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 3a1 1 0 0 1 1 1v8.59l2.29-2.3a1 1 0 1 1 1.42 1.42l-4 4a1 1 0 0 1-1.42 0l-4-4a1 1 0 1 1 1.42-1.42L11 12.59V4a1 1 0 0 1 1-1Z"/>
+                            <path d="M5 17a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19.5V18a1 1 0 0 1 1-1Z"/>
+                        </svg>
+                        UNDUH GAMBAR
+                    </button>
+                    <button type="button" class="btn-result-close" onclick="resetForm()">SELESAI</button>
                 </div>
             </div>
         </div>
@@ -290,21 +302,66 @@
     <script>
         let currentStep = 1;
         let selectedStatus = '';
+        const nisnInput = document.getElementById('nisn');
+        const nisnStatus = document.getElementById('nisn-status');
+        const stepOneSubmit = document.querySelector('#alumniForm button[type="submit"]');
+        let nisnCheckPending = false;
+
+        function setNisnStatus(state, message) {
+            nisnStatus.className = 'nisn-status ' + state;
+            nisnStatus.textContent = message;
+        }
+
+        nisnInput.addEventListener('input', function() {
+            setNisnStatus('', '');
+        });
+
+        async function checkNisn() {
+            const value = nisnInput.value.trim();
+            if (!value) {
+                setNisnStatus('error', 'NISN wajib diisi.');
+                return false;
+            }
+            if (value.length < 10) {
+                setNisnStatus('error', 'NISN minimal 10 digit.');
+                return false;
+            }
+            setNisnStatus('checking', 'Memeriksa NISN...');
+            try {
+                const response = await fetch('{{ route('alumni.check-nisn') }}?nisn=' + encodeURIComponent(value), { headers: { 'Accept': 'application/json' } });
+                const result = await response.json();
+                setNisnStatus(result.valid ? 'success' : 'error', result.message || 'NISN tidak dapat digunakan.');
+                return result.valid === true;
+            } catch (error) {
+                setNisnStatus('error', 'NISN belum dapat diperiksa. Coba lagi.');
+                return false;
+            }
+        }
 
         // ====== STEP 1 FORM SUBMIT ======
-        document.getElementById('alumniForm').addEventListener('submit', function(e) {
+        document.getElementById('alumniForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const fields = ['nama_lengkap', 'nisn', 'jurusan', 'tahun_lulus', 'no_whatsapp', 'email'];
+            if (nisnCheckPending) return;
+
+            const fields = ['nama_lengkap', 'nisn', 'id_jurusan', 'tahun_lulus', 'no_whatsapp', 'email'];
             for (const f of fields) {
                 if (!document.getElementById(f).value.trim()) {
-                    alert('Mohon lengkapi semua data yang diperlukan.');
+                    setNisnStatus('error', f === 'nisn' ? 'NISN wajib diisi.' : 'Mohon lengkapi semua data yang diperlukan.');
                     document.getElementById(f).focus();
                     return;
                 }
             }
-            goToStep(2);
-        });
 
+            nisnCheckPending = true;
+            stepOneSubmit.disabled = true;
+            try {
+                if (await checkNisn()) goToStep(2);
+                else nisnInput.focus();
+            } finally {
+                nisnCheckPending = false;
+                stepOneSubmit.disabled = false;
+            }
+        });
         // ====== NAVIGATE STEPS ======
         function goToStep(step) {
             // Validate before forward
@@ -387,34 +444,154 @@
         function populateSummary() {
             document.getElementById('sum-nama').textContent = document.getElementById('nama_lengkap').value;
             document.getElementById('sum-nisn').textContent = document.getElementById('nisn').value;
-            document.getElementById('sum-jurusan').textContent = document.getElementById('jurusan').value;
+            const jurusan = document.getElementById('id_jurusan');
+            document.getElementById('sum-jurusan').textContent = jurusan.options[jurusan.selectedIndex].text;
             document.getElementById('sum-tahun').textContent = document.getElementById('tahun_lulus').value;
             document.getElementById('sum-status').textContent = selectedStatus;
         }
 
         // ====== SUBMIT ======
-        function submitForm() {
-            // Generate DTA code
-            const code = 'DTA - ' + (Math.floor(10000 + Math.random() * 90000));
+        async function submitForm() {
+            const button = document.querySelector('#panel-4 .btn-wide');
+            const buttonText = button.textContent;
+            button.disabled = true;
+            button.textContent = 'MENYIMPAN...';
 
-            // Set code text
-            document.getElementById('result-code').textContent = code;
-            document.getElementById('result-code-bottom').textContent = code;
+            try {
+                const response = await fetch('{{ route('alumni.store') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('#alumniForm input[name="_token"]').value,
+                    },
+                    body: JSON.stringify({
+                        nama_lengkap: document.getElementById('nama_lengkap').value.trim(),
+                        nisn: document.getElementById('nisn').value.trim(),
+                        id_jurusan: Number(document.getElementById('id_jurusan').value),
+                        tahun_lulus: document.getElementById('tahun_lulus').value.trim(),
+                        no_whatsapp: document.getElementById('no_whatsapp').value.trim(),
+                        email: document.getElementById('email').value.trim(),
+                        status: selectedStatus,
+                        nama_perusahaan: document.getElementById('nama_perusahaan').value.trim(),
+                        jabatan: document.getElementById('jabatan').value.trim(),
+                        cerita_pengalaman: document.getElementById('cerita_pengalaman').value.trim(),
+                        bersedia_mentor: document.getElementById('bersedia_mentor').checked,
+                    }),
+                });
+                const result = await response.json();
 
-            // Populate result summary
-            document.getElementById('res-nama').textContent = document.getElementById('nama_lengkap').value;
-            document.getElementById('res-jurusan').textContent = document.getElementById('jurusan').value;
-            document.getElementById('res-status').textContent = selectedStatus;
-            document.getElementById('res-tahun').textContent = document.getElementById('tahun_lulus').value;
+                if (!response.ok) {
+                    if (response.status === 422 && result.errors) {
+                        const errors = Object.values(result.errors).flat().join('\n');
+                        throw new Error(errors || result.message);
+                    }
 
-            // Hide step 4, show result
-            document.getElementById('panel-4').style.display = 'none';
-            document.getElementById('panel-result').style.display = 'block';
+                    throw new Error(result.message || 'Data alumni belum dapat disimpan.');
+                }
 
-            // Scroll to top
-            document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document.getElementById('result-code').textContent = result.verification_code;
+                document.getElementById('result-code-bottom').textContent = result.verification_code;
+                document.getElementById('res-nama').textContent = result.summary.nama_lengkap;
+                document.getElementById('res-jurusan').textContent = result.summary.jurusan;
+                document.getElementById('res-status').textContent = result.summary.status;
+                document.getElementById('res-tahun').textContent = result.summary.tahun_lulus;
+                document.getElementById('panel-4').style.display = 'none';
 
-            console.log('Data alumni submitted with code:', code);
+                document.getElementById('panel-result').style.display = 'block';
+                document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (error) {
+                alert(error.message || 'Data alumni belum dapat disimpan. Silakan coba kembali.');
+            } finally {
+                button.disabled = false;
+                button.textContent = buttonText;
+            }
+        }
+
+        // Membuat kartu bukti dalam format PNG tanpa bergantung pada library eksternal.
+        function downloadVerificationCard() {
+            const code = document.getElementById('result-code').textContent.trim();
+            const rows = [
+                ['Nama', document.getElementById('res-nama').textContent.trim()],
+                ['Jurusan', document.getElementById('res-jurusan').textContent.trim()],
+                ['Status', document.getElementById('res-status').textContent.trim()],
+                ['Tahun lulus', document.getElementById('res-tahun').textContent.trim()],
+            ];
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const width = 1400;
+            const height = 1050;
+
+            canvas.width = width;
+            canvas.height = height;
+            context.fillStyle = '#fff8f6';
+            context.fillRect(0, 0, width, height);
+
+            context.fillStyle = '#ffffff';
+            context.strokeStyle = '#333333';
+            context.lineWidth = 2;
+            context.beginPath();
+            context.roundRect(55, 55, width - 110, height - 110, 12);
+            context.fill();
+            context.stroke();
+
+            context.fillStyle = '#2196f3';
+            context.beginPath();
+            context.arc(105, 110, 25, 0, Math.PI * 2);
+            context.fill();
+            context.strokeStyle = '#ffffff';
+            context.lineWidth = 4;
+            context.beginPath();
+            context.moveTo(92, 110);
+            context.lineTo(101, 119);
+            context.lineTo(119, 99);
+            context.stroke();
+
+            context.fillStyle = '#555555';
+            context.font = '28px Arial';
+            context.fillText('Data berhasil disimpan', 150, 120);
+            context.fillStyle = '#1a1a1a';
+            context.font = 'bold 48px Arial';
+            context.fillText(code, 100, 200);
+            context.fillStyle = '#666666';
+            context.font = '24px Arial';
+            context.fillText('Kartu bukti pengisian data alumni', 100, 240);
+
+            let y = 330;
+            rows.forEach(([label, value]) => {
+                context.fillStyle = '#1a1a1a';
+                context.font = '26px Arial';
+                context.fillText(label, 100, y);
+                context.textAlign = 'right';
+                context.fillText(value, width - 100, y);
+                context.textAlign = 'left';
+                context.strokeStyle = '#cccccc';
+                context.lineWidth = 1;
+                context.beginPath();
+                context.moveTo(100, y + 38);
+                context.lineTo(width - 100, y + 38);
+                context.stroke();
+                y += 88;
+            });
+
+            context.textAlign = 'center';
+            context.fillStyle = '#1a1a1a';
+            context.font = 'bold 36px Arial';
+            context.fillText(code, width / 2, 720);
+            context.textAlign = 'left';
+            context.fillStyle = '#fff8e1';
+            context.beginPath();
+            context.roundRect(100, 775, width - 200, 125, 14);
+            context.fill();
+            context.fillStyle = '#555555';
+            context.font = '23px Arial';
+            context.fillText('Tunjukkan kode ini ke petugas tata usaha saat pengambilan ijazah', 130, 830);
+            context.fillText('untuk verifikasi di panek TU.', 130, 865);
+
+            const link = document.createElement('a');
+            link.download = `kartu-pengambilan-ijazah-${code}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
         }
 
         // ====== RESET / SELESAI ======

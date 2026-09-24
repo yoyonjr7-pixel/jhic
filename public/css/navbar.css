@@ -221,7 +221,7 @@
    TOMBOL UNDUH INFORMASI
 ========================================================= */
 
-.btn-download {
+.navbar-download-button {
     display: inline-block;
     background-color: #2563eb;
     color: #ffffff;
@@ -234,7 +234,7 @@
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.btn-download:hover {
+.navbar-download-button:hover {
     background-color: #1d4ed8;
     transform: translateY(-1px);
 }
@@ -253,7 +253,7 @@
         font-size: 12.5px;
     }
 
-    .btn-download {
+    .navbar-download-button {
         padding: 9px 17px;
         font-size: 13px;
     }
@@ -356,7 +356,7 @@
         padding: 12px 20px 6px;
     }
 
-    .btn-download {
+    .navbar-download-button {
         display: block;
         text-align: center;
         width: 100%;

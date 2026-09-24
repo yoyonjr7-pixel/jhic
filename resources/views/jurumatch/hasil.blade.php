@@ -16,7 +16,7 @@
             <main class="result-main">
                 <section class="result-summary">
                     <p>HASIL ANALISIS MINAT</p>
-                    <h1>{{ $kode }} - {{ $hasil[$kode]['nama'] }}</h1>
+                    <h1>{{ implode(' & ', $kodeTeratas) }} - {{ implode(' & ', array_map(fn ($itemKode) => $hasil[$itemKode]['nama'], $kodeTeratas)) }}</h1>
                     <small>
                         Berdasarkan jawabanmu, kecocokan tertinggi ada pada jurusan ini dengan
                         {{ min((int) (($points[$kode] ?? 0) / $maxPoints * 100), 100) }}%.
@@ -30,22 +30,24 @@
                                 <span>{{ $itemKode }} - {{ $item['nama'] }}</span>
                                 <strong>{{ min((int) (($points[$itemKode] ?? 0) / $maxPoints * 100), 100) }}%</strong>
                             </div>
-                            <div class="score-bar {{ $itemKode === $kode ? 'is-active' : '' }}">
+                            <div class="score-bar {{ in_array($itemKode, $kodeTeratas, true) ? 'is-active' : '' }}">
                                 <span style="width: {{ min((int) (($points[$itemKode] ?? 0) / $maxPoints * 100), 100) }}%"></span>
                             </div>
                         </div>
                     @endforeach
                 </section>
 
-                <section class="major-info">
-                    <h2>TENTANG JURUSAN INI</h2>
-                    <p>{{ $hasil[$kode]['deskripsi'] }}</p>
-                    <ul>
-                        @foreach ($hasil[$kode]['poin'] as $poin)
-                            <li>{{ $poin }}</li>
-                        @endforeach
-                    </ul>
-                </section>
+                @foreach ($kodeTeratas as $kodeTeratasItem)
+                    <section class="major-info">
+                        <h2>TENTANG {{ $kodeTeratasItem }} - {{ $hasil[$kodeTeratasItem]['nama'] }}</h2>
+                        <p>{{ $hasil[$kodeTeratasItem]['deskripsi'] }}</p>
+                        <ul>
+                            @foreach ($hasil[$kodeTeratasItem]['poin'] as $poin)
+                                <li>{{ $poin }}</li>
+                            @endforeach
+                        </ul>
+                    </section>
+                @endforeach
 
                 <div class="result-actions">
                     <a class="retry-button" href="/jurumatch/quiz">ULANGI TES</a>

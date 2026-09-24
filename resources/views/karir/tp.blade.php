@@ -74,45 +74,32 @@
     <h2>MENTORING ALUMNI</h2>
     <p>Daftar mentor ini diambil otomatis dari alumni yang sudah mengisi data dan bersedia membimbing.</p>
     <div class="mentor-grid">
-      <div class="mentor-card">
-        <div class="avatar">YP</div>
-        <h4>Yoga Pratama</h4>
-        <hr class="divider">
-        <div class="verified">✓ Data Terverifikasi TU</div>
-        <p class="mentor-desc">Berpengalaman mengoperasikan mesin produksi dan membuat komponen sesuai gambar teknik.</p>
-        <button
-        type="button"
-        class="mentor-btn"
-        onclick="openMentoringModal('Yoga Pratama')">
-        Ajukan Mentoring
-      </button>
-      </div>
-      <div class="mentor-card">
-        <div class="avatar">RK</div>
-        <h4>Reza Kurniawan</h4>
-        <hr class="divider">
-        <div class="verified">✓ Data Terverifikasi TU</div>
-        <p class="mentor-desc">Berpengalaman dalam proses produksi dan perawatan mesin industri.</p>
-        <button
-        type="button"
-        class="mentor-btn"
-        onclick="openMentoringModal('Reza Kurniawan')">
-        Ajukan Mentoring
-      </button>
-      </div>
-      <div class="mentor-card">
-        <div class="avatar">IS</div>
-        <h4>Ilham Setiawan</h4>
-        <hr class="divider">
-        <div class="verified">✓ Data Terverifikasi TU</div>
-        <p class="mentor-desc">Mengembangkan keterampilan CNC sejak sekolah dan sekarang bekerja di bidang manufaktur.</p>
-        <button
-        type="button"
-        class="mentor-btn"
-        onclick="openMentoringModal('Ilham Setiawan')">
-        Ajukan Mentoring
-      </button>
-      </div>
+      @forelse ($mentors as $mentor)
+        @php
+          $namaMentor = trim((string) ($mentor->siswa?->nama_siswa ?? ''));
+          $initials = collect(preg_split('/\s+/', $namaMentor, -1, PREG_SPLIT_NO_EMPTY))
+              ->map(fn ($kata) => strtoupper(substr($kata, 0, 1)))
+              ->take(2)
+              ->implode('');
+        @endphp
+        <div class="mentor-card">
+          <div class="avatar">{{ $initials ?: '?' }}</div>
+          <h4>{{ $namaMentor }}</h4>
+          <hr class="divider">
+          <div class="verified">✓ Data Terverifikasi TU</div>
+          @if (filled($mentor->keterangan))
+            <p class="mentor-desc">{{ $mentor->keterangan }}</p>
+          @endif
+          <button type="button" class="mentor-btn" onclick="openMentoringModal(@js($namaMentor))">
+            Ajukan Mentoring
+          </button>
+        </div>
+      @empty
+        <div class="mentor-card">
+          <h4>Belum ada mentor</h4>
+          <p class="mentor-desc">Belum ada alumni dari jurusan ini yang tersedia untuk mentoring.</p>
+        </div>
+      @endforelse
     </div>
   </section>
 

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\KarirController;
+use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\TefaBookingController;
+use App\Models\Jurusan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -50,15 +52,15 @@ Route::get('/jurumatch/hasil', function () {
         session(['jurumatch.points' => $points]);
     }
 
-    $kode = array_key_first($points);
-    foreach ($points as $itemKode => $itemPoints) {
-        if ($itemPoints > ($points[$kode] ?? 0)) {
-            $kode = $itemKode;
-        }
-    }
     $maxPoints = 10;
+    $maxScore = max($points);
+    $kode = array_key_first($points);
+    $kodeTeratas = $maxScore > 0
+        ? array_keys(array_filter($points, static fn ($itemPoints) => $itemPoints === $maxScore))
+        : [$kode];
+    $kode = $kodeTeratas[0];
 
-    return view('jurumatch.hasil', compact('kode', 'hasil', 'points', 'maxPoints'));
+    return view('jurumatch.hasil', compact('kode', 'kodeTeratas', 'hasil', 'points', 'maxPoints'));
 })->name('jurumatch.hasil');
 
 Route::get('/jurumatch/pertanyaan1', function () {
@@ -171,8 +173,12 @@ Route::post('/mentoring', [KarirController::class, 'mentoringStore'])
     ->name('mentoring.store');
 
 Route::get('/alumni', function () {
-    return view('alumnitrack.alumnitrack');
+    $jurusan = Jurusan::orderBy('id_jurusan')->get();
+
+    return view('alumnitrack.alumnitrack', compact('jurusan'));
 })->name('alumni');
+Route::get('/alumni/check-nisn', [AlumniController::class, 'checkNisn'])->name('alumni.check-nisn');
+Route::post('/alumni', [AlumniController::class, 'store'])->name('alumni.store');
 
 Route::get('/tefa', function () {
     return view('tefa.katalog');

@@ -184,7 +184,7 @@
                 <div class="booking-fields">
 
                     <div class="booking-field">
-                        <label for="nama">Nama Lengkap :</label>
+                        <label for="nama">ATAS NAMA:</label>
                         <input type="text" id="nama" name="nama" autocomplete="name"
                             minlength="3" maxlength="50"
                             pattern="(?=.*[A-Za-z])[A-Za-z ]+"

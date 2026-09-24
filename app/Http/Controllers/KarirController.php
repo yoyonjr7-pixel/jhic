@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlumniTrack;
 use App\Models\Jurusan;
 use App\Models\Lowongan;
 use Illuminate\Database\Eloquent\Collection;
@@ -64,13 +65,34 @@ class KarirController extends Controller
      */
     private function halaman(string $view, string $kodeJurusan): View
     {
-        return view($view, ['lowongan' => $this->lowongan($kodeJurusan)]);
+        return view($view, [
+            'lowongan' => $this->lowongan($kodeJurusan),
+            'mentors' => $this->mentors($kodeJurusan),
+        ]);
     }
 
     /**
      * Mengambil daftar lowongan yang dibuka untuk jurusan tertentu,
      * dicocokkan lewat id_jurusan pada tabel lowongan_kerja.
      */
+    private function mentors(string $kodeJurusan): Collection
+    {
+        $idJurusan = $this->idJurusan($kodeJurusan);
+
+        if (! $idJurusan) {
+            return new Collection();
+        }
+
+        return AlumniTrack::query()
+            ->with('siswa')
+            ->where('mentor', true)
+            ->where('id_jurusan', $idJurusan)
+            ->whereNotNull('id_siswa')
+            ->latest('id_alumni')
+            ->get()
+            ->filter(fn (AlumniTrack $alumni): bool => $alumni->siswa !== null)
+            ->values();
+    }
     private function lowongan(string $kodeJurusan): Collection
     {
         $idJurusan = $this->idJurusan($kodeJurusan);

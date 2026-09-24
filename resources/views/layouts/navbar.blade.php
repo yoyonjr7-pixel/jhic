@@ -103,7 +103,7 @@
                         <a
                             href="{{ route('download-information') }}"
                             
-                            class="btn-download"
+                            class="navbar-download-button"
                         >
                             UNDUH     INFORMASI
                         </a>        
