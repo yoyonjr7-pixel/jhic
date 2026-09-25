@@ -7,6 +7,8 @@
 (function () {
     'use strict';
 
+    // Ganti dengan nomor WhatsApp admin: kode negara, hanya angka, tanpa tanda + atau spasi.
+    var ADMIN_WHATSAPP = '6283193970194';
     var page = document.querySelector('.page');
     var tabLinks = document.querySelectorAll('.tabs a');
 
@@ -15,6 +17,23 @@
     }
 
     var swapping = false;
+
+    function openWhatsApp(jobButton) {
+        var jobTitle = jobButton.getAttribute('data-whatsapp-job');
+        var activeTab = document.querySelector('.tab-btn.active');
+
+        if (!jobTitle) {
+            return;
+        }
+
+        var jurusan = activeTab ? activeTab.textContent.trim() : document.title;
+        var message = 'Halo Admin, saya ingin melamar lowongan "' + jobTitle
+            + '" dari jurusan ' + jurusan + '.';
+        var whatsappUrl = 'https://wa.me/' + ADMIN_WHATSAPP + '?text='
+            + encodeURIComponent(message);
+
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
 
     // Ambil bagian yang berubah dari dokumen hasil fetch.
     function replacePart(selector, freshDoc) {
@@ -95,6 +114,14 @@
             e.preventDefault();
             load(link.href, true);
         });
+    });
+
+    page.addEventListener('click', function (event) {
+        var jobButton = event.target.closest('.lowongan[data-whatsapp-job]');
+
+        if (jobButton) {
+            openWhatsApp(jobButton);
+        }
     });
 
     // Tombol back/forward peramban tetap mengganti jurusan tanpa refresh.

@@ -77,7 +77,7 @@ function goToScene(sceneId, loadingText) {
 // Virtual Tour Configuration
 const tourConfig = {
     "default": {
-        "firstScene": "gerbang",
+        "firstScene": "depanruangspmb",
         "sceneFadeDuration": 800,
         "autoLoad": true,
         "showLoadingHint": false, // MEMATIKAN LOADING BAWAAN PANNELLUM (MENCEGAH LOADING GANDA)
@@ -220,6 +220,80 @@ const tourConfig = {
                     "createTooltipFunc": createCustomHotspot,
                     "createTooltipArgs": "Kembali ke Halaman",
                     "clickHandlerFunc": () => goToScene("halaman", "Kembali ke Halaman")
+                },
+                {
+                    "pitch": 3,
+                    "yaw": 85,
+                    "type": "scene",
+                    "text": "Menuju Depan Bengkel TP",
+                    "sceneId": "depanbengkeltp",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Depan Bengkel TP",
+                    "clickHandlerFunc": () => goToScene("depanbengkeltp", "Menuju Depan Bengkel TP")
+                },
+                {
+                    "pitch": 3,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Menuju Depan Ruang SPMB",
+                    "sceneId": "depanruangspmb",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Depan Ruang SPMB",
+                    "clickHandlerFunc": () => goToScene("depanruangspmb", "Menuju Depan Ruang SPMB")
+                }
+            ]
+        },
+        "depanbengkeltp": {
+            "title": "Depan Bengkel TP",
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai1/depanbengkeltp.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 175,
+                    "type": "scene",
+                    "text": "Kembali ke Halaman Tengah",
+                    "sceneId": "halaman-tengah",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Halaman Tengah",
+                    "clickHandlerFunc": () => goToScene("halaman-tengah", "Kembali ke Halaman Tengah")
+                }
+            ]
+        },
+        "depanruangspmb": {
+            "title": "Depan Ruang SPMB",
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai1/depanruangspmb.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Kembali ke Halaman Tengah",
+                    "sceneId": "halaman-tengah",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Halaman Tengah",
+                    "clickHandlerFunc": () => goToScene("halaman-tengah", "Kembali ke Halaman Tengah")
+                },
+                {
+                    "pitch": 0,
+                    "yaw": -90,
+                    "type": "scene",
+                    "text": "Menuju Pertigaan Lorong Kanan",
+                    "sceneId": "pertigaan-lorong-kanan",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Halaman Tengah",
+                    "clickHandlerFunc": () => goToScene("halaman-tengah", "Kembali ke Halaman Tengah")
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 90,
+                    "type": "scene",
+                    "text": "Menuju Musholla",
+                    "sceneId": "musholla",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Musholla",
+                    "clickHandlerFunc": () => goToScene("musholla", "Menuju Musholla")
                 }
             ]
         },

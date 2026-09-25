@@ -59,7 +59,7 @@
         </ul>
       </div>
       @endif
-      <button class='lowongan'>Lamar Sekarang</button>
+      <button type="button" class="lowongan" data-whatsapp-job="{{ $loker->nama_lowongan }}">Lamar Sekarang</button>
     </div>
     @empty
     <div class="card">
@@ -87,8 +87,18 @@
           <h4>{{ $namaMentor }}</h4>
           <hr class="divider">
           <div class="verified">✓ Data Terverifikasi TU</div>
-          @if (filled($mentor->keterangan))
-            <p class="mentor-desc">{{ $mentor->keterangan }}</p>
+          @php
+            $mentorDetails = collect(preg_split('/\r\n|\r|\n/', (string) $mentor->keterangan, -1, PREG_SPLIT_NO_EMPTY))
+                ->map(fn ($baris) => trim($baris))
+                ->filter()
+                ->values();
+          @endphp
+          @if ($mentorDetails->isNotEmpty())
+            <ul class="mentor-details">
+              @foreach ($mentorDetails as $detail)
+                <li>{{ $detail }}</li>
+              @endforeach
+            </ul>
           @endif
           <button type="button" class="mentor-btn" onclick="openMentoringModal(@js($namaMentor))">
             Ajukan Mentoring

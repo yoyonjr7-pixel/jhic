@@ -77,6 +77,7 @@
                         <div class="form-group">
                             <label for="nama_lengkap">Nama Lengkap</label>
                             <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Contoh : Dion maulidin pratama" required>
+                            <span id="nama_lengkap-error" class="field-error booking-error" role="alert"></span>
                         </div>
                         <div class="form-group">
                             <label for="nisn">NISN</label>
@@ -95,10 +96,12 @@
                                     <option value="{{ $item->id_jurusan }}">{{ $item->nama_jurusan }}</option>
                                 @endforeach
                             </select>
+                            <span id="id_jurusan-error" class="field-error booking-error" role="alert"></span>
                         </div>
                         <div class="form-group">
                             <label for="tahun_lulus">Tahun Lulus</label>
-                            <input type="text" id="tahun_lulus" name="tahun_lulus" placeholder="2020" required>
+                            <input type="text" id="tahun_lulus" name="tahun_lulus" placeholder="2020" inputmode="numeric" maxlength="4" required>
+                            <span id="tahun_lulus-error" class="field-error booking-error" role="alert"></span>
                         </div>
                     </div>
 
@@ -106,11 +109,13 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="no_whatsapp">No. WhatsApp</label>
-                            <input type="text" id="no_whatsapp" name="no_whatsapp" placeholder="08*******" required>
+                            <input type="tel" id="no_whatsapp" name="no_whatsapp" placeholder="08*******" inputmode="numeric" maxlength="15" required>
+                            <span id="no_whatsapp-error" class="field-error booking-error" role="alert"></span>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" placeholder="dyygantenksekali@gmail.com" required>
+                            <span id="email-error" class="field-error booking-error" role="alert"></span>
                         </div>
                     </div>
 
@@ -243,7 +248,7 @@
                 </div>
 
                 <div class="btn-container-dual">
-                    <button type="button" class="btn-orange" onclick="goToStep(3)">KEMBALI</button>
+                    <button type="button" class="btn-orange" onclick="goToStep(selectedStatus === 'Masih Mencari Kerja' ? 2 : 3)">KEMBALI</button>
                     <button type="button" class="btn-orange btn-wide" onclick="submitForm()">KIRIM & TERBITKAN KODE VERIFIKASI</button>
                 </div>
             </div>
@@ -312,6 +317,72 @@
             nisnStatus.textContent = message;
         }
 
+        function setFieldError(field, message) {
+            const input = document.getElementById(field);
+            const error = document.getElementById(field + '-error');
+            if (!input || !error) return;
+            input.classList.toggle('input-error', Boolean(message));
+            error.textContent = message || '';
+        }
+
+        const fieldRules = {
+            nama_lengkap: (value) => value === ''
+                ? 'Nama lengkap wajib diisi.'
+                : (/^[\p{L} ]+$/u.test(value) ? '' : 'Nama lengkap hanya boleh berisi huruf dan spasi.'),
+            id_jurusan: (value) => value === '' ? 'Jurusan wajib dipilih.' : '',
+            tahun_lulus: (value) => {
+                if (!/^[0-9]{4}$/.test(value)) return 'Tahun lulus harus terdiri dari tepat 4 digit angka.';
+                const year = Number(value);
+                return year >= 1900 && year <= new Date().getFullYear() + 1
+                    ? '' : 'Tahun lulus harus berada pada rentang tahun yang valid.';
+            },
+            no_whatsapp: (value) => /^[0-9]{8,15}$/.test(value)
+                ? '' : 'Nomor WhatsApp harus berupa 8 sampai 15 digit angka.',
+            email: (value) => /^[^\s@]+@gmail\.com$/i.test(value)
+                ? '' : 'Email harus menggunakan alamat Gmail yang berakhiran @gmail.com.',
+        };
+        const touchedFields = new Set();
+
+        function validateField(field, showEmpty = false) {
+            const input = document.getElementById(field);
+            if (!input || !fieldRules[field]) return true;
+            const value = input.value.trim();
+            const message = value === '' && !showEmpty ? '' : fieldRules[field](value);
+            setFieldError(field, message);
+            return !message;
+        }
+
+        function validateStepOneFields() {
+            const fields = Object.keys(fieldRules);
+            let firstInvalid = null;
+            fields.forEach((field) => {
+                touchedFields.add(field);
+                if (!validateField(field, true) && !firstInvalid) {
+                    firstInvalid = document.getElementById(field);
+                }
+            });
+            if (firstInvalid) {
+                firstInvalid.focus();
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return !firstInvalid;
+        }
+
+        Object.keys(fieldRules).forEach((field) => {
+            const input = document.getElementById(field);
+            if (!input) return;
+            input.addEventListener('input', function () {
+                validateField(field);
+            });
+            input.addEventListener('change', function () {
+                touchedFields.add(field);
+                validateField(field);
+            });
+            input.addEventListener('blur', function () {
+                touchedFields.add(field);
+                validateField(field);
+            });
+        });
         nisnInput.addEventListener('input', function() {
             setNisnStatus('', '');
         });
@@ -346,11 +417,18 @@
             const fields = ['nama_lengkap', 'nisn', 'id_jurusan', 'tahun_lulus', 'no_whatsapp', 'email'];
             for (const f of fields) {
                 if (!document.getElementById(f).value.trim()) {
-                    setNisnStatus('error', f === 'nisn' ? 'NISN wajib diisi.' : 'Mohon lengkapi semua data yang diperlukan.');
+                    if (f === 'nisn') {
+                        setNisnStatus('error', 'NISN wajib diisi.');
+                    } else {
+                        touchedFields.add(f);
+                        validateField(f, true);
+                    }
                     document.getElementById(f).focus();
                     return;
                 }
             }
+
+            if (!validateStepOneFields()) return;
 
             nisnCheckPending = true;
             stepOneSubmit.disabled = true;
@@ -420,6 +498,13 @@
         function selectStatus(status, el) {
             selectedStatus = status;
             document.getElementById('selected-status-text').textContent = status.toUpperCase();
+
+            const mentorCheckbox = document.getElementById('bersedia_mentor');
+            if (status === 'Masih Mencari Kerja') {
+                mentorCheckbox.checked = false;
+                goToStep(4);
+                return;
+            }
 
             // Show/hide extra fields
             const fields = document.getElementById('detail-fields');

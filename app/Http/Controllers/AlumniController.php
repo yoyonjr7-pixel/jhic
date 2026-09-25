@@ -40,7 +40,7 @@ class AlumniController extends Controller
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'nama_lengkap' => ['required', 'string', 'max:150'],
+            'nama_lengkap' => ['required', 'string', 'max:150', 'regex:/^[\p{L} ]+$/u'],
             'nisn' => [
                 'required',
                 'string',
@@ -55,9 +55,9 @@ class AlumniController extends Controller
                 },
             ],
             'id_jurusan' => ['required', 'integer', 'exists:jurusan,id_jurusan'],
-            'tahun_lulus' => ['required', 'integer', 'digits:4', 'between:1900,' . (now()->year + 1)],
-            'no_whatsapp' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'email', 'max:150'],
+            'tahun_lulus' => ['required', 'integer', 'regex:/^[0-9]{4}$/', 'between:1900,' . (now()->year + 1)],
+            'no_whatsapp' => ['required', 'regex:/^[0-9]{8,15}$/'],
+            'email' => ['required', 'email', 'regex:/@gmail\.com$/i', 'max:150'],
             'status' => ['required', 'string', 'in:Bekerja,Wirausaha,Melanjutkan Kuliah,Masih Mencari Kerja'],
             'nama_perusahaan' => ['nullable', 'string', 'max:150'],
             'jabatan' => ['nullable', 'string', 'max:150'],
@@ -65,6 +65,10 @@ class AlumniController extends Controller
             'bersedia_mentor' => ['nullable', 'boolean'],
         ], [
             'nisn.exists' => 'NISN tidak ditemukan dalam data siswa.',
+            'nama_lengkap.regex' => 'Nama lengkap hanya boleh berisi huruf dan spasi.',
+            'tahun_lulus.regex' => 'Tahun lulus harus terdiri dari tepat 4 digit angka.',
+            'no_whatsapp.regex' => 'Nomor WhatsApp harus berupa 8 sampai 15 digit angka.',
+            'email.regex' => 'Email harus menggunakan alamat Gmail yang berakhiran @gmail.com.',
         ], [
             'nisn' => 'NISN',
         ]);
@@ -96,7 +100,9 @@ class AlumniController extends Controller
                     'email' => $data['email'],
                     'status' => $status,
                     'keterangan' => $this->keterangan($data),
-                    'mentor' => ! empty($data['bersedia_mentor']),
+                    'mentor' => $data['status'] === 'Masih Mencari Kerja'
+                        ? false
+                        : ! empty($data['bersedia_mentor']),
                 ]);
 
                 $bookJasah = BookJasah::create([

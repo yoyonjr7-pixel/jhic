@@ -225,6 +225,21 @@
     margin-bottom:16px;
     min-height:48px;
   }
+  .mentor-details{
+    margin:0 0 16px;
+    padding-left:22px;
+    list-style:disc;
+    color:var(--gray-text);
+    font-size:12px;
+    line-height:1.5;
+  }
+  .mentor-details li{
+    padding-left:4px;
+    overflow-wrap:anywhere;
+  }
+  .mentor-details li + li{
+    margin-top:6px;
+  }
   .mentor-btn{
     width:100%;
     background:#5AC0F2;
