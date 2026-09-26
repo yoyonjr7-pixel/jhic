@@ -168,6 +168,7 @@
                             <span class="status-text">MASIH MENCARI KERJA</span>
                         </div>
                     </div>
+                    <span id="status-error" class="field-error booking-error" role="alert"></span>
                     <div class="btn-container-left">
                         <button type="button" class="btn-orange" onclick="goToStep(1)">KEMBALI</button>
                     </div>
@@ -180,18 +181,28 @@
                         <span class="status-text" id="selected-status-text">BEKERJA</span>
                     </div>
 
-                    <div id="detail-fields">
+                    <div id="detail-fields" style="display:none;">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nama_perusahaan">NAMA PERUSAHAAN</label>
-                                <input type="text" id="nama_perusahaan" name="nama_perusahaan" placeholder="Contoh : PT Bambang Jaya">
+                                <input type="text" id="nama_perusahaan" name="nama_perusahaan" placeholder="Contoh : PT Bambang Jaya"><span id="nama_perusahaan-error" class="field-error booking-error" role="alert"></span>
                             </div>
                             <div class="form-group">
                                 <label for="jabatan">JABATAN</label>
-                                <input type="text" id="jabatan" name="jabatan" placeholder="Contoh : IT SUPPORT">
+                                <input type="text" id="jabatan" name="jabatan" placeholder="Contoh : IT SUPPORT"><span id="jabatan-error" class="field-error booking-error" role="alert"></span>
                             </div>
                         </div>
                     </div>
+
+                    <div id="kuliah-fields" class="form-row" style="display:none;">
+
+                        <div class="form-group"><label for="nama_kampus">NAMA KAMPUS</label><input type="text" id="nama_kampus" name="nama_kampus" placeholder="Contoh : Universitas Indonesia"><span id="nama_kampus-error" class="field-error booking-error" role="alert"></span></div>
+
+                        <div class="form-group"><label for="jurusan_kuliah">JURUSAN KULIAH</label><input type="text" id="jurusan_kuliah" name="jurusan_kuliah" placeholder="Contoh : Teknik Informatika"><span id="jurusan_kuliah-error" class="field-error booking-error" role="alert"></span></div>
+
+                    </div>
+
+
 
                     <div class="btn-container-dual">
                         <button type="button" class="btn-orange" onclick="goToStep(1)">KEMBALI</button>
@@ -205,7 +216,7 @@
         <div class="form-card step-panel" id="panel-3" style="display:none;">
             <div class="form-card-body">
                 <h3 class="step-title-bold">KETERSEDIAAN MEMBERIKAN PESAN DAN KESAN</h3>
-                <p class="step-subtitle">Opsional - Bantu adik adik kelas degan memberikan pesan pegalamanmu di bawah ini.</p>
+                <p class="step-subtitle">Ceritakan pengalamanmu untuk membantu adik-adik kelas.</p>
 
                 <div class="mentor-box">
                     <label class="mentor-label">
@@ -219,7 +230,7 @@
 
                 <div class="form-group" style="margin-top: 20px;">
                     <label for="cerita_pengalaman" style="text-transform:none; font-size:13px; font-weight:500; color:#1a1a1a; font-style:italic;">Cerita singkat tentang pengalamanmu</label>
-                    <input type="text" id="cerita_pengalaman" name="cerita_pengalaman" placeholder="Contoh : mulai dari magang, sekarang jadi teknisi senior">
+                    <input type="text" id="cerita_pengalaman" name="cerita_pengalaman" placeholder="Contoh : mulai dari magang, sekarang jadi teknisi senior"><span id="cerita_pengalaman-error" class="field-error booking-error" role="alert"></span>
                 </div>
 
                 <div class="btn-container-dual">
@@ -243,6 +254,8 @@
                             <tr><td class="td-label">Jurusan</td><td class="td-value" id="sum-jurusan"></td></tr>
                             <tr><td class="td-label">Tahun lulus</td><td class="td-value" id="sum-tahun"></td></tr>
                             <tr><td class="td-label">Status</td><td class="td-value" id="sum-status"></td></tr>
+                            <tr id="sum-kuliah-row" style="display:none;"><td class="td-label">Kampus</td><td class="td-value" id="sum-kampus"></td></tr>
+                            <tr id="sum-jurusan-kuliah-row" style="display:none;"><td class="td-label">Jurusan Kuliah</td><td class="td-value" id="sum-jurusan-kuliah"></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -445,9 +458,11 @@
             // Validate before forward
             if (step > currentStep) {
                 if (currentStep === 2 && !selectedStatus) {
-                    alert('Mohon pilih status saat ini.');
+                    document.getElementById('status-error').textContent = 'Status saat ini wajib dipilih.';
                     return;
                 }
+                if (currentStep === 2 && !validateStatusDetails()) return;
+                if (currentStep === 3 && !validateExperience()) return;
             }
 
             // Hide all panels
@@ -508,10 +523,21 @@
 
             // Show/hide extra fields
             const fields = document.getElementById('detail-fields');
+            const kuliahFields = document.getElementById('kuliah-fields');
             if (status === 'Bekerja' || status === 'Wirausaha') {
                 fields.style.display = 'block';
+                kuliahFields.style.display = 'none';
+                clearKuliahFields();
+                setStatusFieldState(true);
+            } else if (status === 'Melanjutkan Kuliah') {
+                fields.style.display = 'none';
+                kuliahFields.style.display = 'grid';
+                clearCompanyFields();
+                setStatusFieldState(false);
             } else {
                 fields.style.display = 'none';
+                kuliahFields.style.display = 'none';
+                clearStatusFields();
             }
 
             // Switch to detail view
@@ -525,6 +551,52 @@
             document.getElementById('status-detail-view').style.display = 'none';
         }
 
+        function clearKuliahFields() {
+            document.getElementById('nama_kampus').value = ''; document.getElementById('jurusan_kuliah').value = '';
+            setFieldError('nama_kampus', ''); setFieldError('jurusan_kuliah', '');
+        }
+
+        function clearCompanyFields() {
+            document.getElementById('nama_perusahaan').value = '';
+            document.getElementById('jabatan').value = '';
+        }
+
+        function clearStatusFields() {
+            clearCompanyFields();
+            clearKuliahFields();
+            setStatusFieldState(false);
+        }
+
+        function setStatusFieldState(companyFieldsEnabled) {
+            document.getElementById('nama_perusahaan').disabled = !companyFieldsEnabled;
+            document.getElementById('jabatan').disabled = !companyFieldsEnabled;
+            document.getElementById('nama_kampus').disabled = companyFieldsEnabled;
+            document.getElementById('jurusan_kuliah').disabled = companyFieldsEnabled;
+        }
+
+        function validateStatusDetails() {
+            if (!['Bekerja', 'Wirausaha', 'Melanjutkan Kuliah'].includes(selectedStatus)) return true;
+            let firstInvalid = null;
+            const fields = selectedStatus === 'Melanjutkan Kuliah'
+                ? ['nama_kampus', 'jurusan_kuliah']
+                : ['nama_perusahaan', 'jabatan'];
+            fields.forEach((field) => {
+                const input = document.getElementById(field); const message = input.value.trim() === '' ? 'Field ini wajib diisi.' : '';
+                setFieldError(field, message); if (message && !firstInvalid) firstInvalid = input;
+            });
+            if (firstInvalid) { firstInvalid.focus(); return false; }
+            return true;
+        }
+
+        function validateExperience() {
+            if (selectedStatus === 'Masih Mencari Kerja') return true;
+            const input = document.getElementById('cerita_pengalaman');
+            const message = input.value.trim() === '' ? 'Field ini wajib diisi.' : '';
+            setFieldError('cerita_pengalaman', message);
+            if (message) { input.focus(); return false; }
+            return true;
+        }
+
         // ====== STEP 4: POPULATE SUMMARY ======
         function populateSummary() {
             document.getElementById('sum-nama').textContent = document.getElementById('nama_lengkap').value;
@@ -533,6 +605,9 @@
             document.getElementById('sum-jurusan').textContent = jurusan.options[jurusan.selectedIndex].text;
             document.getElementById('sum-tahun').textContent = document.getElementById('tahun_lulus').value;
             document.getElementById('sum-status').textContent = selectedStatus;
+            const isKuliah = selectedStatus === 'Melanjutkan Kuliah';
+            document.getElementById('sum-kuliah-row').style.display = isKuliah ? '' : 'none'; document.getElementById('sum-jurusan-kuliah-row').style.display = isKuliah ? '' : 'none';
+            document.getElementById('sum-kampus').textContent = document.getElementById('nama_kampus').value; document.getElementById('sum-jurusan-kuliah').textContent = document.getElementById('jurusan_kuliah').value;
         }
 
         // ====== SUBMIT ======
@@ -558,8 +633,14 @@
                         no_whatsapp: document.getElementById('no_whatsapp').value.trim(),
                         email: document.getElementById('email').value.trim(),
                         status: selectedStatus,
-                        nama_perusahaan: document.getElementById('nama_perusahaan').value.trim(),
-                        jabatan: document.getElementById('jabatan').value.trim(),
+                        ...(selectedStatus === 'Bekerja' || selectedStatus === 'Wirausaha' ? {
+                            nama_perusahaan: document.getElementById('nama_perusahaan').value.trim(),
+                            jabatan: document.getElementById('jabatan').value.trim(),
+                        } : {}),
+                        ...(selectedStatus === 'Melanjutkan Kuliah' ? {
+                            nama_kampus: document.getElementById('nama_kampus').value.trim(),
+                            jurusan_kuliah: document.getElementById('jurusan_kuliah').value.trim(),
+                        } : {}),
                         cerita_pengalaman: document.getElementById('cerita_pengalaman').value.trim(),
                         bersedia_mentor: document.getElementById('bersedia_mentor').checked,
                     }),

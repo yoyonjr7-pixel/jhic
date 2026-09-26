@@ -29,7 +29,7 @@
             </div>
 
             <div class="loading-progress">
-                <div class="loading-progress-bar"></div>
+                <div id="loading-progress-bar" class="loading-progress-bar"></div>
             </div>
 
             <div class="loading-percent" id="loading-percent">0%</div>

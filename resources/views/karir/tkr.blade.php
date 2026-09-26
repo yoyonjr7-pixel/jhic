@@ -93,13 +93,16 @@
                 ->filter()
                 ->values();
           @endphp
-          @if ($mentorDetails->isNotEmpty())
-            <ul class="mentor-details">
-              @foreach ($mentorDetails as $detail)
-                <li>{{ $detail }}</li>
-              @endforeach
-            </ul>
-          @endif
+          <div class="mentor-details-wrap">
+            <div class="mentor-status"><span>Status:</span> {{ $mentor->statusLabel() }}</div>
+            @if ($mentorDetails->isNotEmpty())
+              <ul class="mentor-details">
+                @foreach ($mentorDetails as $detail)
+                  <li>{{ $detail }}</li>
+                @endforeach
+              </ul>
+            @endif
+          </div>
           <button type="button" class="mentor-btn" onclick="openMentoringModal(@js($namaMentor))">
             Ajukan Mentoring
           </button>

@@ -16,6 +16,16 @@ class AlumniTrack extends Model
         'mentor' => 'boolean',
     ];
 
+    public function statusLabel(): string
+    {
+        return [
+            'bekerja' => 'Bekerja',
+            'kuliah' => 'Melanjutkan Kuliah',
+            'wirausaha' => 'Wirausaha',
+            'mencari_kerja' => 'Masih Mencari Kerja',
+        ][$this->status] ?? 'Status belum tersedia';
+    }
+
     public function siswa(): BelongsTo
     {
         return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');

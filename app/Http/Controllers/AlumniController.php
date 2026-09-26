@@ -59,9 +59,11 @@ class AlumniController extends Controller
             'no_whatsapp' => ['required', 'regex:/^[0-9]{8,15}$/'],
             'email' => ['required', 'email', 'regex:/@gmail\.com$/i', 'max:150'],
             'status' => ['required', 'string', 'in:Bekerja,Wirausaha,Melanjutkan Kuliah,Masih Mencari Kerja'],
-            'nama_perusahaan' => ['nullable', 'string', 'max:150'],
-            'jabatan' => ['nullable', 'string', 'max:150'],
-            'cerita_pengalaman' => ['nullable', 'string', 'max:1000'],
+            'nama_perusahaan' => ['nullable', 'required_if:status,Bekerja,Wirausaha', 'string', 'max:150'],
+            'jabatan' => ['nullable', 'required_if:status,Bekerja,Wirausaha', 'string', 'max:150'],
+            'nama_kampus' => ['nullable', 'required_if:status,Melanjutkan Kuliah', 'string', 'max:150'],
+            'jurusan_kuliah' => ['nullable', 'required_if:status,Melanjutkan Kuliah', 'string', 'max:150'],
+            'cerita_pengalaman' => ['nullable', 'required_if:status,Bekerja,Wirausaha,Melanjutkan Kuliah', 'string', 'max:1000'],
             'bersedia_mentor' => ['nullable', 'boolean'],
         ], [
             'nisn.exists' => 'NISN tidak ditemukan dalam data siswa.',
@@ -69,6 +71,11 @@ class AlumniController extends Controller
             'tahun_lulus.regex' => 'Tahun lulus harus terdiri dari tepat 4 digit angka.',
             'no_whatsapp.regex' => 'Nomor WhatsApp harus berupa 8 sampai 15 digit angka.',
             'email.regex' => 'Email harus menggunakan alamat Gmail yang berakhiran @gmail.com.',
+            'nama_perusahaan.required_if' => 'Nama perusahaan wajib diisi untuk status bekerja atau wirausaha.',
+            'jabatan.required_if' => 'Jabatan wajib diisi untuk status bekerja atau wirausaha.',
+            'nama_kampus.required_if' => 'Nama kampus wajib diisi untuk status melanjutkan kuliah.',
+            'jurusan_kuliah.required_if' => 'Jurusan kuliah wajib diisi untuk status melanjutkan kuliah.',
+            'cerita_pengalaman.required_if' => 'Cerita pengalaman wajib diisi.',
         ], [
             'nisn' => 'NISN',
         ]);
@@ -148,12 +155,22 @@ class AlumniController extends Controller
     {
         $bagian = [];
 
-        if (! empty($data['nama_perusahaan'])) {
-            $bagian[] = 'Perusahaan: ' . $data['nama_perusahaan'];
-        }
+        if ($data['status'] === 'Melanjutkan Kuliah') {
+            if (! empty($data['nama_kampus'])) {
+                $bagian[] = 'Kampus: ' . $data['nama_kampus'];
+            }
 
-        if (! empty($data['jabatan'])) {
-            $bagian[] = 'Jabatan: ' . $data['jabatan'];
+            if (! empty($data['jurusan_kuliah'])) {
+                $bagian[] = 'Jurusan Kuliah: ' . $data['jurusan_kuliah'];
+            }
+        } elseif (in_array($data['status'], ['Bekerja', 'Wirausaha'], true)) {
+            if (! empty($data['nama_perusahaan'])) {
+                $bagian[] = 'Perusahaan: ' . $data['nama_perusahaan'];
+            }
+
+            if (! empty($data['jabatan'])) {
+                $bagian[] = 'Jabatan: ' . $data['jabatan'];
+            }
         }
 
         if (! empty($data['cerita_pengalaman'])) {

@@ -3,17 +3,13 @@
 
 @section('title', 'Visi dan Misi')
 
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/unduh-informasi.css') }}">
+@endsection
+
 @section('content')
-<!DOCTYPE html>
-<html lang="id">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Unduh Informasi</title>
-        <link rel="stylesheet" href="{{ asset('css/unduh-informasi.css') }}" />
-    </head>
-    <body class="download-page">
-        <main class="download-shell">
+<div class="download-page">
+    <div class="download-shell">
             <section class="download-section">
                 <h2 class="download-heading">UNDUH FILE :</h2>
 
@@ -107,10 +103,7 @@
                     </div>
                 </div>
             </section>
-        </main>
-
-        <script src="{{ asset('js/unduh-informasi.js') }}"></script>
-    </body>
-</html>
+        </div>
+    </div>
 
 @endsection

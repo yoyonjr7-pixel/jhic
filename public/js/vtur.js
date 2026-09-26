@@ -2,15 +2,31 @@
 const loading = document.getElementById("tour-loading");
 const loadingTitle = document.getElementById("loading-title");
 const loadingPercent = document.getElementById("loading-percent");
-const progressBar = document.querySelector(".loading-progress-bar");
+const progressBar = document.getElementById("loading-progress-bar");
 const homeLogo = document.getElementById("home-logo");
 
 let progressInterval;
 let hideTimeout;
 let pendingLoadingText = null;
 let viewer;
+let loadingProgress = 0;
+let loadingRun = 0;
 
 // Loading Handlers
+function setLoadingProgress(progress) {
+    const requestedProgress = Number(progress);
+    const clampedProgress = Number.isFinite(requestedProgress)
+        ? Math.max(0, Math.min(100, requestedProgress))
+        : 0;
+
+    if (progressBar) progressBar.style.width = clampedProgress + "%";
+
+    // Read back the applied width so the text and bar always share one state.
+    loadingProgress = progressBar
+        ? parseFloat(progressBar.style.width) || 0
+        : clampedProgress;
+    if (loadingPercent) loadingPercent.textContent = loadingProgress + "%";
+}
 function startLoading(text) {
     if (!loading) return;
 
@@ -21,27 +37,25 @@ function startLoading(text) {
 
     loading.classList.remove("hidden");
     if (loadingTitle) loadingTitle.textContent = text;
-    if (progressBar) progressBar.style.width = "0%";
-    if (loadingPercent) loadingPercent.textContent = "0%";
-    
     clearInterval(progressInterval);
+    const currentRun = ++loadingRun;
+    setLoadingProgress(0);
 
-    let progress = 0;
+    const simulatedProgress = [25, 50, 75, 95];
+    let progressIndex = 0;
     progressInterval = setInterval(() => {
-        if (progress < 90) {
-            progress += Math.floor(Math.random() * 6) + 2;
-            if (progress > 90) progress = 90;
-            
-            if (progressBar) progressBar.style.width = progress + "%";
-            if (loadingPercent) loadingPercent.textContent = progress + "%";
+        if (currentRun !== loadingRun) return;
+
+        if (progressIndex < simulatedProgress.length) {
+            setLoadingProgress(simulatedProgress[progressIndex]);
+            progressIndex += 1;
         }
-    }, 100);
+    }, 250);
 }
 
 function finishLoading() {
     clearInterval(progressInterval);
-    if (progressBar) progressBar.style.width = "100%";
-    if (loadingPercent) loadingPercent.textContent = "100%";
+    setLoadingProgress(100);
 
     if (hideTimeout) clearTimeout(hideTimeout);
     hideTimeout = setTimeout(() => {
@@ -77,7 +91,7 @@ function goToScene(sceneId, loadingText) {
 // Virtual Tour Configuration
 const tourConfig = {
     "default": {
-        "firstScene": "depanruangspmb",
+        "firstScene": "gerbang",
         "sceneFadeDuration": 800,
         "autoLoad": true,
         "showLoadingHint": false, // MEMATIKAN LOADING BAWAAN PANNELLUM (MENCEGAH LOADING GANDA)
@@ -240,6 +254,16 @@ const tourConfig = {
                     "createTooltipFunc": createCustomHotspot,
                     "createTooltipArgs": "Menuju Depan Ruang SPMB",
                     "clickHandlerFunc": () => goToScene("depanruangspmb", "Menuju Depan Ruang SPMB")
+                },
+                {
+                    "pitch": 3,
+                    "yaw": 270,
+                    "type": "scene",
+                    "text": "Menuju Lorong Kanan",
+                    "sceneId": "lorongkanan",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Lorong Kanan",
+                    "clickHandlerFunc": () => goToScene("lorongkanan", "Menuju Lorong Kanan")
                 }
             ]
         },
@@ -276,14 +300,14 @@ const tourConfig = {
                     "clickHandlerFunc": () => goToScene("halaman-tengah", "Kembali ke Halaman Tengah")
                 },
                 {
-                    "pitch": 0,
-                    "yaw": -90,
+                    "pitch": -3,
+                    "yaw": -85,
                     "type": "scene",
                     "text": "Menuju Pertigaan Lorong Kanan",
-                    "sceneId": "pertigaan-lorong-kanan",
+                    "sceneId": "pertigaanlorongkanan",
                     "createTooltipFunc": createCustomHotspot,
-                    "createTooltipArgs": "Kembali ke Halaman Tengah",
-                    "clickHandlerFunc": () => goToScene("halaman-tengah", "Kembali ke Halaman Tengah")
+                    "createTooltipArgs": "Menuju Pertigaan Lorong Kanan",
+                    "clickHandlerFunc": () => goToScene("pertigaanlorongkanan", "Menuju Pertigaan Lorong Kanan")
                 },
                 {
                     "pitch": 0,
@@ -294,6 +318,181 @@ const tourConfig = {
                     "createTooltipFunc": createCustomHotspot,
                     "createTooltipArgs": "Menuju Musholla",
                     "clickHandlerFunc": () => goToScene("musholla", "Menuju Musholla")
+                }
+            ]
+        },
+        "pertigaanlorongkanan": {
+            "title": "Pertigaan Lorong Kanan",
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai1/pertigaanlorongkanan.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "kembali ke Depan Ruang SPMB",
+                    "sceneId": "depanruangspmb",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Depan Ruang SPMB",
+                    "clickHandlerFunc": () => goToScene("depanruangspmb", "Kembali ke Depan Ruang SPMB")
+                },
+                {
+                    "pitch": 0,
+                    "yaw": -85,
+                    "type": "scene",
+                    "text": "Menuju Depan Kelas X TKJ",
+                    "sceneId": "depankelasxtkj",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Depan Kelas X TKJ",
+                    "clickHandlerFunc": () => goToScene("depankelasxtkj", "Menuju Depan Kelas X TKJ")
+                }
+            ]
+        },
+        "depankelasxtkj": {
+            "title": "Depan Kelas X TKJ",
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai1/depankelasxtkj.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": -65,
+                    "type": "scene",
+                    "text": "Menuju Pertigaan Lorong Kanan",
+                    "sceneId": "pertigaanlorongkanan",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Pertigaan Lorong Kanan",
+                    "clickHandlerFunc": () => goToScene("pertigaanlorongkanan", "Menuju Pertigaan Lorong Kanan")
+                },
+                {
+                    "pitch": -15,
+                    "yaw": 115,
+                    "type": "scene",
+                    "text": "Menuju Lorong Kanan",
+                    "sceneId": "lorongkanan",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Lorong Kanan",
+                    "clickHandlerFunc": () => goToScene("lorongkanan", "Menuju Lorong Kanan")
+                },
+                {
+                    "pitch": 5,
+                    "yaw": 210,
+                    "type": "scene",
+                    "text": "Menuju Tangga Lab Lantai 2",
+                    "sceneId": "tanggalablantai2",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Tangga Lab Lantai 2",
+                    "clickHandlerFunc": () => goToScene("tanggalablantai2", "Menuju Tangga Lab Lantai 2")
+                }
+            ]
+        },
+        "tanggalablantai2": {
+            "title": "Tangga Lab Lantai 2",
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai1/tanggalablantai2.jpg",
+            "hotSpots": [
+               
+                {
+                    "pitch": 10,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Depan Tangga Lorong Lab Lantai 2",
+                    "sceneId": "tanggaloronglablantai2",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Tangga Lorong Lab Lantai 2",
+                    "clickHandlerFunc": () => goToScene("tanggaloronglablantai2", "Menuju Tangga Lorong Lab Lantai 2")
+                },
+                {
+                    "pitch": -30,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Menuju Depan Kelas X TKJ",
+                    "sceneId": "depankelasxtkj",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Depan Kelas X TKJ",
+                    "clickHandlerFunc": () => goToScene("depankelasxtkj", "Menuju Depan Kelas X TKJ")
+                }
+            ]
+        },
+        "tanggaloronglablantai2": {
+            "title": "Tangga Lorong Lab Lantai 2",
+            "floor": 2,
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai2/depantanggaloronglablantai2.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -30,
+                    "yaw": -90,
+                    "type": "scene",
+                    "text": "Kembali ke Depan Tangga Lab Lantai 2",
+                    "sceneId": "tanggalablantai2",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Depan Tangga Lab Lantai 2",
+                    "clickHandlerFunc": () => goToScene("tanggalablantai2", "Kembali ke Depan Tangga Lab Lantai 2")
+                },
+                {
+                    "pitch": 15,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Menuju Lorong Lab Lantai 2",
+                    "sceneId": "loronglablantai2",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Lorong Lab Lantai 2",
+                    "clickHandlerFunc": () => goToScene("loronglablantai2", "Menuju Lorong Lab Lantai 2")
+                },
+               
+            ]
+        },
+        "lorongkanan": {
+            "title": "Lorong Kanan",
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai1/lorongkanan.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": 90,
+                    "type": "scene",
+                    "text": "Menuju ke Depan Kelas X TKJ",
+                    "sceneId": "depankelasxtkj",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju ke Depan Kelas X TKJ",
+                    "clickHandlerFunc": () => goToScene("depankelasxtkj", "Kembali ke Depan Kelas X TKJ")
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 90,
+                    "type": "scene",
+                    "text": "Menuju Pertigaan Lorong Kanan",
+                    "sceneId": "pertigaanlorongkanan",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Pertigaan Lorong Kanan",
+                    "clickHandlerFunc": () => goToScene("pertigaanlorongkanan", "Menuju Pertigaan Lorong Kanan")
+                },
+                {
+                    "pitch": -5,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Menuju Halaman Tengah",
+                    "sceneId": "halaman-tengah",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Halaman Tengah",
+                    "clickHandlerFunc": () => goToScene("halaman-tengah", "Menuju Halaman Tengah")
+                }
+            ]
+        },
+        "musholla": {
+            "title": "Musholla Sekolah",
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai1/depanmusholla.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -5,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "kembali ke Depan Ruang SPMB",
+                    "sceneId": "depanruangspmb",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Depan Ruang SPMB",
+                    "clickHandlerFunc": () => goToScene("depanruangspmb", "Kembali ke Depan Ruang SPMB")
                 }
             ]
         },
@@ -320,7 +519,7 @@ const tourConfig = {
             "panorama": "/virtual-tour/panoramas/lantai1/halamankanan.jpg",
             "hotSpots": [
                 {
-                    "pitch": 3,
+                    "pitch": -3,
                     "yaw": -60,
                     "type": "scene",
                     "text": "Kembali ke Halaman",
@@ -340,24 +539,124 @@ const tourConfig = {
                     "clickHandlerFunc": () => goToScene("halaman-tengah", "Menuju Halaman Tengah")
                 }
             ]
-        }
-    }
+        },
+        "loronglablantai2": {
+            "title": "Lorong Lab Lantai 2",
+            "floor": 2,
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai2/loronglablantai2.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -30,
+                    "yaw": 110,
+                    "type": "scene",
+                    "text": "Kembali ke Lorong Lab Lantai 2",
+                    "sceneId": "tanggaloronglablantai2",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Lorong Lab Lantai 2",
+                    "clickHandlerFunc": () => goToScene("loronglablantai2", "Kembali ke Lorong Lab Lantai 2")
+                },
+                {
+                    "pitch": -5,
+                    "yaw": -162,
+                    "type": "scene",
+                    "text": "Menuju Depan Lab Simdig",
+                    "sceneId": "depanlabsimdig",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Depan Lab Simdig",
+                    "clickHandlerFunc": () => goToScene("depanlabsimdig", "Menuju Depan Lab Simdig")
+                }
+            ]
+        },
+        "depanlabsimdig": {
+            "title": "Depan Lab Simdig",
+            "floor": 2,
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai2/depanlabsimdig.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 91,
+                    "type": "scene",
+                    "text": "Kembali ke Lorong Lab Lantai 2",
+                    "sceneId": "tanggaloronglablantai2",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Lorong Lab Lantai 2",
+                    "clickHandlerFunc": () => goToScene("loronglablantai2", "Kembali ke Lorong Lab Lantai 2")
+                },
+                {
+                    "pitch": -5,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Menuju Depan Lab TKJ",
+                    "sceneId": "depanlabtkj",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Menuju Depan Lab TKJ",
+                    "clickHandlerFunc": () => goToScene("depanlabtkj", "Menuju Depan Lab TKJ")
+                }
+            ]
+        },
+        "depanlabtkj": {
+            "title": "Depan Lab TKJ",
+            "floor": 2,
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai2/depanlabtkj.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -5,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Masuk Ke Lab TKJ",
+                    "sceneId": "labtkj",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Masuk Ke Lab TKJ",
+                    "clickHandlerFunc": () => goToScene("labtkj", "Masuk Ke Lab TKJ")
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Kembali ke Depan Lab Simdig",
+                    "sceneId": "depanlabsimdig",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Kembali ke Depan Lab Simdig",
+                    "clickHandlerFunc": () => goToScene("depanlabsimdig", "Kembali ke Depan Lab Simdig")
+                }
+            ]
+        },
+        "labtkj": {
+            "title": "Lab TKJ",
+            "floor": 2,
+            "type": "equirectangular",
+            "panorama": "/virtual-tour/panoramas/lantai2/labtkj.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 125,
+                    "type": "scene",
+                    "text": "Keluar dari Lab TKJ",
+                    "sceneId": "depanlabtkj",
+                    "createTooltipFunc": createCustomHotspot,
+                    "createTooltipArgs": "Keluar dari Lab TKJ",
+                    "clickHandlerFunc": () => goToScene("depanlabtkj", "Keluar dari Lab TKJ")
+                }
+                
+            ]
+        },
+    },
 };
 
 // =========================================
 //   NAVBAR: NAVIGASI SCENE
 // =========================================
-const floorScenes = {
-    lantai1: [
-        { id: "gerbang", label: "Depan Gerbang Sekolah" },
-        { id: "koridor", label: "Koridor Tengah" },
-        { id: "kantin", label: "Kantin Sekolah" },
-        { id: "halaman", label: "Halaman Sekolah" },
-        { id: "halaman-tengah", label: "Halaman Tengah Sekolah" },
-        { id: "halaman-kiri", label: "Halaman Kiri Sekolah" },
-        { id: "halaman-kanan", label: "Halaman Kanan Sekolah" }
-    ]
-};
+const floorScenes = Object.entries(tourConfig.scenes).reduce((floors, [id, scene]) => {
+    const floor = scene.floor || 1;
+    const key = `lantai${floor}`;
+
+    if (!floors[key]) floors[key] = [];
+    floors[key].push({ id, label: scene.title });
+    return floors;
+}, {});
 
 const navMenuEl = document.getElementById("navbar-menu");
 const navToggleEl = document.getElementById("nav-toggle");

@@ -60,7 +60,7 @@ class AlumniControllerTest extends TestCase
         $siswaId = \Illuminate\Support\Facades\DB::table('siswa')->insertGetId(['nisn' => '1234567890123456']);
         AlumniTrack::create(['id_siswa' => $siswaId]);
         $bookBefore = BookJasah::count();
-        $response = $this->postJson(route('alumni.store'), ['nama_lengkap' => 'Alumni Uji', 'nisn' => '1234567890123456', 'id_jurusan' => $jurusan->id_jurusan, 'tahun_lulus' => now()->year, 'no_whatsapp' => '08123456789', 'email' => 'alumni@gmail.com', 'status' => 'Bekerja', 'bersedia_mentor' => false]);
+        $response = $this->postJson(route('alumni.store'), ['nama_lengkap' => 'Alumni Uji', 'nisn' => '1234567890123456', 'id_jurusan' => $jurusan->id_jurusan, 'tahun_lulus' => now()->year, 'no_whatsapp' => '08123456789', 'email' => 'alumni@gmail.com', 'status' => 'Bekerja', 'nama_perusahaan' => 'PT Uji', 'jabatan' => 'Teknisi', 'cerita_pengalaman' => 'Pengalaman kerja', 'bersedia_mentor' => false]);
         $response->assertStatus(422)->assertJsonValidationErrors(['nisn'])->assertJsonPath('errors.nisn.0', 'NISN ini sudah terdaftar sebagai alumni.');
         $this->assertSame($bookBefore, BookJasah::count());
     }
@@ -86,12 +86,31 @@ class AlumniControllerTest extends TestCase
     {
         $jurusan = Jurusan::create(['nama_jurusan' => 'Teknik Pengujian']);
         \Illuminate\Support\Facades\DB::table('siswa')->insert(['nisn' => '1234567890123456']);
-        $response = $this->postJson(route('alumni.store'), ['nama_lengkap' => 'Alumni Uji', 'nisn' => '1234567890123456', 'id_jurusan' => $jurusan->id_jurusan, 'tahun_lulus' => now()->year, 'no_whatsapp' => '08123456789', 'email' => 'alumni@gmail.com', 'status' => 'Bekerja', 'bersedia_mentor' => false]);
+        $response = $this->postJson(route('alumni.store'), ['nama_lengkap' => 'Alumni Uji', 'nisn' => '1234567890123456', 'id_jurusan' => $jurusan->id_jurusan, 'tahun_lulus' => now()->year, 'no_whatsapp' => '08123456789', 'email' => 'alumni@gmail.com', 'status' => 'Bekerja', 'nama_perusahaan' => 'PT Uji', 'jabatan' => 'Teknisi', 'cerita_pengalaman' => 'Pengalaman kerja', 'bersedia_mentor' => false]);
         $response->assertOk();
         $this->assertSame(1, AlumniTrack::count());
         $this->assertSame(1, BookJasah::count());
     }
 
+    public function test_status_specific_fields_are_required(): void
+    {
+        $jurusan = Jurusan::create(['nama_jurusan' => 'Teknik Pengujian']);
+        \Illuminate\Support\Facades\DB::table('siswa')->insert(['nisn' => '1234567890123456']);
+        $base = [
+            'nama_lengkap' => 'Alumni Uji', 'nisn' => '1234567890123456',
+            'id_jurusan' => $jurusan->id_jurusan, 'tahun_lulus' => now()->year,
+            'no_whatsapp' => '08123456789', 'email' => 'alumni@gmail.com',
+            'bersedia_mentor' => false,
+        ];
+
+        $this->postJson(route('alumni.store'), array_merge($base, ['status' => 'Bekerja']))
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['nama_perusahaan', 'jabatan', 'cerita_pengalaman']);
+
+        $this->postJson(route('alumni.store'), array_merge($base, ['status' => 'Melanjutkan Kuliah']))
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['nama_kampus', 'jurusan_kuliah', 'cerita_pengalaman']);
+    }
     public function test_masih_mencari_kerja_always_persists_mentor_as_false(): void
     {
         $jurusan = Jurusan::create(['nama_jurusan' => 'Teknik Pengujian']);

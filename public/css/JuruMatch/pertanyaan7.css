@@ -1,9 +1,9 @@
 @import url('/css/JuruMatch/pertanyaan6.css');
 
 .progress-track span.is-complete:nth-child(6) {
-	background: #168be3;
+    background: #168be3;
 }
 
 .answer-option {
-	text-decoration: none;
+    text-decoration: none;
 }
