@@ -15,8 +15,8 @@
             <h1>ELEVATE YOUR FUTURE</h1>
             <p>Elevate your future! Gabung SMK / SMA Darma Siswa Sidoarjo dan cetak karir digital anda sekarang</p>
             <div class="spmb-hero__actions">
-                <a href="#alur" class="spmb-button spmb-button--blue">Daftar Sekarang</a>
-                <a href="#alur" class="spmb-button spmb-button--orange">Formulir</a>
+                <a href="{{ route('spmb.form') }}" class="spmb-button spmb-button--blue">Daftar Sekarang</a>
+                <a href="{{ route('spmb.form') }}" class="spmb-button spmb-button--orange">Formulir</a>
             </div>
         </div>
         <div class="spmb-hero__image">
@@ -76,6 +76,7 @@
                 </div>
             </div>
         </section>
+
 
     </main>
 

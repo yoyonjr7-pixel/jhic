@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\KarirController;
 use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\SpmbPendaftarController;
 use App\Http\Controllers\TefaBookingController;
 use App\Models\Jurusan;
 use Illuminate\Support\Facades\Route;
@@ -146,9 +147,12 @@ Route::get('/about-school', function () {
     return view('visi-misi.visi-misi');
 })->name('about-school');
 
-Route::get('/spmb', function () {
-    return view('spmb.informasi');
-})->name('spmb');
+Route::get('/spmb', [SpmbPendaftarController::class, 'show'])->name('spmb');
+Route::get('/spmb/daftar', [SpmbPendaftarController::class, 'showForm'])->name('spmb.form');
+Route::post('/spmb/daftar/konfirmasi', [SpmbPendaftarController::class, 'confirm'])->name('spmb.confirm');
+Route::get('/spmb/daftar/konfirmasi', [SpmbPendaftarController::class, 'showConfirmation'])->name('spmb.confirmation');
+Route::post('/spmb/daftar/kirim', [SpmbPendaftarController::class, 'store'])->name('spmb.store');
+Route::get('/spmb/daftar/selesai', [SpmbPendaftarController::class, 'success'])->name('spmb.success');
 
 Route::get('/download-information', function () {
     return view('spmb.unduh-informasi');

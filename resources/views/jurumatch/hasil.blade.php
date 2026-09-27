@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/css/JuruMatch/hasil.css">
         <link rel="stylesheet" href="/css/JuruMatch/motion.css">
     </head>
-    <body class="result-page">
+    <body>
         <div class="result-shell">
             <header class="result-header">
                 <div class="result-title">JuruMatch</div>

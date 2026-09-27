@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/css/JuruMatch/jurumatch.css">
         <link rel="stylesheet" href="/css/JuruMatch/motion.css">
     </head>
-    <body class="jurumatch-page">
+    <body>
         <div class="jurumatch-shell">
             <div class="topbar">
                 <a class="back-btn" href="/" aria-label="Kembali">

@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/css/JuruMatch/pertanyaan8.css">
         <link rel="stylesheet" href="/css/JuruMatch/motion.css">
     </head>
-    <body class="question-page">
+    <body>
         <div class="question-shell">
             <header class="question-header">
                 <a class="question-back" href="/jurumatch" aria-label="Kembali">&#8592;</a>

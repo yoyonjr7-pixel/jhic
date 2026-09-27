@@ -1,6 +1,67 @@
+/* Identitas sekolah di bagian atas seluruh layar JuruMatch */
+.jurumatch-school-header {
+    display: flex;
+    min-height: 98px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    background: #fff;
+}
+
+.jurumatch-school-header__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.jurumatch-school-header__brand img {
+    display: block;
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+}
+
+.jurumatch-school-header__divider {
+    width: 1px;
+    height: 54px;
+    background: #c9c9c9;
+}
+
+.jurumatch-school-header__text {
+    display: grid;
+    gap: 3px;
+    color: #1768a8;
+    font-size: 12px;
+    line-height: 1.25;
+}
+
+.jurumatch-school-header__text > span {
+    margin-top: 2px;
+    padding-top: 3px;
+    border-top: 1px solid #a7a7a7;
+    color: #555;
+    font-size: 11px;
+    font-weight: 700;
+}
+
 @media (prefers-reduced-motion: no-preference) {
     html {
         scroll-behavior: smooth;
+    }
+
+    @media (max-width: 520px) {
+        .jurumatch-school-header {
+            min-height: 82px;
+            padding: 10px 12px;
+        }
+
+        .jurumatch-school-header__brand { gap: 10px; }
+        .jurumatch-school-header__brand img { width: 46px; height: 46px; }
+        .jurumatch-school-header__divider { height: 46px; }
+        .jurumatch-school-header__text { font-size: 10px; }
+        .jurumatch-school-header__text > span { font-size: 9px; }
     }
 
     body {
