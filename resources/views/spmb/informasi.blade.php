@@ -16,7 +16,6 @@
             <p>Elevate your future! Gabung SMK / SMA Darma Siswa Sidoarjo dan cetak karir digital anda sekarang</p>
             <div class="spmb-hero__actions">
                 <a href="{{ route('spmb.form') }}" class="spmb-button spmb-button--blue">Daftar Sekarang</a>
-                <a href="{{ route('spmb.form') }}" class="spmb-button spmb-button--orange">Formulir</a>
             </div>
         </div>
         <div class="spmb-hero__image">

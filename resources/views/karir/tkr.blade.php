@@ -103,7 +103,7 @@
               </ul>
             @endif
           </div>
-          <button type="button" class="mentor-btn" onclick="openMentoringModal(@js($namaMentor))">
+          <button type="button" class="mentor-btn" onclick="openMentoringModal(@js($mentor->id_alumni), @js($namaMentor))">
             Ajukan Mentoring
           </button>
         </div>

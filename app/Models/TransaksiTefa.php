@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TransaksiTefa extends Model
 {
@@ -12,24 +10,43 @@ class TransaksiTefa extends Model
 
     protected $primaryKey = 'id_transaksi';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'nama_pelanggan',
+        'tanggal',
+        'no_telp',
+        'deskripsi',
+        'id_layanan',
+        'id_guru',
+    ];
 
     protected $casts = [
         'tanggal' => 'datetime',
     ];
 
-    public function layanan(): BelongsTo
+    public function booking()
     {
-        return $this->belongsTo(Layanan::class, 'id_layanan', 'id_layanan');
+        return $this->hasOne(
+            BookingTefa::class,
+            'id_transaksi',
+            'id_transaksi'
+        );
     }
 
-    public function guru(): BelongsTo
+    public function layanan()
     {
-        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
+        return $this->belongsTo(
+            Layanan::class,
+            'id_layanan',
+            'id_layanan'
+        );
     }
 
-    public function booking(): HasOne
+    public function guru()
     {
-        return $this->hasOne(BookingTefa::class, 'id_transaksi', 'id_transaksi');
+        return $this->belongsTo(
+            Guru::class,
+            'id_guru',
+            'id_guru'
+        );
     }
 }

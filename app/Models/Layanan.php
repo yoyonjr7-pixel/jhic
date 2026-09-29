@@ -27,4 +27,13 @@ class Layanan extends Model
     {
         return $this->hasMany(TransaksiTefa::class, 'id_layanan', 'id_layanan');
     }
+
+    public function transaksiTefa(): HasMany
+    {
+        return $this->hasMany(
+            TransaksiTefa::class,
+            'id_layanan',
+            'id_layanan'
+        );
+    }
 }

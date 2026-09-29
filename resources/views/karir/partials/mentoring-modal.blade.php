@@ -44,7 +44,7 @@
 
             @csrf
 
-            <input type="hidden" name="mentor" id="mentorInput">
+            <input type="hidden" name="id_mentor" id="mentorInput">
 
             <div class="mentor-target">
                 <span class="mentor-target-label">Mentor yang dituju</span>
@@ -79,6 +79,19 @@
             </div>
 
             <div class="form-field">
+                <label for="mentoringNoTelp">Nomor telepon</label>
+                <input
+                    type="tel"
+                    id="mentoringNoTelp"
+                    name="no_telp"
+                    placeholder="Contoh: 081234567890"
+                    autocomplete="tel"
+                    maxlength="30"
+                    required
+                >
+            </div>
+
+            <div class="form-field">
                 <label for="mentoringTopik">Topik yang ingin dibahas</label>
                 <textarea
                     id="mentoringTopik"
@@ -110,7 +123,7 @@
 </div>
 
 {{-- MODAL BERHASIL --}}
-@if (session('request_code'))
+@if (session('mentoring_success'))
 
 <div
     id="successModal"
@@ -136,14 +149,7 @@
 
         <h2 id="successModalTitle">Permintaan Terkirim</h2>
 
-        <p class="success-sub">
-            Simpan kode ini untuk menanyakan status
-            permintaanmu ke TU sekolah.
-        </p>
-
-        <div class="request-code">{{ session('request_code') }}</div>
-
-        <p class="success-note">Alumni Akan Di Hubungi Melalui TU Sekolah</p>
+        <p class="success-note">Jika permintaan anda telah sesuai, anda akan dihubungi oleh mentor.</p>
 
         <button
             type="button"
@@ -159,8 +165,8 @@
 @endif
 
 <script>
-    function openMentoringModal(mentor) {
-        document.getElementById('mentorInput').value = mentor;
+    function openMentoringModal(mentorId, mentor) {
+        document.getElementById('mentorInput').value = mentorId;
 
         const mentorName = document.getElementById('mentorName');
         if (mentorName) {

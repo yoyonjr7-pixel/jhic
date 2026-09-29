@@ -107,9 +107,7 @@ class AlumniController extends Controller
                     'email' => $data['email'],
                     'status' => $status,
                     'keterangan' => $this->keterangan($data),
-                    'mentor' => $data['status'] === 'Masih Mencari Kerja'
-                        ? false
-                        : ! empty($data['bersedia_mentor']),
+                    'mentor' => ! empty($data['bersedia_mentor']),
                 ]);
 
                 $bookJasah = BookJasah::create([

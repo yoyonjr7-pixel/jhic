@@ -23,4 +23,13 @@ class Guru extends Model
     {
         return $this->hasMany(TransaksiTefa::class, 'id_guru', 'id_guru');
     }
+
+    public function transaksiTefa(): HasMany
+    {
+        return $this->hasMany(
+            TransaksiTefa::class,
+            'id_guru',
+            'id_guru'
+        );
+    }
 }

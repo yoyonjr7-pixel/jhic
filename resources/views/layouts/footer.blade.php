@@ -216,7 +216,7 @@
                 </li>
 
                 <li>
-                    <a href="#">Unduh informasi</a>
+                    <a href="{{ route('download-information') }}">Unduh informasi</a>
                 </li>
 
             </ul>
@@ -235,23 +235,23 @@
             <ul>
 
                 <li>
-                    <a href="#">Kegiatan sekolah</a>
+                    <a href="{{ route('berita.public') }}">Kegiatan sekolah</a>
                 </li>
 
                 <li>
-                    <a href="#">Prestasi</a>
+                    <a href="{{ route('prestasi') }}">Prestasi</a>
                 </li>
 
                 <li>
-                    <a href="#">Pengumuman</a>
+                    <a href="{{ route('berita.public') }}">Pengumuman</a>
                 </li>
 
                 <li>
-                    <a href="#">Karya & inovasi siswa</a>
+                    <a href="{{ route('berita.public') }}">Karya &amp; inovasi siswa</a>
                 </li>
 
                 <li>
-                    <a href="#">Artikel</a>
+                    <a href="{{ route('berita.public') }}">Artikel</a>
                 </li>
 
             </ul>

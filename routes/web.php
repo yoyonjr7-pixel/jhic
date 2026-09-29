@@ -2,12 +2,26 @@
 
 use App\Http\Controllers\KarirController;
 use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\AlumniTrackController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LowonganController;
+use App\Http\Controllers\MentoringController;
+use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\SpmbPendaftarController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\TefaController;
 use App\Http\Controllers\TefaBookingController;
+use App\Http\Controllers\UnduhInformasiController;
 use App\Models\Jurusan;
+use App\Models\Prestasi;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
+    $daftarPrestasi = Prestasi::latest('id_prestasi')->get();
+
+    return view('home', compact('daftarPrestasi'));
 });
 Route::get('/virtualtour', function () {
     return view('virtualtour.index');
@@ -129,9 +143,8 @@ Route::get('/spmb/informasi', function () {
     return view('spmb.informasi');
 })->name('spmb.informasi');
 
-Route::get('/spmb/unduh-informasi', function () {
-    return view('spmb.unduh-informasi');
-})->name('spmb.unduh-informasi');
+Route::get('/spmb/unduh-informasi', [UnduhInformasiController::class, 'publicIndex'])
+    ->name('spmb.unduh-informasi');
 
 Route::get('/visi-misi', function () {
     return view('visi-misi.visi-misi');
@@ -146,24 +159,15 @@ Route::get('/about-school', function () {
     return view('visi-misi.visi-misi');
 })->name('about-school');
 
-Route::get('/spmb', function () {
-    return view('spmb.informasi');
-})->name('spmb');
+Route::get('/prestasi', [PrestasiController::class, 'publicIndex'])->name('prestasi');
 
-Route::get('/download-information', function () {
-    return view('spmb.unduh-informasi');
-})->name('download-information');
+Route::get('/berita-sekolah', [BeritaController::class, 'publicIndex'])
+    ->name('berita.public');
 
-Route::get('/prestasi', function () {
-    return view('prestasi.index', [
-        'prestasi' => [
-            ['tingkat' => 'Kabupaten', 'jumlah' => 50],
-            ['tingkat' => 'Provinsi', 'jumlah' => 60],
-            ['tingkat' => 'Nasional', 'jumlah' => 120],
-            ['tingkat' => 'Internasional', 'jumlah' => 0],
-        ],
-    ]);
-})->name('prestasi');
+Route::get('/download-information', [UnduhInformasiController::class, 'publicIndex'])
+    ->name('download-information');
+Route::get('/download-information/{id}', [UnduhInformasiController::class, 'publicDownload'])
+    ->name('download-information.file');
 
 Route::get('/karir', [KarirController::class, 'tjkt'])->name('karir.tjkt');
 Route::get('/tkr', [KarirController::class, 'tkr'])->name('karir.tkr');
@@ -195,3 +199,216 @@ Route::post('/spmb/daftar/konfirmasi', [SpmbPendaftarController::class, 'confirm
 Route::get('/spmb/daftar/konfirmasi', [SpmbPendaftarController::class, 'showConfirmation'])->name('spmb.confirmation');
 Route::post('/spmb/daftar/kirim', [SpmbPendaftarController::class, 'store'])->name('spmb.store');
 Route::get('/spmb/daftar/selesai', [SpmbPendaftarController::class, 'success'])->name('spmb.success');
+
+
+
+/*
+|--------------------------------------------------------------------------
+| HALAMAN UMUM
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATION
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/login', [AuthController::class, 'showLogin'])
+    ->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login.process');
+
+
+/*
+|--------------------------------------------------------------------------
+| AREA ADMIN
+|--------------------------------------------------------------------------
+|
+| Semua halaman di dalam group ini membutuhkan login.
+|
+*/
+
+Route::middleware('auth')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | DASHBOARD
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATA SISWA
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/siswa', [SiswaController::class, 'index'])
+        ->name('siswa.index');
+    Route::post('/siswa', [SiswaController::class, 'store'])
+        ->name('siswa.store');
+    Route::put('/siswa/{id}', [SiswaController::class, 'update'])
+        ->name('siswa.update');
+    Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])
+        ->name('siswa.destroy');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MENTORING
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/mentoring', [MentoringController::class, 'index'])
+        ->name('mentoring.index');
+    Route::post('/mentoring/manual', [MentoringController::class, 'store'])
+        ->name('mentoring.store-admin');
+    Route::put('/mentoring/{id}/status', [MentoringController::class, 'updateStatus'])
+        ->name('mentoring.update-status');
+    Route::delete('/mentoring/{id}', [MentoringController::class, 'destroy'])
+        ->name('mentoring.destroy');
+    Route::get('/mentoring/{id}', [MentoringController::class, 'show'])
+        ->whereNumber('id')
+        ->name('mentoring.show');
+    Route::get('/mentoring/detail', fn () => redirect()->route('mentoring.index'));
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ALUMNI TRACK
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/alumni-track', [AlumniTrackController::class, 'index']);
+
+    Route::post('/alumni-track', [AlumniTrackController::class, 'store'])
+        ->name('alumni-track.store');
+
+    Route::put('/alumni-track/{id}', [AlumniTrackController::class, 'update'])
+        ->name('alumni-track.update');
+
+    Route::delete('/alumni-track/{id}', [AlumniTrackController::class, 'destroy'])
+        ->name('alumni-track.destroy');
+
+    Route::get('/lowongan-pekerjaan', [LowonganController::class, 'index'])
+        ->name('lowongan.index');
+    Route::post('/lowongan-pekerjaan', [LowonganController::class, 'store'])
+        ->name('lowongan.store');
+    Route::put('/lowongan-pekerjaan/{id}', [LowonganController::class, 'update'])
+        ->name('lowongan.update');
+    Route::delete('/lowongan-pekerjaan/{id}', [LowonganController::class, 'destroy'])
+        ->name('lowongan.destroy');
+
+    Route::get('/spmb-pendaftar', [SpmbPendaftarController::class, 'adminIndex'])
+        ->name('spmb-pendaftar.index');
+    Route::put('/spmb-pendaftar/{id}/status', [SpmbPendaftarController::class, 'updateStatus'])
+        ->name('spmb-pendaftar.update-status');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TEFA ONLINE
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/tefa-online', [TefaController::class, 'index'])
+        ->name('tefa.index');
+
+    Route::post('/tefa-online', [TefaController::class, 'store'])
+        ->name('tefa.store');
+
+    Route::get('/tefa-online/{id}', [TefaController::class, 'show'])
+        ->name('tefa.show');
+
+    Route::put('/tefa-online/{id}', [TefaController::class, 'update'])
+        ->name('tefa.update');
+
+    Route::put('/tefa-online/{id}/status', [TefaController::class, 'updateStatus'])
+        ->name('tefa.update-status');
+
+    Route::delete('/tefa-online/{id}', [TefaController::class, 'destroy'])
+        ->name('tefa.destroy');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PRESTASI
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/admin/prestasi', [PrestasiController::class, 'index'])
+        ->name('prestasi.index');
+
+    Route::post('/admin/prestasi', [PrestasiController::class, 'store'])
+        ->name('prestasi.store');
+
+    Route::get('/admin/prestasi/{id}', [PrestasiController::class, 'show'])
+        ->name('prestasi.show');
+
+    Route::put('/admin/prestasi/{id}', [PrestasiController::class, 'update'])
+        ->name('prestasi.update');
+
+    Route::delete('/admin/prestasi/{id}', [PrestasiController::class, 'destroy'])
+        ->name('prestasi.destroy');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BERITA TERBARU
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/berita', [BeritaController::class, 'index'])
+        ->name('berita.index');
+
+    Route::post('/berita', [BeritaController::class, 'store'])
+        ->name('berita.store');
+
+    Route::get('/berita/{id}', [BeritaController::class, 'show'])
+        ->name('berita.show');
+
+    Route::put('/berita/{id}', [BeritaController::class, 'update'])
+        ->name('berita.update');
+
+    Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])
+        ->name('berita.destroy');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UNDUH INFORMASI
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/unduh-informasi', [UnduhInformasiController::class, 'index'])
+        ->name('unduh-informasi.index');
+
+    Route::post('/unduh-informasi', [UnduhInformasiController::class, 'store'])
+        ->name('unduh-informasi.store');
+
+    Route::get('/unduh-informasi/{id}', [UnduhInformasiController::class, 'show'])
+        ->name('unduh-informasi.show');
+
+    Route::put('/unduh-informasi/{id}', [UnduhInformasiController::class, 'update'])
+        ->name('unduh-informasi.update');
+
+    Route::delete('/unduh-informasi/{id}', [UnduhInformasiController::class, 'destroy'])
+        ->name('unduh-informasi.destroy');
+
+    Route::get('/unduh-informasi/{id}/download', [UnduhInformasiController::class, 'download'])
+        ->name('unduh-informasi.download');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGOUT
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
+
+});

@@ -191,73 +191,21 @@
         </div>
 
         <div class="achievement-grid">
-            
-            <!-- Card 1 -->
-            <div class="achievement-card">
-                <div class="achievement-img-wrapper">
-                    <img src="prestasiimages/lombapostersefest.jpg" alt="Juara 2 Lomba Poster">
+            @forelse ($daftarPrestasi as $item)
+                <div class="achievement-card">
+                    <div class="achievement-img-wrapper">
+                        @if ($item->foto)
+                            <img src="{{ $item->fotoUrl() }}" alt="{{ $item->juara }} {{ $item->judul_prestasi }}">
+                        @endif
+                    </div>
+                    <div class="achievement-info">
+                        <div class="achievement-badge-title">{{ strtoupper($item->juara . ' ' . $item->judul_prestasi) }}</div>
+                        <div class="achievement-badge-desc">{{ $item->deskripsi }}</div>
+                    </div>
                 </div>
-                <div class="achievement-info">
-                    <div class="achievement-badge-title">JUARA 2 LOMBA POSTER</div>
-                    <div class="achievement-badge-desc">Siswa kelas XI TJKT menjadi juara 2 lomba poster di sefest</div>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="achievement-card">
-                <div class="achievement-img-wrapper">
-                    <img src="prestasiimages/lombaposterpsycoreels.png" alt="Juara 3 Lomba Psycoreels">
-                </div>
-                <div class="achievement-info">
-                    <div class="achievement-badge-title">JUARA 3 LOMBA PSYCOREELS</div>
-                    <div class="achievement-badge-desc">Siswa kelas XI SMA menjadi juara 3 lomba poster di psycoreels</div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="achievement-card">
-                <div class="achievement-img-wrapper">
-                    <img src="prestasiimages/lombafotografisidoarjo.png" alt="Juara 1 Lomba Fotografi">
-                </div>
-                <div class="achievement-info">
-                    <div class="achievement-badge-title">JUARA 1 LOMBA FOTOGRAFI</div>
-                    <div class="achievement-badge-desc">Siswa kelas XII multimedia menjadi juara 1 lomba street fotografi se-Kabupaten Sidoarjo</div>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="achievement-card">
-                <div class="achievement-img-wrapper">
-                    <img src="prestasiimages/lombavlogsurabaya.png" alt="Juara 2 Lomba Vlog">
-                </div>
-                <div class="achievement-info">
-                    <div class="achievement-badge-title">JUARA 2 LOMBA VLOG</div>
-                    <div class="achievement-badge-desc">Siswa kelas X dan XI SMA menjadi juara 2 lomba vlog tingkat se-Surabaya</div>
-                </div>
-            </div>
-
-            <!-- Card 5 -->
-            <div class="achievement-card">
-                <div class="achievement-img-wrapper">
-                    <img src="prestasiimages/lombavloggerbangkertasusila.png" alt="Juara Favorit Lomba Vlog Fotografi">
-                </div>
-                <div class="achievement-info">
-                    <div class="achievement-badge-title">JUARA FAVORIT LOMBA VLOG FOTOGRAFI</div>
-                    <div class="achievement-badge-desc">Siswa kelas XII multimedia menjadi juara favorit lomba fotografi tingkat GERBANGKERTASUSILA</div>
-                </div>
-            </div>
-
-            <!-- Card 6 -->
-            <div class="achievement-card">
-                <div class="achievement-img-wrapper">
-                    <img src="prestasiimages/lombapencaksilatalfin.jpg" alt="Juara 3 Lomba Pencak Silat">
-                </div>
-                <div class="achievement-info">
-                    <div class="achievement-badge-title">JUARA 3 LOMBA PENCAK SILAT</div>
-                    <div class="achievement-badge-desc">Siswa kelas XII TKJ menjadi juara 3 lomba pencak silat</div>
-                </div>
-            </div>
-
+            @empty
+                <p>Belum ada data prestasi.</p>
+            @endforelse
         </div>
 
     </div>

@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call(TefaSeeder::class);
+        $this->call(LowonganSeeder::class);
+        $this->call(UnduhInformasiSeeder::class);
     }
 }

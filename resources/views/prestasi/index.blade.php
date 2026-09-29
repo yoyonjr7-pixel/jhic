@@ -101,53 +101,31 @@
         </div>
 
         <div class="prestasi-siswa__grid">
-            <article class="prestasi-siswa__card">
-                <div class="prestasi-siswa__image"><img src="/prestasiimages/lombapostersefest.jpg" alt="Juara 2 Lomba Poster"></div>
-                <div class="prestasi-siswa__info">
-                    <h3>JUARA 2 LOMBA POSTER</h3>
-                    <p>Siswa kelas XI TJKT menjadi juara 2 lomba poster di sefest</p>
-                </div>
-            </article>
-
-            <article class="prestasi-siswa__card">
-                <div class="prestasi-siswa__image"><img src="/prestasiimages/lombaposterpsycoreels.png" alt="Juara 3 Lomba Psycoreels"></div>
-                <div class="prestasi-siswa__info">
-                    <h3>JUARA 3 LOMBA PSYCOREELS</h3>
-                    <p>Siswa kelas XI SMA menjadi juara 3 lomba poster di psycoreels</p>
-                </div>
-            </article>
-
-            <article class="prestasi-siswa__card">
-                <div class="prestasi-siswa__image"><img src="/prestasiimages/lombafotografisidoarjo.png" alt="Juara 1 Lomba Fotografi"></div>
-                <div class="prestasi-siswa__info">
-                    <h3>JUARA 1 LOMBA FOTOGRAFI</h3>
-                    <p>Siswa kelas XII multimedia menjadi juara 1 lomba street fotografi se-Kabupaten Sidoarjo</p>
-                </div>
-            </article>
-
-            <article class="prestasi-siswa__card">
-                <div class="prestasi-siswa__image"><img src="/prestasiimages/lombavlogsurabaya.png" alt="Juara 2 Lomba Vlog"></div>
-                <div class="prestasi-siswa__info">
-                    <h3>JUARA 2 LOMBA VLOG</h3>
-                    <p>Siswa kelas X dan XI SMA menjadi juara 2 lomba vlog tingkat se-Surabaya</p>
-                </div>
-            </article>
-
-            <article class="prestasi-siswa__card">
-                <div class="prestasi-siswa__image"><img src="/prestasiimages/lombavloggerbangkertasusila.png" alt="Juara Favorit Lomba Vlog Fotografi"></div>
-                <div class="prestasi-siswa__info">
-                    <h3>JUARA FAVORIT LOMBA VLOG FOTOGRAFI</h3>
-                    <p>Siswa kelas XII multimedia menjadi juara favorit lomba fotografi tingkat GERBANGKERTASUSILA</p>
-                </div>
-            </article>
-
-            <article class="prestasi-siswa__card">
-                <div class="prestasi-siswa__image"><img src="/prestasiimages/lombapencaksilatalfin.jpg" alt="Juara 3 Lomba Pencak Silat"></div>
-                <div class="prestasi-siswa__info">
-                    <h3>JUARA 3 LOMBA PENCAK SILAT</h3>
-                    <p>Siswa kelas XII TKJ menjadi juara 3 lomba pencak silat</p>
-                </div>
-            </article>
+            @forelse ($daftarPrestasi as $item)
+                <article class="prestasi-siswa__card">
+                    <div class="prestasi-siswa__image">
+                        @if ($item->foto)
+                            <img src="{{ $item->fotoUrl() }}" alt="{{ $item->judul_prestasi }}">
+                        @else
+                            <span aria-hidden="true">{{ strtoupper(substr($item->judul_prestasi, 0, 1)) }}</span>
+                        @endif
+                    </div>
+                    <div class="prestasi-siswa__info">
+                        <h3>{{ $item->juara ? $item->juara . ' - ' : '' }}{{ $item->judul_prestasi }}</h3>
+                        <p>
+                            {{ $item->nama_pemenang }}
+                            @if ($item->kelas) · {{ $item->kelas }} @endif
+                            @if ($item->jurusan) · {{ $item->jurusan->nama_jurusan }} @endif
+                            @if ($item->tahun) · {{ $item->tahun }} @endif
+                        </p>
+                        @if ($item->deskripsi)
+                            <p>{{ $item->deskripsi }}</p>
+                        @endif
+                    </div>
+                </article>
+            @empty
+                <p class="text-muted">Belum ada data prestasi yang diterbitkan.</p>
+            @endforelse
         </div>
     </section>
 

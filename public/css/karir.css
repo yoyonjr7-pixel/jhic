@@ -632,37 +632,6 @@
     margin-bottom: 8px;
 }
 
-.success-sub {
-    font-size: 12.5px;
-
-    line-height: 1.5;
-
-    color: var(--gray-text);
-
-    margin-bottom: 16px;
-}
-
-.request-code {
-    display: inline-block;
-
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-
-    font-size: 19px;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-
-    color: var(--dark);
-
-    background: #f3f7fa;
-
-    border: 2px dashed rgba(47, 128, 237, 0.45);
-    border-radius: 14px;
-
-    padding: 12px 24px;
-
-    margin-bottom: 14px;
-}
-
 .success-note {
     font-size: 12.5px;
 

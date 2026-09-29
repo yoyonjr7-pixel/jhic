@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\AlumniTrack;
 use App\Models\Jurusan;
 use App\Models\Lowongan;
+use App\Models\MentoringRequest;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class KarirController extends Controller
@@ -50,14 +52,35 @@ class KarirController extends Controller
      */
     public function mentoringStore(Request $request): RedirectResponse
     {
-        $request->validate([
-            'mentor' => ['required', 'string', 'max:150'],
+        $data = $request->validate([
+            'id_mentor' => [
+                'required',
+                'integer',
+                'exists:alumni_track,id_alumni',
+            ],
             'nama' => ['required', 'string', 'max:150'],
+            'no_telp' => ['required', 'string', 'max:30'],
             'status' => ['required', 'string', 'max:100'],
             'topik' => ['required', 'string', 'max:1000'],
         ]);
 
-        return back()->with('request_code', 'MTR-'.strtoupper(Str::random(6)));
+        $mentor = AlumniTrack::with('siswa')->findOrFail($data['id_mentor']);
+        if (! $mentor->siswa || ! $this->isMentor($mentor)) {
+            throw ValidationException::withMessages([
+                'id_mentor' => 'Alumni ini tidak tersedia sebagai mentor.',
+            ]);
+        }
+
+        MentoringRequest::create([
+            'id_mentor' => $mentor->id_alumni,
+            'mentor_nama' => $mentor->siswa?->nama_siswa ?? 'Alumni',
+            'nama_pemohon' => $data['nama'],
+            'no_telp' => $data['no_telp'],
+            'status_pemohon' => $data['status'],
+            'topik' => $data['topik'],
+        ]);
+
+        return back()->with('mentoring_success', true);
     }
 
     /**
@@ -85,14 +108,26 @@ class KarirController extends Controller
 
         return AlumniTrack::query()
             ->with('siswa')
-            ->where('mentor', true)
-            ->where('id_jurusan', $idJurusan)
-            ->whereNotNull('id_siswa')
+            ->where(function (Builder $query) use ($idJurusan): void {
+                $query->where('id_jurusan', $idJurusan)
+                    ->orWhereHas('siswa', function (Builder $siswaQuery) use ($idJurusan): void {
+                        $siswaQuery->where('id_jurusan', $idJurusan);
+                    });
+            })
+            ->whereHas('siswa')
             ->latest('id_alumni')
             ->get()
-            ->filter(fn (AlumniTrack $alumni): bool => $alumni->siswa !== null)
+            ->filter(fn (AlumniTrack $alumni): bool => $alumni->siswa !== null && $this->isMentor($alumni))
             ->values();
     }
+
+    private function isMentor(AlumniTrack $alumni): bool
+    {
+        $value = strtolower(trim((string) $alumni->getRawOriginal('mentor')));
+
+        return $value !== '' && ! in_array($value, ['0', 'false', 'no', 'off'], true);
+    }
+
     private function lowongan(string $kodeJurusan): Collection
     {
         $idJurusan = $this->idJurusan($kodeJurusan);

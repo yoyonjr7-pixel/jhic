@@ -18,6 +18,7 @@ class TefaSeeder extends Seeder
         foreach ([
             'book_jasah',
             'booking_tefa',
+            'mentoring_requests',
             'alumni_track',
             'transaksi_tefa',
             'siswa',
@@ -121,6 +122,7 @@ class TefaSeeder extends Seeder
         ];
 
         $siswaId = [];
+        $siswaJurusan = [];
 
         foreach ($siswaData as [$nisn, $nama, $kelas, $jurusan, $status]) {
             $siswaId[$nama] = DB::table('siswa')->insertGetId([
@@ -132,6 +134,7 @@ class TefaSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ]);
+            $siswaJurusan[$nama] = $jurusanId[$jurusan];
         }
 
         // =====================================================
@@ -196,10 +199,10 @@ class TefaSeeder extends Seeder
         // ALUMNI TRACK
         // =====================================================
         $alumniData = [
-            ['Hana Salsabila', 2024, '081298760001', 'hana.salsabila@example.com', 'bekerja', 'Bekerja di Astra Honda Motor', 'Argo Ciptono, S.Kom, ST, MM.'],
-            ['Ivan Maulana', 2024, '081298760002', 'ivan.maulana@example.com', 'kuliah', 'Kuliah D4 Teknik Mesin di PENS', 'Bambang Wijaya, S.T.'],
-            ['Jihan Aulia', 2023, '081298760003', 'jihan.aulia@example.com', 'wirausaha', 'Membuka jasa konfigurasi jaringan', 'Dian Puspita, S.Kom.'],
-            ['Kevin Pratama', 2023, '081298760004', 'kevin.pratama@example.com', 'bekerja', 'Bekerja di PT Siantar Top bagian maintenance', 'Sugeng Riyadi, S.T.'],
+            ['Hana Salsabila', 2024, '081298760001', 'hana.salsabila@example.com', 'bekerja', 'Bekerja di Astra Honda Motor', true],
+            ['Ivan Maulana', 2024, '081298760002', 'ivan.maulana@example.com', 'kuliah', 'Kuliah D4 Teknik Mesin di PENS', true],
+            ['Jihan Aulia', 2023, '081298760003', 'jihan.aulia@example.com', 'wirausaha', 'Membuka jasa konfigurasi jaringan', true],
+            ['Kevin Pratama', 2023, '081298760004', 'kevin.pratama@example.com', 'bekerja', 'Bekerja di PT Siantar Top bagian maintenance', true],
         ];
 
         $alumniId = [];
@@ -207,6 +210,7 @@ class TefaSeeder extends Seeder
         foreach ($alumniData as [$siswa, $tahun, $telp, $email, $status, $keterangan, $mentor]) {
             $alumniId[$siswa] = DB::table('alumni_track')->insertGetId([
                 'id_siswa'    => $siswaId[$siswa],
+                'id_jurusan'  => $siswaJurusan[$siswa],
                 'tahun_lulus' => $tahun,
                 'no_telp'     => $telp,
                 'email'       => $email,

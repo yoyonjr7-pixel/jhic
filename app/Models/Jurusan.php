@@ -27,4 +27,9 @@ class Jurusan extends Model
     {
         return $this->hasMany(Guru::class, 'id_jurusan', 'id_jurusan');
     }
+
+    public function alumniTrack(): HasMany
+    {
+        return $this->hasMany(AlumniTrack::class, 'id_jurusan', 'id_jurusan');
+    }
 }

@@ -15,6 +15,25 @@ class SpmbPendaftarController extends Controller
         return view('spmb.informasi');
     }
 
+    public function adminIndex(): View
+    {
+        $pendaftar = SpmbPendaftar::latest('id_spmb')->get();
+
+        return view('admin.spmb-pendaftar', compact('pendaftar'));
+    }
+
+    public function updateStatus(Request $request, int $id): RedirectResponse
+    {
+        $data = $request->validate([
+            'status' => ['required', 'in:Baru,Diproses,Diterima,Ditolak'],
+        ]);
+
+        SpmbPendaftar::findOrFail($id)->update($data);
+
+        return redirect()->route('spmb-pendaftar.index')
+            ->with('success', 'Status pendaftar berhasil diperbarui.');
+    }
+
     public function showForm(): View
     {
         $jurusan = collect(config('tefa.jurusan'))
@@ -77,6 +96,9 @@ class SpmbPendaftarController extends Controller
             ->pluck('nama')
             ->all();
         $data = Validator::make($registration, $this->registrationRules($jurusan))->validate();
+
+        $data['nama'] = $data['nama_lengkap'];
+        unset($data['nama_lengkap']);
 
         SpmbPendaftar::create($data);
         $request->session()->forget('spmb.registration');

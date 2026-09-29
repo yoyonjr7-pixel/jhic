@@ -9,6 +9,7 @@
 
     {{-- CSS Navbar --}}
     <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/scrollbar.css">
 
     {{-- Tempat CSS tambahan dari halaman --}}
     @yield('styles')
@@ -73,6 +74,7 @@
 
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('prestasi') }}" class="dropdown-link">Prestasi Sekolah</a></li>
+                            <li><a href="{{ route('berita.public') }}" class="dropdown-link">Berita Sekolah</a></li>
                             <li><a href="{{ route('fasilitas') }}" class="dropdown-link">Fasilitas Sekolah</a></li>
                             <li><a href="{{ route('profil-guru') }}" class="dropdown-link">Profil Guru</a></li>
                             <li><a href="{{ route('visi-misi') }}" class="dropdown-link">Visi &amp; Misi</a></li>

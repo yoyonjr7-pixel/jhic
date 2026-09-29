@@ -514,10 +514,8 @@
             selectedStatus = status;
             document.getElementById('selected-status-text').textContent = status.toUpperCase();
 
-            const mentorCheckbox = document.getElementById('bersedia_mentor');
             if (status === 'Masih Mencari Kerja') {
-                mentorCheckbox.checked = false;
-                goToStep(4);
+                goToStep(3);
                 return;
             }
 

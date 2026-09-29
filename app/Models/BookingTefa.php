@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BookingTefa extends Model
 {
@@ -41,5 +42,14 @@ class BookingTefa extends Model
     public function transaksi(): BelongsTo
     {
         return $this->belongsTo(TransaksiTefa::class, 'id_transaksi', 'id_transaksi');
+    }
+
+    public function tambahan(): HasMany
+    {
+        return $this->hasMany(
+            TambahanTefa::class,
+            'id_book',
+            'id_book'
+        );
     }
 }

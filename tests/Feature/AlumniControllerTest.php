@@ -111,7 +111,7 @@ class AlumniControllerTest extends TestCase
             ->assertStatus(422)
             ->assertJsonValidationErrors(['nama_kampus', 'jurusan_kuliah', 'cerita_pengalaman']);
     }
-    public function test_masih_mencari_kerja_always_persists_mentor_as_false(): void
+    public function test_alumni_seeking_work_can_opt_in_as_a_mentor(): void
     {
         $jurusan = Jurusan::create(['nama_jurusan' => 'Teknik Pengujian']);
         \Illuminate\Support\Facades\DB::table('siswa')->insert(['nisn' => '1234567890123456']);
@@ -128,6 +128,6 @@ class AlumniControllerTest extends TestCase
         ]);
 
         $response->assertOk();
-        $this->assertFalse((bool) AlumniTrack::query()->firstOrFail()->mentor);
+        $this->assertTrue((bool) AlumniTrack::query()->firstOrFail()->mentor);
     }
 }
