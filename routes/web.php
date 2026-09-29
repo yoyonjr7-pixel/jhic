@@ -192,3 +192,10 @@ Route::get('/tefa/booking', function () {
 })->name('tefa.booking');
 Route::post('/tefa/booking', [TefaBookingController::class, 'store'])
     ->name('tefa.booking.store');
+
+    Route::get('/spmb', [SpmbPendaftarController::class, 'show'])->name('spmb');
+Route::get('/spmb/daftar', [SpmbPendaftarController::class, 'showForm'])->name('spmb.form');
+Route::post('/spmb/daftar/konfirmasi', [SpmbPendaftarController::class, 'confirm'])->name('spmb.confirm');
+Route::get('/spmb/daftar/konfirmasi', [SpmbPendaftarController::class, 'showConfirmation'])->name('spmb.confirmation');
+Route::post('/spmb/daftar/kirim', [SpmbPendaftarController::class, 'store'])->name('spmb.store');
+Route::get('/spmb/daftar/selesai', [SpmbPendaftarController::class, 'success'])->name('spmb.success');
