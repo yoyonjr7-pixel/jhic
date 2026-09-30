@@ -129,3 +129,61 @@
         load(window.location.href, false);
     });
 })();
+
+// Update DOM hanya jika elemen target memang tersedia.
+function setText(element, value) {
+    if (element) {
+        element.textContent = value == null ? '' : String(value);
+    }
+}
+
+function setDisplay(element, value) {
+    if (element) {
+        element.style.display = value;
+    }
+}
+
+// Simpan permintaan mentoring ke server dan tampilkan hasil sukses.
+document.addEventListener('submit', function (event) {
+    var form = event.target && event.target.closest ? event.target.closest('.mentoring-form') : null;
+    if (!form) return;
+    event.preventDefault();
+    var button = form.querySelector('.btn-kirim');
+    var mentoringModal = document.getElementById('mentoringModal');
+    var successModal = document.getElementById('successModal');
+    if (button) {
+        button.disabled = true;
+    }
+    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(function (response) {
+            return response.text().then(function (body) {
+                var data = {};
+                try {
+                    data = body ? JSON.parse(body) : {};
+                } catch (error) {
+                    if (response.ok) {
+                        throw new Error('Respons server tidak valid.');
+                    }
+                }
+                if (!response.ok) {
+                    throw new Error(data.message || 'Permintaan gagal dikirim.');
+                }
+                return data;
+            });
+        })
+        .then(function () {
+            if (mentoringModal) {
+                mentoringModal.classList.remove('is-open');
+            }
+            setDisplay(successModal, 'flex');
+            form.reset();
+        })
+        .catch(function (error) {
+            window.alert(error.message || 'Permintaan gagal dikirim.');
+        })
+        .finally(function () {
+            if (button) {
+                button.disabled = false;
+            }
+        });
+});

@@ -1,0 +1,1 @@
+<div class="mb-3"><label class="form-label">{{ $label }}</label><input name="{{ $name }}" value="{{ old($name, $value ?? ($item->{$name} ?? "")) }}" class="form-control" @if(in_array($name, ["judul", "slug", "judul_prestasi", "nama_pemenang", "tahun_lulus"])) required @endif></div>

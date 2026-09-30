@@ -58,7 +58,7 @@
                     <input
                         type="text"
                         id="mentoringNama"
-                        name="nama"
+                        name="nama_kamu"
                         placeholder="Contoh: Ridwan Ajis"
                         autocomplete="name"
                         required
@@ -79,6 +79,14 @@
             </div>
 
             <div class="form-field">
+                <label for="mentoringNoTelp">Nomor telepon</label>
+                <input type="tel" id="mentoringNoTelp" name="no_telp"
+                    placeholder="Contoh: 081234567890" autocomplete="tel"
+                    inputmode="numeric" pattern="[0-9]{10,15}"
+                    minlength="10" maxlength="15" required oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15)">
+            </div>
+
+            <div class="form-field">
                 <label for="mentoringTopik">Topik yang ingin dibahas</label>
                 <textarea
                     id="mentoringTopik"
@@ -86,6 +94,11 @@
                     placeholder="Contoh: Kak, saya ingin tanya bagaimana cara kakak untuk berani memulai dari umur belasan?"
                     required
                 ></textarea>
+            </div>
+
+            <div class="form-field">
+                <label for="mentoringCatatan">Catatan (opsional)</label>
+                <textarea id="mentoringCatatan" name="catatan" placeholder="Catatan tambahan untuk mentor"></textarea>
             </div>
 
             <div class="modal-buttons">
@@ -110,7 +123,7 @@
 </div>
 
 {{-- MODAL BERHASIL --}}
-@if (session('request_code'))
+
 
 <div
     id="successModal"
@@ -118,6 +131,7 @@
     role="dialog"
     aria-modal="true"
     aria-labelledby="successModalTitle"
+    style="display:none"
 >
     <div class="success-content">
 
@@ -136,14 +150,7 @@
 
         <h2 id="successModalTitle">Permintaan Terkirim</h2>
 
-        <p class="success-sub">
-            Simpan kode ini untuk menanyakan status
-            permintaanmu ke TU sekolah.
-        </p>
-
-        <div class="request-code">{{ session('request_code') }}</div>
-
-        <p class="success-note">Alumni Akan Di Hubungi Melalui TU Sekolah</p>
+        <p class="success-sub">Jika permintaan Anda telah sesuai, Anda akan dihubungi oleh mentor.</p>
 
         <button
             type="button"
@@ -156,18 +163,23 @@
     </div>
 </div>
 
-@endif
 
 <script>
     function openMentoringModal(mentor) {
-        document.getElementById('mentorInput').value = mentor;
+        const mentorInput = document.getElementById('mentorInput');
+        if (mentorInput) {
+            mentorInput.value = mentor;
+        }
 
         const mentorName = document.getElementById('mentorName');
         if (mentorName) {
             mentorName.textContent = mentor;
         }
 
-        document.getElementById('mentoringModal').classList.add('is-open');
+        const mentoringModal = document.getElementById('mentoringModal');
+        if (mentoringModal) {
+            mentoringModal.classList.add('is-open');
+        }
 
         const firstField = document.getElementById('mentoringNama');
         if (firstField) {
@@ -178,11 +190,17 @@
     }
 
     function closeMentoringModal() {
-        document.getElementById('mentoringModal').classList.remove('is-open');
+        const mentoringModal = document.getElementById('mentoringModal');
+        if (mentoringModal) {
+            mentoringModal.classList.remove('is-open');
+        }
     }
 
     function closeSuccessModal() {
-        document.getElementById('successModal').style.display = 'none';
+        const successModal = document.getElementById('successModal');
+        if (successModal) {
+            successModal.style.display = 'none';
+        }
     }
 
     document.addEventListener('keydown', function (event) {

@@ -86,7 +86,7 @@
           <div class="avatar">{{ $initials ?: '?' }}</div>
           <h4>{{ $namaMentor }}</h4>
           <hr class="divider">
-          <div class="verified">✓ Data Terverifikasi TU</div>
+          <div class="verified">&#10003; Data Terverifikasi TU</div>
           @php
             $mentorDetails = collect(preg_split('/\r\n|\r|\n/', (string) $mentor->keterangan, -1, PREG_SPLIT_NO_EMPTY))
                 ->map(fn ($baris) => trim($baris))
@@ -118,7 +118,7 @@
 
 </div>
 
-<script src="/js/karir.js" defer></script>
+<script src="{{ asset('js/karir.js') }}?v={{ filemtime(public_path('js/karir.js')) }}" defer></script>
 
 @include('karir.partials.mentoring-modal')
 @endsection

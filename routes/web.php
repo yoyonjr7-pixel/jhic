@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\KarirController;
 use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\SpmbPendaftarController;
 use App\Http\Controllers\TefaBookingController;
 use App\Models\Jurusan;
 use Illuminate\Support\Facades\Route;
@@ -189,9 +190,39 @@ Route::get('/tefa/booking', function () {
 Route::post('/tefa/booking', [TefaBookingController::class, 'store'])
     ->name('tefa.booking.store');
 
-    Route::get('/spmb', [SpmbPendaftarController::class, 'show'])->name('spmb');
+Route::get('/spmb', [SpmbPendaftarController::class, 'show'])->name('spmb');
 Route::get('/spmb/daftar', [SpmbPendaftarController::class, 'showForm'])->name('spmb.form');
 Route::post('/spmb/daftar/konfirmasi', [SpmbPendaftarController::class, 'confirm'])->name('spmb.confirm');
 Route::get('/spmb/daftar/konfirmasi', [SpmbPendaftarController::class, 'showConfirmation'])->name('spmb.confirmation');
 Route::post('/spmb/daftar/kirim', [SpmbPendaftarController::class, 'store'])->name('spmb.store');
 Route::get('/spmb/daftar/selesai', [SpmbPendaftarController::class, 'success'])->name('spmb.success');
+use App\Http\Controllers\AdminController;
+Route::get('/login', [AdminController::class, 'login'])->name('login');
+Route::post('/login', [AdminController::class, 'authenticate'])->name('login.post');
+
+Route::middleware(['admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+        Route::get('/{type}/create', [AdminController::class, 'create'])->where('type', 'prestasi|berita|unduh-informasi|alumni')->name('module.create');
+        Route::post('/{type}', [AdminController::class, 'store'])->where('type', 'prestasi|berita|unduh-informasi|alumni')->name('module.store');
+        Route::get('/{type}/{id}/edit', [AdminController::class, 'edit'])->where('type', 'prestasi|berita|unduh-informasi|alumni')->name('module.edit');
+        Route::put('/{type}/{id}', [AdminController::class, 'update'])->where('type', 'prestasi|berita|unduh-informasi|alumni')->name('module.update');
+        Route::delete('/{type}/{id}', [AdminController::class, 'destroy'])->where('type', 'prestasi|berita|unduh-informasi|alumni')->name('module.destroy');
+        Route::patch('/tefa/{id}/status', [AdminController::class, 'updateTefaStatus'])->whereNumber('id')->name('tefa.status');
+        Route::get('/{type}', [AdminController::class, 'index'])->where('type', 'prestasi|berita|unduh-informasi|alumni|tefa')->name('module');
+        Route::get('/mentoring', [AdminController::class, 'mentoring'])->name('mentoring');
+        Route::get('/mentoring/create', [AdminController::class, 'createMentoring'])->name('mentoring.create');
+        Route::post('/mentoring', [AdminController::class, 'storeMentoring'])->name('mentoring.store');
+        Route::get('/mentoring/{id}/edit', [AdminController::class, 'editMentoring'])->whereNumber('id')->name('mentoring.edit');
+        Route::put('/mentoring/{id}', [AdminController::class, 'updateMentoring'])->whereNumber('id')->name('mentoring.update');
+        Route::delete('/mentoring/{id}', [AdminController::class, 'destroyMentoring'])->whereNumber('id')->name('mentoring.destroy');
+        Route::get('/alumni-track', [AdminController::class, 'index'])->defaults('type', 'alumni')->name('alumni-track');
+        Route::get('/tefa-online', [AdminController::class, 'index'])->defaults('type', 'tefa')->name('tefa-online');
+    });
+});
+
+Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+Route::post('/admin/login', [AdminController::class, 'authenticate'])->name('admin.login.post');

@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\AlumniTrack;
 use App\Models\Jurusan;
 use App\Models\Lowongan;
+use App\Models\Mentoring;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Throwable;
 
 class KarirController extends Controller
 {
@@ -48,18 +52,43 @@ class KarirController extends Controller
     /**
      * Menerima permintaan mentoring alumni dari siswa atau alumni lain.
      */
-    public function mentoringStore(Request $request): RedirectResponse
+    public function mentoringStore(Request $request): RedirectResponse|JsonResponse
     {
         $request->validate([
             'mentor' => ['required', 'string', 'max:150'],
-            'nama' => ['required', 'string', 'max:150'],
+            'nama_kamu' => ['required', 'string', 'max:150'],
+            'catatan' => ['nullable', 'string', 'max:5000'],
             'status' => ['required', 'string', 'max:100'],
+            'no_telp' => ['required', 'digits_between:10,15'],
             'topik' => ['required', 'string', 'max:1000'],
         ]);
 
-        return back()->with('request_code', 'MTR-'.strtoupper(Str::random(6)));
-    }
+        try {
+            $mentoring = Mentoring::create([
+                'nama_siswa' => $request->string('nama_kamu')->toString(),
+                'no_telp' => $request->string('no_telp')->toString(),
+                'nama_mentor' => $request->string('mentor')->toString(),
+                'topik_mentoring' => $request->string('topik')->toString(),
+                'catatan' => trim('Status peserta: '.$request->string('status')->toString().($request->filled('catatan') ? PHP_EOL.$request->string('catatan')->toString() : '')),
+                'status' => 'pending',
+                'tanggal' => now()->toDateString(),
+            ]);
+        } catch (Throwable $exception) {
+            Log::error('Gagal menyimpan permintaan mentoring.', ['exception' => $exception]);
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Permintaan mentoring belum dapat disimpan. Silakan coba lagi.'], 500);
+            }
+            return back()->withInput()->with('error', 'Permintaan mentoring belum dapat disimpan. Silakan coba lagi.');
+        }
 
+        $requestCode = 'MTR-'.strtoupper(Str::padLeft((string) $mentoring->id, 6, '0'));
+
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Permintaan mentoring berhasil disimpan.', 'request_code' => $requestCode], 201);
+        }
+
+        return back()->with('request_code', $requestCode);
+    }
     /**
      * Menampilkan halaman karir satu jurusan beserta lowongannya.
      */
