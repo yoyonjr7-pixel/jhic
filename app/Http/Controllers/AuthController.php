@@ -27,16 +27,16 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Validasi email dan password
+        // Validasi username dan password
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'username' => 'required|string|max:255',
             'password' => 'required|string',
         ]);
 
 
-        // Coba login menggunakan email
+        // Coba login menggunakan username
         if (Auth::attempt([
-            'email' => $credentials['email'],
+            'username' => $credentials['username'],
             'password' => $credentials['password'],
         ])) {
 
@@ -47,13 +47,13 @@ class AuthController extends Controller
         }
 
 
-        // Jika email atau password salah
+        // Jika username atau password salah
         return back()
             ->withErrors([
-                'email' => 'Email atau password salah.',
+                'username' => 'Username atau password salah.',
             ])
             ->withInput(
-                $request->only('email')
+                $request->only('username')
             );
     }
 

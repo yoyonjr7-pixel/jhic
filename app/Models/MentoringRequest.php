@@ -21,6 +21,16 @@ class MentoringRequest extends Model
         'status_pengajuan',
     ];
 
+    public function getStatusPengajuanLabelAttribute(): string
+    {
+        return [
+            'menunggu' => 'Menunggu',
+            'diproses' => 'Dalam Proses',
+            'selesai' => 'Selesai',
+            'ditolak' => 'Ditolak',
+        ][$this->status_pengajuan] ?? 'Status tidak diketahui';
+    }
+
     public function mentor(): BelongsTo
     {
         return $this->belongsTo(AlumniTrack::class, 'id_mentor', 'id_alumni');

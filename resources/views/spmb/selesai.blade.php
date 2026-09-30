@@ -17,9 +17,18 @@
             <p class="spmb-form-page__eyebrow">PENERIMAAN SISWA BARU</p>
             <h1>Pendaftaran Berhasil</h1>
             <p class="spmb-success-card__lead">Data pendaftaran Anda berhasil dikirim.</p>
-            <p class="spmb-success-card__notice">Silahkan datang ke sekolah untuk membawa dokumen pendukung.</p>
-            <p>Pastikan membawa dokumen pendukung yang diperlukan untuk proses verifikasi pendaftaran.</p>
-            <a class="spmb-step-button spmb-step-button--primary" href="{{ route('spmb') }}">Kembali ke SPMB</a>
+            <p class="spmb-success-card__notice">Silahkan datang ke sekolah untuk proses verifikasi pendaftaran.</p>
+            <section class="spmb-success-documents" aria-labelledby="spmb-success-documents-title">
+                <h2 id="spmb-success-documents-title">Dokumen yang harus dibawa</h2>
+                <ul>
+                    <li>Fotokopi ijazah atau surat keterangan lulus</li>
+                    <li>Fotokopi kartu keluarga (KK)</li>
+                    <li>Fotokopi akta kelahiran</li>
+                    <li>Pas foto terbaru</li>
+                    <li>Dokumen pendukung lainnya sesuai ketentuan sekolah</li>
+                </ul>
+            </section>
+            <a class="spmb-step-button spmb-step-button--primary" href="{{ route('spmb.form') }}">Kembali ke SPMB</a>
         </section>
     </main>
 </body>

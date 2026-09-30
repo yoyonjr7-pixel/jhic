@@ -35,7 +35,7 @@
         <dd class="col-sm-9">{{ $permintaan->topik }}</dd>
 
         <dt class="col-sm-3">Status pengajuan</dt>
-        <dd class="col-sm-9">{{ ucfirst($permintaan->status_pengajuan) }}</dd>
+        <dd class="col-sm-9">{{ $permintaan->status_pengajuan_label }}</dd>
 
         <dt class="col-sm-3">Tanggal pengajuan</dt>
         <dd class="col-sm-9">{{ $permintaan->created_at?->format('d M Y H:i') }}</dd>

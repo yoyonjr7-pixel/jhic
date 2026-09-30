@@ -3,19 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlumniTrack;
+use App\Models\BookJasah;
 use App\Models\Jurusan;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
 
 class AlumniTrackController extends Controller
 {
     public function index()
     {
-        $alumni = AlumniTrack::with(['siswa', 'jurusan'])
+        $alumni = AlumniTrack::with(['siswa', 'jurusan', 'bookJasah'])
             ->orderBy('id_alumni', 'desc')
             ->get();
+        $statusCounts = AlumniTrack::query()
+            ->selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status');
 
         $jurusan = Jurusan::orderBy('nama_jurusan')->get();
         $siswaTersedia = Siswa::with('jurusan')
@@ -23,7 +29,42 @@ class AlumniTrackController extends Controller
             ->orderBy('nama_siswa')
             ->get();
 
-        return view('admin.alumni-track', compact('alumni', 'jurusan', 'siswaTersedia'));
+        return view('admin.alumni-track', compact('alumni', 'jurusan', 'siswaTersedia', 'statusCounts'));
+    }
+
+    public function updateIjazah(Request $request, int $id): RedirectResponse
+    {
+        $validated = $request->validate([
+            'status_book' => ['required', 'in:pending,diproses,selesai,batal'],
+        ]);
+
+        BookJasah::whereKey($id)->firstOrFail()->update($validated);
+
+        return redirect('/alumni-track')
+            ->with('success', 'Status pengambilan ijazah berhasil diperbarui.');
+    }
+
+    public function generateIjazahId(int $id): RedirectResponse
+    {
+        DB::transaction(function () use ($id): void {
+            $alumni = AlumniTrack::whereKey($id)->lockForUpdate()->firstOrFail();
+
+            if ($alumni->bookJasah()->exists()) {
+                return;
+            }
+
+            do {
+                $code = random_int(100_000_000_000, 999_999_999_999);
+            } while (BookJasah::whereKey($code)->exists());
+
+            $alumni->bookJasah()->create([
+                'id_bookjasah' => $code,
+                'status_book' => 'pending',
+            ]);
+        });
+
+        return redirect('/alumni-track')
+            ->with('success', 'ID pengambilan ijazah berhasil dibuat.');
     }
 
     /*

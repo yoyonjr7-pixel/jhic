@@ -88,11 +88,11 @@
 
 <!-- STATISTIK -->
 
-<div class="row g-3 mb-4">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-xl-5 g-3 mb-4">
 
 <!-- TOTAL -->
 
-<div class="col-xl-3 col-md-6">
+<div class="col">
 
     <div class="dashboard-stat-card">
 
@@ -133,7 +133,7 @@
 
 <!-- BEKERJA -->
 
-<div class="col-xl-3 col-md-6">
+<div class="col">
 
     <div class="dashboard-stat-card">
 
@@ -147,7 +147,7 @@
 
                 <h2 class="stat-number">
 
-                    {{ $alumni->where('status', 'bekerja')->count() }}
+                    {{ $statusCounts['bekerja'] ?? 0 }}
 
                 </h2>
 
@@ -174,9 +174,52 @@
 </div>
 
 
+<!-- KULIAH -->
+
+<div class="col">
+
+    <div class="dashboard-stat-card">
+
+        <div class="stat-content">
+
+            <div>
+
+                <p class="stat-label">
+                    Melanjutkan Kuliah
+                </p>
+
+                <h2 class="stat-number">
+
+                    {{ $statusCounts['kuliah'] ?? 0 }}
+
+                </h2>
+
+                <span class="stat-status info">
+
+                    <i class="bi bi-book-half"></i>
+
+                    Alumni kuliah
+
+                </span>
+
+            </div>
+
+            <div class="stat-icon info">
+
+                <i class="bi bi-building"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <!-- USAHA -->
 
-<div class="col-xl-3 col-md-6">
+<div class="col">
 
     <div class="dashboard-stat-card">
 
@@ -190,7 +233,7 @@
 
                 <h2 class="stat-number">
 
-                    {{ $alumni->where('status', 'wirausaha')->count() }}
+                    {{ $statusCounts['wirausaha'] ?? 0 }}
 
                 </h2>
 
@@ -219,7 +262,7 @@
 
 <!-- MENCARI KERJA -->
 
-<div class="col-xl-3 col-md-6">
+<div class="col">
 
     <div class="dashboard-stat-card">
 
@@ -233,7 +276,7 @@
 
                 <h2 class="stat-number">
 
-                    {{ $alumni->where('status', 'mencari_kerja')->count() }}
+                    {{ $statusCounts['mencari_kerja'] ?? 0 }}
 
                 </h2>
 
@@ -280,11 +323,14 @@
     </div>
 
 
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 align-items-center">
 
         <!-- SEARCH -->
 
-        <div class="input-group input-group-sm">
+        <div
+            class="input-group input-group-sm"
+            style="max-width: 260px;"
+        >
 
             <span class="input-group-text bg-white">
 
@@ -296,7 +342,8 @@
                 type="text"
                 id="searchAlumni"
                 class="form-control"
-                placeholder="Cari alumni..."
+                placeholder="Cari Nama / ID Alumni..."
+                aria-label="Cari nama atau ID alumni"
             >
 
         </div>
@@ -307,7 +354,8 @@
         <select
             id="filterStatusAlumni"
             class="form-select form-select-sm"
-            style="width: 170px;"
+            style="width: 150px;"
+            aria-label="Filter status alumni"
         >
 
             <option value="" selected>
@@ -347,15 +395,15 @@
 
             <tr>
 
+                <th>ID Pengambilan Ijazah</th>
+
                 <th>Alumni</th>
 
                 <th>Jurusan</th>
 
-                <th>Tahun Lulus</th>
+                <th>Perusahaan / Usaha / Kampus</th>
 
                 <th>Status</th>
-
-                <th>Perusahaan / Usaha</th>
 
                 <th class="text-end">
                     Aksi
@@ -375,6 +423,29 @@
                     data-status="{{ $item->status }}"
                 >
 
+                    <!-- ID PENGAMBILAN IJAZAH -->
+
+                    <td>
+
+                        @if($item->bookJasah)
+
+                            <div class="d-flex flex-column gap-1">
+                                <span class="badge bg-primary align-self-start">{{ $item->bookJasah->id_bookjasah }}</span>
+                            </div>
+
+                        @else
+
+                            <form method="POST" action="{{ route('alumni-track.ijazah.generate', $item->id_alumni) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-plus-lg me-1"></i>Buat ID
+                                </button>
+                            </form>
+
+                        @endif
+
+                    </td>
+
                     <!-- NAMA -->
 
                     <td>
@@ -389,17 +460,7 @@
 
                             <div>
 
-                                <strong>
-
-                                    {{ $item->siswa?->nama_siswa ?? 'Data siswa tidak ditemukan' }}
-
-                                </strong>
-
-                                <small class="d-block text-muted">
-
-                                    Alumni {{ $item->jurusan->nama_jurusan }}
-
-                                </small>
+                                <strong>{{ $item->siswa?->nama_siswa ?? 'Data siswa tidak ditemukan' }}</strong>
 
                             </div>
 
@@ -421,55 +482,11 @@
                     </td>
 
 
-                    <!-- TAHUN -->
-
-                    <td>
-
-                        {{ $item->tahun_lulus }}
-
-                    </td>
-
-
-                    <!-- STATUS -->
-
-                    <td>
-
-                        @if($item->status === 'bekerja')
-
-                            <span class="status-badge success">
-                                Sudah Bekerja
-                            </span>
-
-                        @elseif($item->status === 'wirausaha')
-
-                            <span class="status-badge info">
-                                Memiliki Usaha
-                            </span>
-
-                        @elseif($item->status === 'mencari_kerja')
-
-                            <span class="status-badge warning">
-                                Mencari Kerja
-                            </span>
-
-                        @else
-
-                            <span class="status-badge danger">
-
-                                {{ $item->status }}
-
-                            </span>
-
-                        @endif
-
-                    </td>
-
-
                     <!-- KETERANGAN -->
 
                     <td>
 
-                        @if(in_array($item->status, ['bekerja', 'wirausaha'], true))
+                        @if(in_array($item->status, ['bekerja', 'wirausaha', 'kuliah'], true))
 
                             @if($item->keterangan)
 
@@ -496,6 +513,33 @@
 
                     </td>
 
+                    <!-- STATUS -->
+
+                    <td>
+
+                        @if($item->status === 'bekerja')
+
+                            <span class="status-badge success">Sudah Bekerja</span>
+
+                        @elseif($item->status === 'kuliah')
+
+                            <span class="status-badge info">Melanjutkan Kuliah</span>
+
+                        @elseif($item->status === 'wirausaha')
+
+                            <span class="status-badge info">Memiliki Usaha</span>
+
+                        @elseif($item->status === 'mencari_kerja')
+
+                            <span class="status-badge warning">Mencari Kerja</span>
+
+                        @else
+
+                            <span class="status-badge danger">{{ $item->status }}</span>
+
+                        @endif
+
+                    </td>
 
                     <!-- AKSI -->
 
@@ -601,16 +645,12 @@
 
 <!-- PAGINATION INFO -->
 
-<div class="d-flex justify-content-between align-items-center px-4 py-3 border-top">
+<div class="d-flex align-items-center px-4 py-3 border-top">
 
     <small class="text-muted">
 
         Menampilkan
         <span id="jumlahAlumniDitampilkan">
-            {{ $alumni->count() }}
-        </span>
-        dari
-        <span id="jumlahAlumniTotal">
             {{ $alumni->count() }}
         </span>
         data alumni
@@ -773,6 +813,13 @@
                             </option>
 
                             <option
+                                value="kuliah"
+                                {{ old('status') === 'kuliah' ? 'selected' : '' }}
+                            >
+                                Melanjutkan Kuliah
+                            </option>
+
+                            <option
                                 value="wirausaha"
                                 {{ old('status') === 'wirausaha' ? 'selected' : '' }}
                             >
@@ -796,7 +843,7 @@
                     <div class="col-12">
 
                         <label class="form-label">
-                            Perusahaan / Usaha / Keterangan
+                            Perusahaan / Usaha / Kampus / Keterangan
                         </label>
 
                         <textarea
@@ -1057,7 +1104,7 @@
                     <div class="col-12">
 
                         <small class="text-muted">
-                            Perusahaan / Usaha / Keterangan
+                            Perusahaan / Usaha / Kampus / Keterangan
                         </small>
 
                         <div class="fw-semibold mt-1">
@@ -1307,6 +1354,13 @@
                                 </option>
 
                                 <option
+                                    value="kuliah"
+                                    {{ $item->status === 'kuliah' ? 'selected' : '' }}
+                                >
+                                    Melanjutkan Kuliah
+                                </option>
+
+                                <option
                                     value="wirausaha"
                                     {{ $item->status === 'wirausaha' ? 'selected' : '' }}
                                 >
@@ -1330,7 +1384,7 @@
                         <div class="col-12">
 
                             <label class="form-label">
-                                Perusahaan / Usaha / Keterangan
+                                Perusahaan / Usaha / Kampus / Keterangan
                             </label>
 
                             <textarea

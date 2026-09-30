@@ -264,8 +264,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mentoring', [MentoringController::class, 'index'])
         ->name('mentoring.index');
-    Route::post('/mentoring/manual', [MentoringController::class, 'store'])
-        ->name('mentoring.store-admin');
     Route::put('/mentoring/{id}/status', [MentoringController::class, 'updateStatus'])
         ->name('mentoring.update-status');
     Route::delete('/mentoring/{id}', [MentoringController::class, 'destroy'])
@@ -283,6 +281,13 @@ Route::middleware('auth')->group(function () {
     */
 
     Route::get('/alumni-track', [AlumniTrackController::class, 'index']);
+
+    Route::post('/alumni-track/{id}/ijazah', [AlumniTrackController::class, 'generateIjazahId'])
+        ->whereNumber('id')
+        ->name('alumni-track.ijazah.generate');
+    Route::put('/alumni-track/ijazah/{id}', [AlumniTrackController::class, 'updateIjazah'])
+        ->whereNumber('id')
+        ->name('alumni-track.ijazah.update');
 
     Route::post('/alumni-track', [AlumniTrackController::class, 'store'])
         ->name('alumni-track.store');

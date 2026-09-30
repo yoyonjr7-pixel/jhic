@@ -74,7 +74,6 @@
 
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('prestasi') }}" class="dropdown-link">Prestasi Sekolah</a></li>
-                            <li><a href="{{ route('berita.public') }}" class="dropdown-link">Berita Sekolah</a></li>
                             <li><a href="{{ route('fasilitas') }}" class="dropdown-link">Fasilitas Sekolah</a></li>
                             <li><a href="{{ route('profil-guru') }}" class="dropdown-link">Profil Guru</a></li>
                             <li><a href="{{ route('visi-misi') }}" class="dropdown-link">Visi &amp; Misi</a></li>

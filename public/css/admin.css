@@ -195,7 +195,6 @@ button {
     color: #ffffff;
 }
 
-
 /* =========================================
    SIDEBAR FOOTER
 ========================================= */
@@ -795,6 +794,35 @@ button {
 
 .dashboard-table tbody tr:hover {
     background: #fafcff;
+}
+
+.mentoring-table-scroll {
+    max-width: 100%;
+    overflow-x: scroll !important;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #98a2b3 #f1f3f6;
+    touch-action: pan-x pan-y;
+}
+
+.mentoring-table-scroll::-webkit-scrollbar {
+    display: block;
+    height: 10px;
+}
+
+.mentoring-table-scroll::-webkit-scrollbar-track {
+    background: #f1f3f6;
+}
+
+.mentoring-table-scroll::-webkit-scrollbar-thumb {
+    border: 2px solid #f1f3f6;
+    border-radius: 999px;
+    background: #98a2b3;
+}
+
+.mentoring-table-scroll::-webkit-scrollbar-thumb:hover {
+    background: #667085;
 }
 
 

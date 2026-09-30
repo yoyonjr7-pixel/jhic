@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\Prestasi;
 use App\Models\SpmbPendaftar;
 use App\Models\UnduhInformasi;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -23,6 +24,15 @@ class AdminUserDatabaseIntegrationTest extends TestCase
             $table->string('nama_jurusan');
             $table->timestamps();
         });
+        Schema::create('siswa', function (Blueprint $table): void {
+            $table->id('id_siswa');
+            $table->string('nisn', 20)->unique();
+            $table->string('nama_siswa', 150);
+            $table->string('kelas', 20);
+            $table->unsignedBigInteger('id_jurusan');
+            $table->string('status')->default('lulus');
+            $table->timestamps();
+        });
         Schema::create('alumni_track', function (Blueprint $table): void {
             $table->id('id_alumni');
             $table->unsignedBigInteger('id_siswa')->nullable();
@@ -33,6 +43,12 @@ class AdminUserDatabaseIntegrationTest extends TestCase
             $table->string('status')->nullable();
             $table->text('keterangan')->nullable();
             $table->boolean('mentor')->default(false);
+            $table->timestamps();
+        });
+        Schema::create('book_jasah', function (Blueprint $table): void {
+            $table->unsignedBigInteger('id_bookjasah')->primary();
+            $table->unsignedBigInteger('id_alumni');
+            $table->string('status_book')->default('pending');
             $table->timestamps();
         });
         Schema::create('prestasi', function (Blueprint $table): void {
@@ -93,7 +109,9 @@ class AdminUserDatabaseIntegrationTest extends TestCase
     protected function tearDown(): void
     {
         Schema::dropIfExists('mentoring_requests');
+        Schema::dropIfExists('book_jasah');
         Schema::dropIfExists('alumni_track');
+        Schema::dropIfExists('siswa');
         Schema::dropIfExists('spmb');
         Schema::dropIfExists('unduh_informasi');
         Schema::dropIfExists('berita');
@@ -223,14 +241,33 @@ class AdminUserDatabaseIntegrationTest extends TestCase
             ->assertSee('prestasiimages/lombapostersefest.jpg');
     }
 
-    public function test_alumni_track_admin_page_renders_without_alumni_records(): void
+    public function test_alumni_track_page_counts_college_status_from_database(): void
     {
         $this->withoutMiddleware(\Illuminate\Auth\Middleware\Authenticate::class);
+
+        $jurusanId = DB::table('jurusan')->insertGetId([
+            'nama_jurusan' => 'Teknik Pengujian',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        foreach ([1, 2] as $id) {
+            DB::table('alumni_track')->insert([
+                'id_jurusan' => $jurusanId,
+                'tahun_lulus' => 2025,
+                'status' => 'kuliah',
+                'keterangan' => 'Universitas Uji',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         $this->get('/alumni-track')
             ->assertOk()
             ->assertSee('Semua Status')
-            ->assertSee('Melanjutkan Kuliah');
+            ->assertSee('Melanjutkan Kuliah')
+            ->assertSee('Universitas Uji')
+            ->assertViewHas('statusCounts', fn ($counts): bool => (int) ($counts['kuliah'] ?? 0) === 2);
     }
 
     public function test_spmb_registration_is_saved_and_visible_in_admin(): void
@@ -292,6 +329,34 @@ class AdminUserDatabaseIntegrationTest extends TestCase
         DB::table('unduh_informasi')->where('id_informasi', $document->id_informasi)->update(['status' => 'Draft']);
         $this->get(route('download-information.file', $document->id_informasi))
             ->assertNotFound();
+    }
+
+    public function test_download_information_accepts_png_jpeg_and_pdf_uploads(): void
+    {
+        $this->withoutMiddleware(\Illuminate\Auth\Middleware\Authenticate::class);
+        Storage::fake('public');
+
+        $files = [
+            ['gambar.png', "\x89PNG\r\n\x1a\n" . str_repeat("\0", 32)],
+            ['gambar.jpg', "\xFF\xD8\xFF\xE0" . str_repeat("\0", 32) . "\xFF\xD9"],
+            ['gambar.jpeg', "\xFF\xD8\xFF\xE0" . str_repeat("\0", 32) . "\xFF\xD9"],
+            ['panduan.pdf', "%PDF-1.4\nDokumen uji"],
+        ];
+
+        foreach ($files as [$name, $content]) {
+            $this->post(route('unduh-informasi.store'), [
+                'judul' => 'Dokumen ' . pathinfo($name, PATHINFO_FILENAME),
+                'kategori' => 'Panduan',
+                'status' => 'Draft',
+                'file' => UploadedFile::fake()->createWithContent($name, $content),
+            ])->assertRedirect(route('unduh-informasi.index'))
+                ->assertSessionHasNoErrors();
+        }
+
+        $this->assertDatabaseCount('unduh_informasi', 4);
+        foreach (['png', 'jpg', 'jpeg', 'pdf'] as $format) {
+            $this->assertDatabaseHas('unduh_informasi', ['format_file' => $format]);
+        }
     }
 
     public function test_spmb_schema_migration_adds_fields_without_deleting_existing_registrations(): void

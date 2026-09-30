@@ -64,7 +64,7 @@
                         <td>{{ $item->mentor?->jurusan?->nama_jurusan ?? '-' }}</td>
                         <td>{{ $item->mentor?->siswa?->nama_siswa ?? $item->mentor_nama }}</td>
                         <td>{{ \Illuminate\Support\Str::limit($item->topik, 70) }}</td>
-                        <td>{{ ucfirst($item->status_pengajuan) }}</td>
+                        <td>{{ $item->status_pengajuan_label }}</td>
                         <td>{{ $item->created_at?->format('d M Y') }}</td>
                     </tr>
                 @empty

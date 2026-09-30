@@ -367,9 +367,9 @@
                         <div class="col-12">
                             <label class="form-label fw-semibold">File Dokumen</label>
                             <input type="file" name="file" class="form-control"
-                                accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" required>
+                                accept=".png,.jpg,.jpeg,.pdf" required>
                             <small class="text-muted">
-                                Format PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX. Maksimal 10 MB.
+                                Format PNG, JPG, JPEG, PDF. Maksimal 10 MB.
                             </small>
                         </div>
 
@@ -561,13 +561,13 @@
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Ganti File Dokumen</label>
                                 <input type="file" name="file" class="form-control"
-                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
+                                    accept=".png,.jpg,.jpeg,.pdf">
 
                                 <small class="text-muted d-block mt-2">
                                     @if ($item->nama_file)
-                                        File saat ini: {{ $item->nama_file }}. Kosongkan jika tidak ingin mengganti file.
+                                        File saat ini: {{ $item->nama_file }}. Format PNG, JPG, JPEG, PDF; maksimal 10 MB. Kosongkan jika tidak ingin mengganti file.
                                     @else
-                                        Belum ada file. Unggah file untuk mengaktifkan unduhan.
+                                        Belum ada file. Unggah PNG, JPG, JPEG, atau PDF (maksimal 10 MB) untuk mengaktifkan unduhan.
                                     @endif
                                 </small>
                             </div>

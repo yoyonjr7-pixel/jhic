@@ -776,6 +776,28 @@
 .spmb-success-card__lead { margin-bottom: 12px !important; font-size: 18px; font-weight: 700; }
 .spmb-success-card__notice { margin-bottom: 10px !important; color: #2864eb !important; font-size: 17px; font-weight: 800; }
 .spmb-success-card > p:not(.spmb-form-page__eyebrow) { margin-bottom: 26px; line-height: 1.6; }
+.spmb-success-documents {
+    margin: 0 auto 26px;
+    max-width: 520px;
+    padding: 18px 22px;
+    border: 1px solid #e7edf2;
+    border-radius: 12px;
+    background: #f8fafc;
+    text-align: left;
+}
+.spmb-success-documents h2 {
+    margin: 0 0 12px;
+    color: #17324a;
+    font-size: 16px;
+    font-weight: 800;
+}
+.spmb-success-documents ul {
+    margin: 0;
+    padding-left: 21px;
+    color: #5d6873;
+    line-height: 1.7;
+}
+.spmb-success-documents li + li { margin-top: 4px; }
 
 /* --- Desktop (= 700 px) ------------------------------------- */
 @media (min-width: 700px) {

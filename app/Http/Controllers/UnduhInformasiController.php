@@ -112,7 +112,7 @@ class UnduhInformasiController extends Controller
             'judul' => 'required|string|max:255',
             'kategori' => 'nullable|string|max:100',
             'deskripsi' => 'nullable|string',
-            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx|max:10240',
+            'file' => 'required|file|mimes:png,jpg,jpeg,pdf|max:10240',
             'tanggal_publish' => 'nullable|date',
             'status' => 'required|in:Draft,Terbit',
         ]);
@@ -159,7 +159,7 @@ class UnduhInformasiController extends Controller
             'judul' => 'required|string|max:255',
             'kategori' => 'nullable|string|max:100',
             'deskripsi' => 'nullable|string',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx|max:10240',
+            'file' => 'nullable|file|mimes:png,jpg,jpeg,pdf|max:10240',
             'tanggal_publish' => 'nullable|date',
             'status' => 'required|in:Draft,Terbit',
         ]);

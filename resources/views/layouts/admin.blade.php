@@ -158,7 +158,7 @@ content="width=device-width, initial-scale=1.0"
 
     <a
         href="/alumni-track"
-        class="menu-item {{ request()->is('alumni-track*') ? 'active' : '' }}"
+        class="menu-item {{ request()->is('alumni-track') ? 'active' : '' }}"
     >
 
         <i class="bi bi-mortarboard-fill"></i>

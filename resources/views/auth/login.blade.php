@@ -267,28 +267,28 @@
             @csrf
 
 
-            <!-- EMAIL -->
+            <!-- USERNAME -->
 
             <div class="mb-3">
 
                 <label
-                    for="email"
+                    for="username"
                     class="form-label"
                 >
 
-                    Email
+                    Username
 
                 </label>
 
 
                 <input
-                    type="email"
-                    name="email"
-                    id="email"
+                    type="text"
+                    name="username"
+                    id="username"
                     class="form-control"
-                    placeholder="Masukkan email"
-                    value="{{ old('email') }}"
-                    autocomplete="email"
+                    placeholder="Masukkan username"
+                    value="{{ old('username') }}"
+                    autocomplete="username"
                     required
                     autofocus
                 >
