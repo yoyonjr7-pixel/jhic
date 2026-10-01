@@ -1,0 +1,9 @@
+@import url('/css/JuruMatch/pertanyaan8.css');
+
+.progress-track span.is-complete:nth-child(8) {
+    background: #168be3;
+}
+
+.answer-option {
+    text-decoration: none;
+}
