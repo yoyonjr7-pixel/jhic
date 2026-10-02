@@ -22,9 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $daftarPrestasi = Prestasi::latest('id_prestasi')->get();
 
+    // Semua berita dikirim ke view; tampil per 6 artikel dikontrol oleh
+    // paginasi klien (panah + dots) di home.blade.php.
     $daftarBerita = Berita::orderByDesc('Tanggal')
         ->orderByDesc('id_berita')
-        ->limit(12)
         ->get();
 
     return view('home', compact('daftarPrestasi', 'daftarBerita'));

@@ -282,6 +282,25 @@
 
             </div>
 
+            <!-- Kontrol paginasi berita (panah + indikator titik) -->
+            <div class="news-pagination" id="newsPagination" hidden>
+                <button type="button" class="news-page-arrow" id="newsPrevBtn" aria-label="Artikel sebelumnya">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <div class="news-page-dots" id="newsPageDots" role="tablist" aria-label="Halaman artikel"></div>
+                <button type="button" class="news-page-arrow" id="newsNextBtn" aria-label="Artikel selanjutnya">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+
             <aside class="news-sidebar">
                 <div class="news-sidebar-title">KATEGORI</div>
                 <ul class="news-category-list">
@@ -300,14 +319,7 @@
 </div>
 
 <script>
-function searchWebsite() {
-    const keyword = document.getElementById('searchInput').value;
-    if (keyword.trim() === '') {
-        alert('Silakan masukkan pencarian terlebih dahulu.');
-        return;
-    }
-    window.location.href = "{{ url('/search') }}?q=" + encodeURIComponent(keyword);
-}
+
 
 function newsImageFallback(img) {
     img.onerror = null;
@@ -321,30 +333,103 @@ function newsImageFallback(img) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    const PER_PAGE = 6;
+
     const categoryItems = document.querySelectorAll('.news-category-item');
-    const newsCards = document.querySelectorAll('.news-card');
+    const newsCards = Array.from(document.querySelectorAll('.news-card'));
+    const pagination = document.getElementById('newsPagination');
+    const prevBtn = document.getElementById('newsPrevBtn');
+    const nextBtn = document.getElementById('newsNextBtn');
+    const dotsWrap = document.getElementById('newsPageDots');
+
+    let filter = 'semua';
+    let page = 0;
+
+    function visibleCards() {
+        return newsCards.filter(function (card) {
+            return filter === 'semua' || card.getAttribute('data-category') === filter;
+        });
+    }
+
+    function renderDots(pageCount) {
+        dotsWrap.innerHTML = '';
+        for (let i = 0; i < pageCount; i++) {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'news-page-dot' + (i === page ? ' is-active' : '');
+            dot.setAttribute('aria-label', 'Halaman ' + (i + 1));
+            dot.addEventListener('click', function () {
+                page = i;
+                render();
+            });
+            dotsWrap.appendChild(dot);
+        }
+    }
+
+    function render() {
+        const items = visibleCards();
+        const pageCount = Math.max(1, Math.ceil(items.length / PER_PAGE));
+
+        if (page > pageCount - 1) page = pageCount - 1;
+        if (page < 0) page = 0;
+
+        const start = page * PER_PAGE;
+        const end = start + PER_PAGE;
+
+        newsCards.forEach(function (card) {
+            card.style.display = 'none';
+        });
+
+        items.slice(start, end).forEach(function (card) {
+            card.style.display = '';
+            card.classList.remove('news-card-anim');
+            void card.offsetWidth;
+            card.classList.add('news-card-anim');
+        });
+
+        // Sembunyikan kontrol kalau artikel cukup satu halaman (maks 6).
+        pagination.hidden = pageCount <= 1;
+        if (pageCount <= 1) return;
+
+        prevBtn.disabled = page === 0;
+        nextBtn.disabled = page === pageCount - 1;
+        renderDots(pageCount);
+    }
+
+    // Gulung halaman ke bagian paling atas container "Berita Terbaru".
+    function scrollToNewsTop() {
+        const newsSection = document.querySelector('.news-section');
+        if (newsSection) {
+            window.scrollTo({
+                top: newsSection.getBoundingClientRect().top + window.pageYOffset,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    prevBtn.addEventListener('click', function () {
+        page -= 1;
+        render();
+        scrollToNewsTop();
+    });
+
+    nextBtn.addEventListener('click', function () {
+        page += 1;
+        render();
+        scrollToNewsTop();
+    });
 
     categoryItems.forEach(function (item) {
         item.addEventListener('click', function () {
-            const filter = this.getAttribute('data-filter');
+            filter = this.getAttribute('data-filter');
+            page = 0;
 
             categoryItems.forEach(function (other) {
                 other.classList.remove('is-active');
             });
             this.classList.add('is-active');
 
-            newsCards.forEach(function (card) {
-                const category = card.getAttribute('data-category');
-                const visible = filter === 'semua' || category === filter;
-
-                card.style.display = visible ? '' : 'none';
-
-                if (visible) {
-                    card.classList.remove('news-card-anim');
-                    void card.offsetWidth;
-                    card.classList.add('news-card-anim');
-                }
-            });
+            render();
 
             if (window.matchMedia('(max-width: 1024px)').matches) {
                 const newsSection = document.querySelector('.news-section');
@@ -357,31 +442,69 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    render();
 });
 
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') searchWebsite();
-});
+// Enter pada kolom cari (hanya jika elemen & fungsinya tersedia di halaman ini)
+const searchInputEl = document.getElementById('searchInput');
 
+if (searchInputEl && typeof searchWebsite === 'function') {
+    searchInputEl.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') searchWebsite();
+    });
+}
+
+// Animasi angka statistik: menghitung dari 0 sampai nilai data-target
 document.addEventListener('DOMContentLoaded', () => {
     const counters = document.querySelectorAll('.counter');
-    const speed = 200;
 
-    counters.forEach(counter => {
-        const updateCount = () => {
-            const target = +counter.getAttribute('data-target');
-            const count = +counter.innerText;
-            const inc = target / speed;
+    if (!counters.length) return;
 
-            if (count < target) {
-                counter.innerText = Math.ceil(count + inc);
-                setTimeout(updateCount, 15);
+    const DURATION = 1600; // lama animasi tiap angka (ms)
+
+    const runCounter = (counter) => {
+        // jangan jalankan dua kali
+        if (counter.dataset.done === '1') return;
+        counter.dataset.done = '1';
+
+        const target = parseInt(counter.getAttribute('data-target'), 10) || 0;
+        const start = performance.now();
+
+        const step = (now) => {
+            const progress = Math.min((now - start) / DURATION, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+            counter.innerText = Math.round(eased * target);
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
             } else {
-                counter.innerText = target;
+                counter.innerText = target; // angka final = data-target
             }
         };
-        updateCount();
-    });
+
+        requestAnimationFrame(step);
+    };
+
+    const runAll = () => counters.forEach(runCounter);
+
+    // Jalankan animasi saat grid statistik masuk viewport
+    const statsGrid = document.querySelector('.stats-grid');
+
+    if ('IntersectionObserver' in window && statsGrid) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    runAll();
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+
+        observer.observe(statsGrid);
+    } else {
+        runAll();
+    }
 });
 </script>
 

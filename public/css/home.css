@@ -900,6 +900,8 @@ body {
 }
 
 .news-grid {
+    grid-column: 1;
+    grid-row: 1;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 26px 20px;
@@ -974,6 +976,8 @@ body {
 }
 
 .news-sidebar {
+    grid-column: 2;
+    grid-row: 1 / span 2;
     position: sticky;
     top: 100px;
     align-self: start;
@@ -1035,13 +1039,98 @@ body {
     to { opacity: 1; }
 }
 
+/* --- Kontrol paginasi berita (panah + indikator titik) --- */
+.news-pagination {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 2.5vw, 26px);
+    margin-top: 30px;
+}
+
+.news-pagination[hidden] {
+    display: none;
+}
+
+.news-page-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    background: #2563EB;
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.news-page-arrow:hover:not(:disabled) {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.42);
+}
+
+.news-page-arrow:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.news-page-arrow:disabled {
+    background: #bfdbfe;
+    color: #eff6ff;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.news-page-dots {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.news-page-dot {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #94a3b8;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.news-page-dot:hover {
+    background: #64748b;
+}
+
+.news-page-dot.is-active {
+    background: #2563EB;
+    transform: scale(1.25);
+}
+
 @media (max-width: 1024px) {
     .news-layout {
         grid-template-columns: 1fr;
     }
 
+    .news-grid {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
     .news-sidebar {
         position: static;
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .news-pagination {
+        grid-column: 1;
+        grid-row: 3;
     }
 }
 

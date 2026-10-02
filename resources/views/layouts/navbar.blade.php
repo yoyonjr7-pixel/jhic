@@ -7,9 +7,9 @@
 
     <title>SMK Darma Siswa</title>
 
-    {{-- CSS Navbar --}}
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/scrollbar.css">
+    {{-- CSS Navbar (?v= waktu modifikasi file, agar browser tidak memakai cache lama) --}}
+    <link rel="stylesheet" href="/css/navbar.css?v={{ filemtime(public_path('css/navbar.css')) }}">
+    <link rel="stylesheet" href="/css/scrollbar.css?v={{ filemtime(public_path('css/scrollbar.css')) }}">
 
     {{-- Tempat CSS tambahan dari halaman --}}
     @yield('styles')
@@ -29,6 +29,30 @@
                         src="{{ asset('images/logomawa.webp') }}"
                         alt="Logo SMK Darma Siswa"
                         class="logo-img"
+                    >
+                </div>
+
+                {{-- Logo mitra/dunia usaha, berbaris di kanan logo sekolah --}}
+                <div class="partner-logos" aria-label="Logo mitra">
+                    <img
+                        src="{{ asset('jhicimages/jhicv2.png') }}"
+                        alt="INFA Infra Competition"
+                    >
+                    <img
+                        src="{{ asset('jhicimages/jaghos.png') }}"
+                        alt="Jagho Hosting"
+                    >
+                    <img
+                        src="{{ asset('jhicimages/komdigi.png') }}"
+                        alt="Komdigi"
+                    >
+                    <img
+                        src="{{ asset('jhicimages/ngalup.png') }}"
+                        alt="Maspion IT"
+                    >
+                    <img
+                        src="{{ asset('jhicimages/garudaspark.png') }}"
+                        alt="Garuda Spark"
                     >
                 </div>
 

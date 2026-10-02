@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-    <link rel="stylesheet" href="/css/mainfitur.css">
+    <link rel="stylesheet" href="/css/mainfitur.css?v={{ filemtime(public_path('css/mainfitur.css')) }}">
 <body>
      {{-- Tombol kanan --}}
     <div class="right-buttons">
@@ -59,7 +59,6 @@
 
             <span class="chatbot-header-text">
                 <span class="chatbot-header-title">MABOT</span>
-                <span class="chatbot-header-status">Online</span>
             </span>
 
             <button

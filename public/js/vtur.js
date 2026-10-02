@@ -482,7 +482,7 @@ const tourConfig = {
         "musholla": {
             "title": "Musholla Sekolah",
             "type": "equirectangular",
-            "panorama": "/virtual-tour/panoramas/lantai1/depanmusholla.jpg",
+            "panorama": "/virtual-tour/panoramas/lantai1/depanmusholla.jpeg",
             "hotSpots": [
                 {
                     "pitch": -5,
