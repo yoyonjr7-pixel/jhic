@@ -11,34 +11,29 @@
 ========================================= -->
 
 <div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <span class="welcome-label">
+            BERITA
+        </span>
 
-<div>
+        <h2 class="fw-bold mt-3 mb-1">
+            Berita Terbaru
+        </h2>
 
-    <span class="welcome-label">
-        BERITA TERBARU
-    </span>
+        <p class="text-muted mb-0">
+            Kelola berita dan informasi sekolah yang tampil di halaman utama.
+        </p>
+    </div>
 
-    <h2 class="fw-bold mt-3 mb-1">
-        Berita Sekolah
-    </h2>
-
-    <p class="text-muted mb-0">
-        Kelola informasi dan berita terbaru sekolah.
-    </p>
-
-</div>
-
-
-<button
-    type="button"
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#modalTambahBerita"
->
-    <i class="bi bi-plus-lg me-1"></i>
-    Tambah Berita
-</button>
-
+    <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalTambahBerita"
+    >
+        <i class="bi bi-plus-lg me-1"></i>
+        Tambah Berita
+    </button>
 </div>
 
 <!-- =========================================
@@ -48,50 +43,41 @@
 @if(session('success'))
 
 <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle me-2"></i>
+    {{ session('success') }}
 
-<i class="bi bi-check-circle me-2"></i>
-
-{{ session('success') }}
-
-<button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-></button>
-
+    <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+    ></button>
 </div>
 
 @endif
 
 <!-- =========================================
-     ALERT ERROR
+     ALERT ERROR VALIDASI
 ========================================= -->
 
 @if($errors->any())
 
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
 
-<strong>
-    Data belum berhasil diproses.
-</strong>
+    <strong>
+        Data belum berhasil diproses.
+    </strong>
 
-<ul class="mb-0 mt-2">
+    <ul class="mb-0 mt-2">
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
 
-    @foreach($errors->all() as $error)
-
-        <li>
-            {{ $error }}
-        </li>
-
-    @endforeach
-
-</ul>
-
-<button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-></button>
+    <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+    ></button>
 
 </div>
 
@@ -103,178 +89,125 @@
 
 <div class="row g-3 mb-4">
 
-<!-- TOTAL BERITA -->
+    <!-- TOTAL BERITA -->
+    <div class="col-xl-3 col-md-6">
+        <div class="dashboard-stat-card">
 
-<div class="col-xl-3 col-md-6">
+            <div class="stat-content">
 
-    <div class="dashboard-stat-card">
+                <div>
+                    <p class="stat-label">
+                        Total Berita
+                    </p>
 
-        <div class="stat-content">
+                    <h2 class="stat-number">
+                        {{ $berita->count() }}
+                    </h2>
 
-            <div>
+                    <span class="stat-status info">
+                        <i class="bi bi-newspaper"></i>
+                        Semua kategori
+                    </span>
+                </div>
 
-                <p class="stat-label">
-                    Total Berita
-                </p>
-
-                <h2 class="stat-number">
-                    {{ $berita->count() }}
-                </h2>
-
-                <span class="stat-status info">
-
+                <div class="stat-icon primary">
                     <i class="bi bi-newspaper"></i>
-
-                    Semua berita
-
-                </span>
-
-            </div>
-
-
-            <div class="stat-icon primary">
-
-                <i class="bi bi-newspaper"></i>
+                </div>
 
             </div>
 
         </div>
-
     </div>
 
-</div>
+    <!-- KEGIATAN SEKOLAH -->
+    <div class="col-xl-3 col-md-6">
+        <div class="dashboard-stat-card">
 
+            <div class="stat-content">
 
-<!-- TERBIT -->
+                <div>
+                    <p class="stat-label">
+                        Kegiatan Sekolah
+                    </p>
 
-<div class="col-xl-3 col-md-6">
+                    <h2 class="stat-number">
+                        {{ $berita->where('kategori', 'kegiatan')->count() }}
+                    </h2>
 
-    <div class="dashboard-stat-card">
+                    <span class="stat-status success">
+                        <i class="bi bi-calendar3"></i>
+                        Berita kegiatan
+                    </span>
+                </div>
 
-        <div class="stat-content">
-
-            <div>
-
-                <p class="stat-label">
-                    Berita Terbit
-                </p>
-
-                <h2 class="stat-number">
-
-                    {{ $berita->where('status', 'Terbit')->count() }}
-
-                </h2>
-
-                <span class="stat-status success">
-
-                    <i class="bi bi-check-circle"></i>
-
-                    Sudah dipublikasikan
-
-                </span>
-
-            </div>
-
-
-            <div class="stat-icon success">
-
-                <i class="bi bi-check-circle-fill"></i>
+                <div class="stat-icon success">
+                    <i class="bi bi-calendar3"></i>
+                </div>
 
             </div>
 
         </div>
-
     </div>
 
-</div>
+    <!-- PENGUMUMAN -->
+    <div class="col-xl-3 col-md-6">
+        <div class="dashboard-stat-card">
 
+            <div class="stat-content">
 
-<!-- DRAFT -->
+                <div>
+                    <p class="stat-label">
+                        Pengumuman
+                    </p>
 
-<div class="col-xl-3 col-md-6">
+                    <h2 class="stat-number">
+                        {{ $berita->where('kategori', 'pengumuman')->count() }}
+                    </h2>
 
-    <div class="dashboard-stat-card">
+                    <span class="stat-status warning">
+                        <i class="bi bi-megaphone"></i>
+                        Berita pengumuman
+                    </span>
+                </div>
 
-        <div class="stat-content">
-
-            <div>
-
-                <p class="stat-label">
-                    Draft
-                </p>
-
-                <h2 class="stat-number">
-
-                    {{ $berita->where('status', 'Draft')->count() }}
-
-                </h2>
-
-                <span class="stat-status warning">
-
-                    <i class="bi bi-pencil-square"></i>
-
-                    Belum diterbitkan
-
-                </span>
-
-            </div>
-
-
-            <div class="stat-icon warning">
-
-                <i class="bi bi-file-earmark-text"></i>
+                <div class="stat-icon warning">
+                    <i class="bi bi-megaphone"></i>
+                </div>
 
             </div>
 
         </div>
-
     </div>
 
-</div>
+    <!-- BERITA TERBARU -->
+    <div class="col-xl-3 col-md-6">
+        <div class="dashboard-stat-card">
 
+            <div class="stat-content">
 
-<!-- KATEGORI -->
+                <div>
+                    <p class="stat-label">
+                        Berita Terbaru
+                    </p>
 
-<div class="col-xl-3 col-md-6">
+                    <h2 class="stat-number" style="font-size: 1.25rem;">
+                        {{ $berita->first()?->Tanggal?->format('d M Y') ?? '-' }}
+                    </h2>
 
-    <div class="dashboard-stat-card">
+                    <span class="stat-status info">
+                        <i class="bi bi-clock-history"></i>
+                        {{ $berita->first()?->judul_berita ? \Illuminate\Support\Str::limit($berita->first()->judul_berita, 28) : 'Belum ada berita' }}
+                    </span>
+                </div>
 
-        <div class="stat-content">
-
-            <div>
-
-                <p class="stat-label">
-                    Kategori
-                </p>
-
-                <h2 class="stat-number">
-
-                    {{ $berita->whereNotNull('kategori')->where('kategori', '!=', '')->unique('kategori')->count() }}
-
-                </h2>
-
-                <span class="stat-status info">
-
-                    <i class="bi bi-tags"></i>
-
-                    Jenis berita
-
-                </span>
-
-            </div>
-
-
-            <div class="stat-icon info">
-
-                <i class="bi bi-tags-fill"></i>
+                <div class="stat-icon info">
+                    <i class="bi bi-clock-history"></i>
+                </div>
 
             </div>
 
         </div>
-
     </div>
-
-</div>
 
 </div>
 
@@ -284,394 +217,241 @@
 
 <div class="dashboard-card">
 
-<!-- CARD HEADER -->
+    <!-- HEADER CARD -->
+    <div class="dashboard-card-header">
 
-<div class="dashboard-card-header">
+        <div>
+            <h5 class="dashboard-card-title">
+                Daftar Berita
+            </h5>
 
-    <div>
+            <p class="dashboard-card-subtitle">
+                Berita yang tampil di bagian "Berita Terbaru" halaman utama.
+            </p>
+        </div>
 
-        <h5 class="dashboard-card-title">
-            Data Berita
-        </h5>
+        <!-- SEARCH + FILTER KATEGORI -->
+        <div class="d-flex gap-2">
 
-        <p class="dashboard-card-subtitle">
-            Daftar berita dan informasi sekolah.
-        </p>
-
-    </div>
-
-
-    <!-- SEARCH + FILTER -->
-
-    <div class="d-flex gap-2">
-
-
-        <div
-            class="input-group input-group-sm"
-            style="max-width: 260px;"
-        >
-
-            <span class="input-group-text bg-white">
-
-                <i class="bi bi-search"></i>
-
-            </span>
-
-
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Cari berita..."
-                id="searchBerita"
+            <div
+                class="input-group input-group-sm"
+                style="max-width: 260px;"
             >
+                <span class="input-group-text bg-white">
+                    <i class="bi bi-search"></i>
+                </span>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Cari berita..."
+                    id="searchBerita"
+                >
+            </div>
+
+            <select
+                class="form-select form-select-sm"
+                style="width: 200px;"
+                id="filterKategoriBerita"
+            >
+                <option value="">
+                    Semua Kategori
+                </option>
+
+                @foreach($kategoriList as $kode => $label)
+                    <option value="{{ $kode }}">
+                        {{ $label }}
+                    </option>
+                @endforeach
+            </select>
 
         </div>
 
-
-        <select
-            class="form-select form-select-sm"
-            style="width: 150px;"
-            id="filterStatusBerita"
-        >
-
-            <option value="">
-                Semua Status
-            </option>
-
-            <option value="terbit">
-                Terbit
-            </option>
-
-            <option value="draft">
-                Draft
-            </option>
-
-        </select>
-
     </div>
 
-</div>
+    <!-- TABLE -->
+    <div class="table-responsive">
 
+        <table class="table dashboard-table align-middle mb-0">
 
-<!-- =========================================
-     TABLE
-========================================= -->
+            <thead>
+                <tr>
+                    <th>Berita</th>
+                    <th>Kategori</th>
+                    <th>Tanggal</th>
+                    <th>Jam</th>
+                    <th class="text-end">
+                        Aksi
+                    </th>
+                </tr>
+            </thead>
 
-<div class="table-responsive">
+            <tbody id="beritaTableBody">
 
-    <table class="table dashboard-table align-middle mb-0">
+                @forelse($berita as $item)
 
-        <thead>
+                    @php
+                        $kategoriClass = match($item->kategori) {
+                            'kegiatan' => 'success',
+                            'prestasi' => 'primary',
+                            'pengumuman' => 'warning',
+                            'karya' => 'info',
+                            'artikel' => 'secondary',
+                            default => 'secondary',
+                        };
+                    @endphp
 
-            <tr>
+                    <tr
+                        class="berita-row"
+                        data-search="{{ strtolower($item->judul_berita . ' ' . ($item->kategori ?? '')) }}"
+                        data-kategori="{{ strtolower($item->kategori ?? '') }}"
+                    >
 
-                <th>Berita</th>
+                        <!-- BERITA -->
+                        <td>
 
-                <th>Kategori</th>
+                            <div class="d-flex align-items-center gap-3">
 
-                <th>Penulis</th>
+                                @if($item->fotoUrl())
 
-                <th>Status</th>
+                                    <img
+                                        src="{{ $item->fotoUrl() }}"
+                                        alt="{{ $item->judul_berita }}"
+                                        style="width: 56px; height: 42px; object-fit: cover; border-radius: 8px;"
+                                    >
 
-                <th>Tanggal</th>
+                                @else
 
-                <th class="text-end">
-                    Aksi
-                </th>
+                                    <div
+                                        class="stat-icon primary flex-shrink-0"
+                                        style="width: 56px; height: 42px;"
+                                    >
+                                        <i class="bi bi-image"></i>
+                                    </div>
 
-            </tr>
+                                @endif
 
-        </thead>
+                                <div>
 
+                                    <strong>
+                                        {{ $item->judul_berita }}
+                                    </strong>
 
-        <tbody id="beritaTableBody">
-
-
-            @forelse($berita as $item)
-
-
-                <tr
-                    class="berita-row"
-                    data-search="{{ strtolower(
-                        ($item->judul ?? '') . ' ' .
-                        ($item->kategori ?? '') . ' ' .
-                        ($item->penulis ?? '') . ' ' .
-                        ($item->isi ?? '')
-                    ) }}"
-                    data-status="{{ strtolower($item->status ?? '') }}"
-                >
-
-
-                    <!-- BERITA -->
-
-                    <td>
-
-                        <div class="d-flex align-items-center gap-3">
-
-
-                            <!-- THUMBNAIL -->
-
-                            @if($item->foto)
-
-                                <img
-                                    src="{{ asset('storage/' . $item->foto) }}"
-                                    alt="{{ $item->judul }}"
-                                    class="rounded-3 flex-shrink-0"
-                                    style="
-                                        width: 55px;
-                                        height: 55px;
-                                        object-fit: cover;
-                                    "
-                                >
-
-                            @else
-
-                                <div
-                                    class="stat-icon primary flex-shrink-0"
-                                    style="
-                                        width: 55px;
-                                        height: 55px;
-                                    "
-                                >
-
-                                    <i class="bi bi-newspaper"></i>
+                                    <small class="d-block text-muted">
+                                        ID #{{ $item->id_berita }}
+                                    </small>
 
                                 </div>
 
-                            @endif
-
-
-                            <div>
-
-                                <strong>
-                                    {{ $item->judul }}
-                                </strong>
-
-
-                                <small class="d-block text-muted">
-
-                                    {{ \Illuminate\Support\Str::limit(
-                                        strip_tags($item->isi),
-                                        60
-                                    ) }}
-
-                                </small>
-
                             </div>
 
-                        </div>
+                        </td>
 
-                    </td>
+                        <!-- KATEGORI -->
+                        <td>
 
-
-                    <!-- KATEGORI -->
-
-                    <td>
-
-                        @if($item->kategori)
-
-                            <span class="major-badge">
-                                {{ $item->kategori }}
+                            <span class="status-badge {{ $kategoriClass }}">
+                                {{ $kategoriList[$item->kategori] ?? $item->kategori ?? '-' }}
                             </span>
 
-                        @else
+                        </td>
 
-                            <span class="text-muted">
-                                -
-                            </span>
-
-                        @endif
-
-                    </td>
-
-
-                    <!-- PENULIS -->
-
-                    <td>
-
-                        <div class="student-info">
-
-                            <div class="student-avatar primary">
-
-                                {{ strtoupper(
-                                    substr(
-                                        $item->penulis ?? 'A',
-                                        0,
-                                        1
-                                    )
-                                ) }}
-
-                            </div>
-
-
-                            <div>
-
-                                <strong>
-                                    {{ $item->penulis ?? 'Admin' }}
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-
-                    <!-- STATUS -->
-
-                    <td>
-
-                        @if($item->status === 'Terbit')
-
-                            <span class="status-badge success">
-                                Terbit
-                            </span>
-
-                        @else
-
-                            <span class="status-badge warning">
-                                Draft
-                            </span>
-
-                        @endif
-
-                    </td>
-
-
-                    <!-- TANGGAL -->
-
-                    <td>
-
-                        @if($item->tanggal_publish)
+                        <!-- TANGGAL -->
+                        <td>
 
                             <strong>
-                                {{ $item->tanggal_publish->format('d M Y') }}
+                                {{ $item->Tanggal?->format('d/m/Y') ?? '-' }}
                             </strong>
 
-                        @else
+                        </td>
 
-                            <span class="text-muted">
-                                -
-                            </span>
+                        <!-- JAM -->
+                        <td>
 
-                        @endif
+                            {{ $item->jam ? \Carbon\Carbon::parse($item->jam)->format('H:i') : '-' }}
 
-                    </td>
+                        </td>
 
+                        <!-- AKSI -->
+                        <td class="text-end">
 
-                    <!-- AKSI -->
+                            <div class="d-inline-flex gap-1">
 
-                    <td class="text-end">
+                                <!-- EDIT -->
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-light"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditBerita{{ $item->id_berita }}"
+                                    title="Edit"
+                                >
+                                    <i class="bi bi-pencil"></i>
+                                </button>
 
-                        <div class="d-inline-flex gap-1">
+                                <!-- HAPUS -->
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-light text-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalHapusBerita{{ $item->id_berita }}"
+                                    title="Hapus"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                </button>
 
+                            </div>
 
-                            <!-- DETAIL -->
+                        </td>
 
-                            <button
-                                type="button"
-                                class="btn btn-sm btn-light"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalDetailBerita{{ $item->id_berita }}"
-                                title="Detail"
-                            >
+                    </tr>
 
-                                <i class="bi bi-eye"></i>
+                @empty
 
-                            </button>
+                    <tr id="emptyBeritaRow">
 
+                        <td colspan="5" class="text-center py-5">
 
-                            <!-- EDIT -->
+                            <div class="text-muted">
 
-                            <button
-                                type="button"
-                                class="btn btn-sm btn-light"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalEditBerita{{ $item->id_berita }}"
-                                title="Edit"
-                            >
+                                <i class="bi bi-newspaper fs-2 d-block mb-2"></i>
 
-                                <i class="bi bi-pencil"></i>
+                                Belum ada data berita.
 
-                            </button>
+                            </div>
 
+                        </td>
 
-                            <!-- HAPUS -->
+                    </tr>
 
-                            <button
-                                type="button"
-                                class="btn btn-sm btn-light text-danger"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalHapusBerita{{ $item->id_berita }}"
-                                title="Hapus"
-                            >
+                @endforelse
 
-                                <i class="bi bi-trash"></i>
+            </tbody>
 
-                            </button>
+        </table>
 
-                        </div>
+    </div>
 
-                    </td>
+    <!-- FOOTER -->
+    <div class="d-flex justify-content-between align-items-center px-4 py-3 border-top">
 
-                </tr>
+        <small class="text-muted">
 
+            Menampilkan
 
-            @empty
+            <span id="jumlahBerita">
+                {{ $berita->count() }}
+            </span>
 
+            data berita
 
-                <tr id="emptyBeritaRow">
+        </small>
 
-                    <td
-                        colspan="6"
-                        class="text-center py-5"
-                    >
-
-                        <div class="text-muted">
-
-                            <i class="bi bi-newspaper fs-2 d-block mb-2"></i>
-
-                            Belum ada berita.
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-
-            @endforelse
-
-
-        </tbody>
-
-    </table>
-
-</div>
-
-
-<!-- FOOTER -->
-
-<div class="d-flex justify-content-between align-items-center px-4 py-3 border-top">
-
-    <small class="text-muted">
-
-        Menampilkan
-
-        <span id="jumlahBerita">
-            {{ $berita->count() }}
-        </span>
-
-        data berita
-
-    </small>
-
-</div>
+    </div>
 
 </div>
 
 <!-- =====================================================
-     MODAL TAMBAH BERITA
+     MODAL TAMBAH
 ===================================================== -->
 
 <div
@@ -680,11 +460,9 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
-<div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
 
     <div class="modal-content border-0 shadow">
-
 
         <form
             action="{{ route('berita.store') }}"
@@ -694,23 +472,19 @@
 
             @csrf
 
-
-            <!-- HEADER -->
+            <input type="hidden" name="_form" value="tambah">
 
             <div class="modal-header">
 
                 <div>
-
                     <h5 class="modal-title fw-bold">
                         Tambah Berita
                     </h5>
 
                     <small class="text-muted">
-                        Tambahkan berita atau informasi sekolah.
+                        Tambahkan berita baru untuk halaman utama.
                     </small>
-
                 </div>
-
 
                 <button
                     type="button"
@@ -720,16 +494,11 @@
 
             </div>
 
-
-            <!-- BODY -->
-
             <div class="modal-body">
 
                 <div class="row g-3">
 
-
                     <!-- JUDUL -->
-
                     <div class="col-12">
 
                         <label class="form-label fw-semibold">
@@ -738,18 +507,16 @@
 
                         <input
                             type="text"
-                            name="judul"
+                            name="judul_berita"
                             class="form-control"
-                            placeholder="Contoh: Siswa SMK Raih Juara Kompetisi Nasional"
-                            value="{{ old('judul') }}"
+                            placeholder="Contoh: Masuk Sekolah Tahun Pelajaran 2026 - 2027"
+                            value="{{ old('judul_berita') }}"
                             required
                         >
 
                     </div>
 
-
                     <!-- KATEGORI -->
-
                     <div class="col-md-6">
 
                         <label class="form-label fw-semibold">
@@ -759,114 +526,67 @@
                         <select
                             name="kategori"
                             class="form-select"
+                            required
                         >
 
                             <option value="">
                                 Pilih Kategori
                             </option>
 
-                            <option value="Akademik">
-                                Akademik
-                            </option>
+                            @foreach($kategoriList as $kode => $label)
 
-                            <option value="Prestasi">
-                                Prestasi
-                            </option>
+                                <option
+                                    value="{{ $kode }}"
+                                    {{ old('kategori') === $kode ? 'selected' : '' }}
+                                >
+                                    {{ $label }}
+                                </option>
 
-                            <option value="Kegiatan">
-                                Kegiatan
-                            </option>
-
-                            <option value="Pengumuman">
-                                Pengumuman
-                            </option>
-
-                            <option value="Sekolah">
-                                Sekolah
-                            </option>
-
-                            <option value="Lainnya">
-                                Lainnya
-                            </option>
+                            @endforeach
 
                         </select>
 
                     </div>
 
-
-                    <!-- PENULIS -->
-
-                    <div class="col-md-6">
-
-                        <label class="form-label fw-semibold">
-                            Penulis
-                        </label>
-
-                        <input
-                            type="text"
-                            name="penulis"
-                            class="form-control"
-                            placeholder="Nama penulis"
-                            value="{{ old('penulis') }}"
-                        >
-
-                    </div>
-
-
                     <!-- TANGGAL -->
-
                     <div class="col-md-6">
 
                         <label class="form-label fw-semibold">
-                            Tanggal Publikasi
+                            Tanggal
                         </label>
 
                         <input
                             type="date"
-                            name="tanggal_publish"
+                            name="Tanggal"
                             class="form-control"
-                            value="{{ old('tanggal_publish', date('Y-m-d')) }}"
-                        >
-
-                    </div>
-
-
-                    <!-- STATUS -->
-
-                    <div class="col-md-6">
-
-                        <label class="form-label fw-semibold">
-                            Status
-                        </label>
-
-                        <select
-                            name="status"
-                            class="form-select"
+                            value="{{ old('Tanggal') }}"
                             required
                         >
 
-                            <option
-                                value="Draft"
-                                {{ old('status', 'Draft') === 'Draft' ? 'selected' : '' }}
-                            >
-                                Draft
-                            </option>
+                    </div>
 
-                            <option
-                                value="Terbit"
-                                {{ old('status') === 'Terbit' ? 'selected' : '' }}
-                            >
-                                Terbit
-                            </option>
+                    <!-- JAM -->
+                    <div class="col-md-6">
 
-                        </select>
+                        <label class="form-label fw-semibold">
+                            Jam
+                        </label>
+
+                        <input
+                            type="time"
+                            name="jam"
+                            class="form-control"
+                            value="{{ old('jam') }}"
+                        >
+
+                        <small class="text-muted">
+                            Opsional. Contoh: 08:00.
+                        </small>
 
                     </div>
 
-
                     <!-- FOTO -->
-
-                    <div class="col-12">
+                    <div class="col-md-6">
 
                         <label class="form-label fw-semibold">
                             Foto Berita
@@ -885,31 +605,9 @@
 
                     </div>
 
-
-                    <!-- ISI -->
-
-                    <div class="col-12">
-
-                        <label class="form-label fw-semibold">
-                            Isi Berita
-                        </label>
-
-                        <textarea
-                            name="isi"
-                            class="form-control"
-                            rows="7"
-                            placeholder="Tulis isi berita di sini..."
-                            required
-                        >{{ old('isi') }}</textarea>
-
-                    </div>
-
                 </div>
 
             </div>
-
-
-            <!-- FOOTER -->
 
             <div class="modal-footer">
 
@@ -921,20 +619,15 @@
                     Batal
                 </button>
 
-
                 <button
                     type="submit"
                     class="btn btn-primary"
                 >
-
                     <i class="bi bi-check-lg me-1"></i>
-
                     Simpan Berita
-
                 </button>
 
             </div>
-
 
         </form>
 
@@ -945,185 +638,10 @@
 </div>
 
 <!-- =====================================================
-     MODAL DETAIL + EDIT + HAPUS
+     MODAL EDIT & HAPUS (per berita)
 ===================================================== -->
 
 @foreach($berita as $item)
-
-<!-- =====================================================
-     DETAIL
-===================================================== -->
-
-<div
-    class="modal fade"
-    id="modalDetailBerita{{ $item->id_berita }}"
-    tabindex="-1"
-    aria-hidden="true"
->
-
-<div class="modal-dialog modal-lg modal-dialog-centered">
-
-    <div class="modal-content border-0 shadow">
-
-
-        <div class="modal-header">
-
-            <div>
-
-                <h5 class="modal-title fw-bold">
-                    Detail Berita
-                </h5>
-
-                <small class="text-muted">
-                    Informasi lengkap berita sekolah.
-                </small>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-            ></button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-            <div class="row g-4">
-
-
-                <!-- FOTO -->
-
-                @if($item->foto)
-
-                    <div class="col-12">
-
-                        <img
-                            src="{{ asset('storage/' . $item->foto) }}"
-                            alt="{{ $item->judul }}"
-                            class="img-fluid rounded-3 w-100"
-                            style="
-                                max-height: 320px;
-                                object-fit: cover;
-                            "
-                        >
-
-                    </div>
-
-                @endif
-
-
-                <!-- INFORMASI -->
-
-                <div class="col-12">
-
-                    <span class="welcome-label">
-                        {{ $item->kategori ?? 'BERITA' }}
-                    </span>
-
-
-                    <h3 class="fw-bold mt-2 mb-2">
-                        {{ $item->judul }}
-                    </h3>
-
-
-                    <div class="d-flex flex-wrap gap-3 text-muted mb-4">
-
-                        <span>
-
-                            <i class="bi bi-person me-1"></i>
-
-                            {{ $item->penulis ?? 'Admin' }}
-
-                        </span>
-
-
-                        <span>
-
-                            <i class="bi bi-calendar3 me-1"></i>
-
-                            @if($item->tanggal_publish)
-
-                                {{ $item->tanggal_publish->format('d M Y') }}
-
-                            @else
-
-                                -
-
-                            @endif
-
-                        </span>
-
-
-                        <span>
-
-                            <i class="bi bi-circle-fill me-1"
-                               style="font-size: 7px;"></i>
-
-                            {{ $item->status }}
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="bg-light rounded-3 p-4">
-
-                        <p
-                            class="text-muted mb-0"
-                            style="white-space: pre-line;"
-                        >
-                            {{ $item->isi }}
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="modal-footer">
-
-            <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-            >
-                Tutup
-            </button>
-
-
-            <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-dismiss="modal"
-                data-bs-toggle="modal"
-                data-bs-target="#modalEditBerita{{ $item->id_berita }}"
-            >
-
-                <i class="bi bi-pencil me-1"></i>
-
-                Edit
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-<!-- =====================================================
-     EDIT
-===================================================== -->
 
 <div
     class="modal fade"
@@ -1131,11 +649,9 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
-<div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
 
     <div class="modal-content border-0 shadow">
-
 
         <form
             action="{{ route('berita.update', $item->id_berita) }}"
@@ -1144,24 +660,21 @@
         >
 
             @csrf
-
             @method('PUT')
 
+            <input type="hidden" name="_form" value="edit">
 
             <div class="modal-header">
 
                 <div>
-
                     <h5 class="modal-title fw-bold">
                         Edit Berita
                     </h5>
 
                     <small class="text-muted">
-                        Perbarui informasi berita.
+                        Perbarui informasi berita #{{ $item->id_berita }}.
                     </small>
-
                 </div>
-
 
                 <button
                     type="button"
@@ -1171,14 +684,11 @@
 
             </div>
 
-
             <div class="modal-body">
 
                 <div class="row g-3">
 
-
                     <!-- JUDUL -->
-
                     <div class="col-12">
 
                         <label class="form-label fw-semibold">
@@ -1187,17 +697,15 @@
 
                         <input
                             type="text"
-                            name="judul"
+                            name="judul_berita"
                             class="form-control"
-                            value="{{ $item->judul }}"
+                            value="{{ old('judul_berita', $item->judul_berita) }}"
                             required
                         >
 
                     </div>
 
-
                     <!-- KATEGORI -->
-
                     <div class="col-md-6">
 
                         <label class="form-label fw-semibold">
@@ -1207,134 +715,62 @@
                         <select
                             name="kategori"
                             class="form-select"
+                            required
                         >
 
-                            <option value="">
-                                Pilih Kategori
-                            </option>
+                            @foreach($kategoriList as $kode => $label)
 
-                            <option
-                                value="Akademik"
-                                {{ $item->kategori === 'Akademik' ? 'selected' : '' }}
-                            >
-                                Akademik
-                            </option>
+                                <option
+                                    value="{{ $kode }}"
+                                    {{ old('kategori', $item->kategori) === $kode ? 'selected' : '' }}
+                                >
+                                    {{ $label }}
+                                </option>
 
-                            <option
-                                value="Prestasi"
-                                {{ $item->kategori === 'Prestasi' ? 'selected' : '' }}
-                            >
-                                Prestasi
-                            </option>
-
-                            <option
-                                value="Kegiatan"
-                                {{ $item->kategori === 'Kegiatan' ? 'selected' : '' }}
-                            >
-                                Kegiatan
-                            </option>
-
-                            <option
-                                value="Pengumuman"
-                                {{ $item->kategori === 'Pengumuman' ? 'selected' : '' }}
-                            >
-                                Pengumuman
-                            </option>
-
-                            <option
-                                value="Sekolah"
-                                {{ $item->kategori === 'Sekolah' ? 'selected' : '' }}
-                            >
-                                Sekolah
-                            </option>
-
-                            <option
-                                value="Lainnya"
-                                {{ $item->kategori === 'Lainnya' ? 'selected' : '' }}
-                            >
-                                Lainnya
-                            </option>
+                            @endforeach
 
                         </select>
 
                     </div>
 
-
-                    <!-- PENULIS -->
-
-                    <div class="col-md-6">
-
-                        <label class="form-label fw-semibold">
-                            Penulis
-                        </label>
-
-                        <input
-                            type="text"
-                            name="penulis"
-                            class="form-control"
-                            value="{{ $item->penulis }}"
-                        >
-
-                    </div>
-
-
                     <!-- TANGGAL -->
-
                     <div class="col-md-6">
 
                         <label class="form-label fw-semibold">
-                            Tanggal Publikasi
+                            Tanggal
                         </label>
 
                         <input
                             type="date"
-                            name="tanggal_publish"
+                            name="Tanggal"
                             class="form-control"
-                            value="{{ $item->tanggal_publish?->format('Y-m-d') }}"
-                        >
-
-                    </div>
-
-
-                    <!-- STATUS -->
-
-                    <div class="col-md-6">
-
-                        <label class="form-label fw-semibold">
-                            Status
-                        </label>
-
-                        <select
-                            name="status"
-                            class="form-select"
+                            value="{{ old('Tanggal', $item->Tanggal?->format('Y-m-d')) }}"
                             required
                         >
 
-                            <option
-                                value="Draft"
-                                {{ $item->status === 'Draft' ? 'selected' : '' }}
-                            >
-                                Draft
-                            </option>
+                    </div>
 
-                            <option
-                                value="Terbit"
-                                {{ $item->status === 'Terbit' ? 'selected' : '' }}
-                            >
-                                Terbit
-                            </option>
+                    <!-- JAM -->
+                    <div class="col-md-6">
 
-                        </select>
+                        <label class="form-label fw-semibold">
+                            Jam
+                        </label>
+
+                        <input
+                            type="time"
+                            name="jam"
+                            class="form-control"
+                            value="{{ old('jam', $item->jam ? \Carbon\Carbon::parse($item->jam)->format('H:i') : '') }}"
+                        >
 
                     </div>
 
-
                     <!-- FOTO -->
-
-                    <div class="col-12">
+                    <div class="col-md-6">
 
                         <label class="form-label fw-semibold">
-                            Ganti Foto
+                            Ganti Foto (opsional)
                         </label>
 
                         <input
@@ -1344,42 +780,30 @@
                             accept=".jpg,.jpeg,.png,.webp"
                         >
 
+                        @if($item->fotoUrl())
 
-                        @if($item->foto)
+                            <div class="mt-2">
 
-                            <small class="text-muted d-block mt-2">
+                                <small class="text-muted d-block mb-1">
+                                    Foto saat ini:
+                                </small>
 
-                                Foto saat ini tersedia.
-                                Upload foto baru jika ingin menggantinya.
+                                <img
+                                    src="{{ $item->fotoUrl() }}"
+                                    alt="{{ $item->judul_berita }}"
+                                    class="rounded-3"
+                                    style="width: 120px; height: 80px; object-fit: cover;"
+                                >
 
-                            </small>
+                            </div>
 
                         @endif
-
-                    </div>
-
-
-                    <!-- ISI -->
-
-                    <div class="col-12">
-
-                        <label class="form-label fw-semibold">
-                            Isi Berita
-                        </label>
-
-                        <textarea
-                            name="isi"
-                            class="form-control"
-                            rows="7"
-                            required
-                        >{{ $item->isi }}</textarea>
 
                     </div>
 
                 </div>
 
             </div>
-
 
             <div class="modal-footer">
 
@@ -1391,20 +815,15 @@
                     Batal
                 </button>
 
-
                 <button
                     type="submit"
                     class="btn btn-primary"
                 >
-
-                    <i class="bi bi-save me-1"></i>
-
+                    <i class="bi bi-check-lg me-1"></i>
                     Simpan Perubahan
-
                 </button>
 
             </div>
-
 
         </form>
 
@@ -1414,28 +833,21 @@
 
 </div>
 
-<!-- =====================================================
-     HAPUS
-===================================================== -->
-
 <div
     class="modal fade"
     id="modalHapusBerita{{ $item->id_berita }}"
     tabindex="-1"
     aria-hidden="true"
 >
-
-<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
 
     <div class="modal-content border-0 shadow">
-
 
         <div class="modal-header">
 
             <h5 class="modal-title fw-bold">
                 Hapus Berita
             </h5>
-
 
             <button
                 type="button"
@@ -1445,34 +857,25 @@
 
         </div>
 
-
         <div class="modal-body text-center py-4">
-
 
             <div
                 class="rounded-circle bg-danger bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-3"
-                style="
-                    width: 70px;
-                    height: 70px;
-                "
+                style="width: 70px; height: 70px;"
             >
-
                 <i class="bi bi-trash text-danger fs-3"></i>
-
             </div>
-
 
             <h5 class="fw-bold">
                 Yakin ingin menghapus berita ini?
             </h5>
-
 
             <p class="text-muted mb-0">
 
                 Berita
 
                 <strong>
-                    "{{ $item->judul }}"
+                    "{{ $item->judul_berita }}"
                 </strong>
 
                 akan dihapus secara permanen.
@@ -1481,9 +884,7 @@
 
         </div>
 
-
         <div class="modal-footer justify-content-center">
-
 
             <button
                 type="button"
@@ -1493,7 +894,6 @@
                 Batal
             </button>
 
-
             <form
                 action="{{ route('berita.destroy', $item->id_berita) }}"
                 method="POST"
@@ -1501,19 +901,14 @@
             >
 
                 @csrf
-
                 @method('DELETE')
-
 
                 <button
                     type="submit"
                     class="btn btn-danger"
                 >
-
                     <i class="bi bi-trash me-1"></i>
-
                     Ya, Hapus
-
                 </button>
 
             </form>
@@ -1529,66 +924,41 @@
 @endforeach
 
 <!-- =========================================
-     SEARCH & FILTER
+     SEARCH & FILTER JAVASCRIPT
 ========================================= -->
 
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const searchInput =
-        document.getElementById('searchBerita');
-
-    const filterStatus =
-        document.getElementById('filterStatusBerita');
-
-    const rows =
-        document.querySelectorAll('.berita-row');
-
-    const jumlah =
-        document.getElementById('jumlahBerita');
-
+    const searchInput = document.getElementById('searchBerita');
+    const filterKategori = document.getElementById('filterKategoriBerita');
+    const rows = document.querySelectorAll('.berita-row');
+    const jumlah = document.getElementById('jumlahBerita');
 
     function filterBerita() {
 
-        const keyword =
-            searchInput.value
-                .toLowerCase()
-                .trim();
+        const keyword = searchInput.value
+            .toLowerCase()
+            .trim();
 
-
-        const status =
-            filterStatus.value
-                .toLowerCase()
-                .trim();
-
+        const kategori = filterKategori.value
+            .toLowerCase()
+            .trim();
 
         let visibleCount = 0;
 
-
         rows.forEach(function (row) {
 
-            const searchData =
-                row.dataset.search.toLowerCase();
-
-
-            const rowStatus =
-                row.dataset.status.toLowerCase();
-
-
             const cocokSearch =
-                searchData.includes(keyword);
+                row.dataset.search.toLowerCase().includes(keyword);
 
+            const cocokKategori =
+                !kategori || row.dataset.kategori === kategori;
 
-            const cocokStatus =
-                !status ||
-                rowStatus === status;
-
-
-            if (cocokSearch && cocokStatus) {
+            if (cocokSearch && cocokKategori) {
 
                 row.style.display = '';
-
                 visibleCount++;
 
             } else {
@@ -1599,30 +969,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         });
 
-
         jumlah.textContent = visibleCount;
-
     }
-
 
     if (searchInput) {
-
-        searchInput.addEventListener(
-            'input',
-            filterBerita
-        );
-
+        searchInput.addEventListener('input', filterBerita);
     }
 
-
-    if (filterStatus) {
-
-        filterStatus.addEventListener(
-            'change',
-            filterBerita
-        );
-
+    if (filterKategori) {
+        filterKategori.addEventListener('change', filterBerita);
     }
+
+    // Buka otomatis modal tambah bila ada error validasi saat menambah.
+    @if($errors->any() && old('_form') === 'tambah')
+    const modalTambah = new bootstrap.Modal(document.getElementById('modalTambahBerita'));
+    modalTambah.show();
+    @endif
 
 });
 

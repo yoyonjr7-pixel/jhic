@@ -14,6 +14,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TefaController;
 use App\Http\Controllers\TefaBookingController;
 use App\Http\Controllers\UnduhInformasiController;
+use App\Models\Berita;
 use App\Models\Jurusan;
 use App\Models\Prestasi;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $daftarPrestasi = Prestasi::latest('id_prestasi')->get();
 
-    return view('home', compact('daftarPrestasi'));
+    $daftarBerita = Berita::orderByDesc('Tanggal')
+        ->orderByDesc('id_berita')
+        ->limit(12)
+        ->get();
+
+    return view('home', compact('daftarPrestasi', 'daftarBerita'));
 });
 Route::get('/virtualtour', function () {
     return view('virtualtour.index');
@@ -371,9 +377,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/berita', [BeritaController::class, 'store'])
         ->name('berita.store');
-
-    Route::get('/berita/{id}', [BeritaController::class, 'show'])
-        ->name('berita.show');
 
     Route::put('/berita/{id}', [BeritaController::class, 'update'])
         ->name('berita.update');

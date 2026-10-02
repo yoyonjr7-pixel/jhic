@@ -10,14 +10,11 @@ return new class extends Migration
     {
         Schema::create('berita', function (Blueprint $table) {
             $table->id('id_berita');
-            $table->string('judul');
-            $table->string('slug')->unique();
-            $table->string('kategori', 100)->nullable();
-            $table->string('penulis')->nullable();
-            $table->longText('isi');
+            $table->string('judul_berita');
             $table->string('foto')->nullable();
-            $table->date('tanggal_publish')->nullable();
-            $table->string('status', 20)->default('Draft');
+            $table->string('kategori', 100)->nullable();
+            $table->date('Tanggal');
+            $table->time('jam')->nullable();
             $table->timestamps();
         });
     }

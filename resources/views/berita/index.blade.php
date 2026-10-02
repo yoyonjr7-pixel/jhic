@@ -14,24 +14,25 @@
         @forelse ($berita as $item)
             <article class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
-                    @if ($item->foto)
+                    @if ($item->fotoUrl())
                         <img
-                            src="{{ asset('storage/' . $item->foto) }}"
+                            src="{{ $item->fotoUrl() }}"
                             class="card-img-top"
-                            alt="{{ $item->judul }}"
+                            alt="{{ $item->judul_berita }}"
                             style="height: 220px; object-fit: cover;"
                         >
                     @endif
                     <div class="card-body">
                         @if ($item->kategori)
-                            <span class="badge text-bg-primary mb-2">{{ $item->kategori }}</span>
+                            <span class="badge text-bg-primary mb-2">
+                                {{ \App\Http\Controllers\BeritaController::KATEGORI[$item->kategori] ?? $item->kategori }}
+                            </span>
                         @endif
-                        <h2 class="h5 card-title">{{ $item->judul }}</h2>
+                        <h2 class="h5 card-title">{{ $item->judul_berita }}</h2>
                         <p class="small text-muted">
-                            {{ $item->tanggal_publish?->format('d M Y') ?? $item->created_at?->format('d M Y') }}
-                            @if ($item->penulis) · {{ $item->penulis }} @endif
+                            {{ $item->Tanggal?->format('d M Y') ?? '-' }}
+                            @if ($item->jam) · {{ \Carbon\Carbon::parse($item->jam)->format('g:i a') }} @endif
                         </p>
-                        <p class="card-text">{{ \Illuminate\Support\Str::limit(strip_tags($item->isi), 180) }}</p>
                     </div>
                 </div>
             </article>

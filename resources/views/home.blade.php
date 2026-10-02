@@ -16,21 +16,7 @@
         <h2>SMK - SMK DARMA SISWA 1 & 2 SIDOARJO</h2>
     </div>
 
-    {{-- Search --}}
-    <div class="search-container">
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Apa yang anda cari?"
-        >
-        <button
-            type="button"
-            onclick="searchWebsite()"
-        >
-            <span class="search-icon">⌕</span>
-            <span>Search</span>
-        </button>
-    </div>
+    
 
     {{-- Bagian Sambutan Kepala Sekolah --}}
     <div class="principal-section">
@@ -269,125 +255,30 @@
 
             <div class="news-grid" id="newsGrid">
 
-                <!-- Card 1 -->
-                <article class="news-card" data-category="kegiatan">
-                    <div class="news-img-wrapper">
-                        <img
-                            src="beritaimages/masuksekolahtahunpelajaran.jpg"
-                            alt="Masuk Sekolah Tahun Pelajaran 2025 - 2026"
-                            data-title="Masuk Sekolah"
-                            onerror="newsImageFallback(this)"
-                        >
-                    </div>
-                    <div class="news-body">
-                        <h3 class="news-title">Masuk Sekolah Tahun Pelajaran 2025 - 2026</h3>
-                        <div class="news-meta">
-                            <span>July 2, 2025</span>
-                            <span class="news-dot">&bull;</span>
-                            <span>4 Comments</span>
+                @forelse($daftarBerita as $item)
+                    <article class="news-card" data-category="{{ $item->kategori }}">
+                        <div class="news-img-wrapper">
+                            <img
+                                src="{{ $item->fotoUrl() ?? asset('beritaimages/placeholder.png') }}"
+                                alt="{{ $item->judul_berita }}"
+                                data-title="{{ \Illuminate\Support\Str::limit($item->judul_berita, 24, '') }}"
+                                onerror="newsImageFallback(this)"
+                            >
                         </div>
-                    </div>
-                </article>
-
-                <!-- Card 2 -->
-                <article class="news-card" data-category="kegiatan">
-                    <div class="news-img-wrapper">
-                        <img
-                            src="beritaimages/pelepasansiswa2024-2025.jpg"
-                            alt="Pelepasan Siswa Smk Darma Siswa Sidoarjo 2024 - 2025"
-                            data-title="Pelepasan Siswa"
-                            onerror="newsImageFallback(this)"
-                        >
-                    </div>
-                    <div class="news-body">
-                        <h3 class="news-title">Pelepasan Siswa Smk Darma Siswa Sidoarjo 2024 - 2025</h3>
-                        <div class="news-meta">
-                            <span>May 26, 2025</span>
-                            <span class="news-dot">&bull;</span>
-                            <span>2 Comments</span>
+                        <div class="news-body">
+                            <h3 class="news-title">{{ $item->judul_berita }}</h3>
+                            <div class="news-meta">
+                                <span>{{ $item->Tanggal?->format('F j, Y') }}</span>
+                                @if($item->jam)
+                                    <span class="news-dot">&bull;</span>
+                                    <span>{{ \Carbon\Carbon::parse($item->jam)->format('g:i a') }}</span>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                </article>
-
-                <!-- Card 3 -->
-                <article class="news-card" data-category="artikel">
-                    <div class="news-img-wrapper">
-                        <img
-                            src="beritaimages/caramenghitungpajak.jpg"
-                            alt="Cara Menghitung Pajak Dalam Transaksi bisnis"
-                            data-title="Pajak Transaksi Bisnis"
-                            onerror="newsImageFallback(this)"
-                        >
-                    </div>
-                    <div class="news-body">
-                        <h3 class="news-title">Cara Menghitung Pajak Dalam Transaksi bisnis</h3>
-                        <div class="news-meta">
-                            <span>November 30, 2024</span>
-                            <span class="news-dot">&bull;</span>
-                            <span>No Comments</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Card 4 -->
-                <article class="news-card" data-category="pengumuman">
-                    <div class="news-img-wrapper">
-                        <img
-                            src="beritaimages/harirayaidulfitri1446H.jpg"
-                            alt="Selamat Hari Raya Idul Fitri 1446 H - SMK Darma Siswa 1 &amp; 2 Sidoarjo"
-                            data-title="Idul Fitri 1446 H"
-                            onerror="newsImageFallback(this)"
-                        >
-                    </div>
-                    <div class="news-body">
-                        <h3 class="news-title">Selamat Hari Raya Idul Fitri 1446 H - SMK DARMA SISWA 1 &amp; 2 SIDOARJO</h3>
-                        <div class="news-meta">
-                            <span>March 28, 2025</span>
-                            <span class="news-dot">&bull;</span>
-                            <span>9:58 am</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Card 5 -->
-                <article class="news-card" data-category="pengumuman">
-                    <div class="news-img-wrapper">
-                        <img
-                            src="beritaimages/tahunbaruislam1447H.jpg"
-                            alt="Menyambut Tahun Baru Islam 1447 H Dengan Semangat Hijriah"
-                            data-title="Tahun Baru Islam 1447 H"
-                            onerror="newsImageFallback(this)"
-                        >
-                    </div>
-                    <div class="news-body">
-                        <h3 class="news-title">Menyambut Tahun Baru Islam 1447 H Dengan Semangat Hijriah</h3>
-                        <div class="news-meta">
-                            <span>June 27, 2025</span>
-                            <span class="news-dot">&bull;</span>
-                            <span>7:49 am</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Card 6 -->
-                <article class="news-card" data-category="karya">
-                    <div class="news-img-wrapper">
-                        <img
-                            src="beritaimages/meningkatkankecepatanmotor.jpg"
-                            alt="Tips meningkatkan kecepatan motor tanpa merusak mesin"
-                            data-title="Tips Motor"
-                            onerror="newsImageFallback(this)"
-                        >
-                    </div>
-                    <div class="news-body">
-                        <h3 class="news-title">Tips meningkatkan kecepatan motor tanpa merusak mesin</h3>
-                        <div class="news-meta">
-                            <span>March 8, 2025</span>
-                            <span class="news-dot">&bull;</span>
-                            <span>8:30 am</span>
-                        </div>
-                    </div>
-                </article>
+                    </article>
+                @empty
+                    <p class="text-muted">Belum ada berita.</p>
+                @endforelse
 
             </div>
 

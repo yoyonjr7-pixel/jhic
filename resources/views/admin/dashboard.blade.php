@@ -16,7 +16,7 @@
         ['Total Alumni', $totalAlumni, 'data alumni tersimpan', 'success', 'bi-mortarboard-fill', url('/alumni-track')],
         ['Data Siswa', $totalSiswa, 'siswa terdaftar', 'info', 'bi-people-fill', route('siswa.index')],
         ['Aktivitas TEFA', $totalBookingTefa, $bookingTefaDiproses . ' diproses', 'info', 'bi-shop', route('tefa.index')],
-        ['Lowongan Dibuka', $lowonganDibuka, $pendaftarBaru . ' pendaftar SPMB baru', 'warning', 'bi-briefcase', route('lowongan.index')],
+        ['Lowongan Dibuka', $lowonganDibuka, $lowonganDibuka . ' Lowongan Di Buka', 'warning', 'bi-briefcase', route('lowongan.index')],
     ] as [$label, $jumlah, $catatan, $warna, $ikon, $tautan])
         <div class="col-xl-3 col-md-6">
             <a href="{{ $tautan }}" class="text-decoration-none">
