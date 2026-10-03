@@ -109,6 +109,7 @@
         var toggle = document.getElementById('chatbotToggle');
         var panel = document.getElementById('chatbotPanel');
         var closeBtn = document.getElementById('chatbotClose');
+        var clearBtn = document.getElementById('chatbotClearHistory');
         var scroll = document.getElementById('chatbotScroll');
         var body = document.getElementById('chatbotBody');
         var form = document.getElementById('chatbotForm');
@@ -120,6 +121,12 @@
         }
 
         var isOpen = false;
+
+        // Teks sambutan awal (dipakai lagi setelah riwayat dihapus)
+        var GREETING_MESSAGES = [
+            'MABOT Telah tersambung dengan anda!',
+            'Haiii, selamat datang di SMK Darma Siswa Sidoarjo'
+        ];
 
         function scrollToBottom() {
             if (scroll) {
@@ -237,27 +244,32 @@
             }
         }
 
-        // Jarak panel dari bawah layar: tinggi tombol + jarak.
-        var PANEL_GAP = 102;
-
-        // Di ponsel, sesuaikan posisi/tinggi panel saat keyboard virtual muncul
-        // supaya kolom input tetap terlihat.
+        // Di ponsel panel sudah fullscreen (top:0, 100dvh). Saat keyboard
+        // virtual muncul, tinggi panel menyusut supaya footer input selalu
+        // berakhir tepat di atas keyboard, bukan tertimbannya.
         function syncPanelViewport() {
             var vv = window.visualViewport;
             var isSmall = window.matchMedia('(max-width: 768px)').matches;
 
             if (!vv || !isOpen || !isSmall) {
                 panel.style.height = '';
-                panel.style.bottom = '';
 
                 return;
             }
 
+            // Bagian viewport yang tertutup keyboard (atau toolbar browser).
             var occluded = Math.max(0, window.innerHeight - (vv.height + vv.offsetTop));
-            var bottom = PANEL_GAP + occluded;
 
-            panel.style.bottom = bottom + 'px';
-            panel.style.height = Math.max(220, vv.height - 14 - bottom) + 'px';
+            panel.style.height = Math.max(220, vv.height) + 'px';
+
+            if (occluded > 0) {
+                // Panel menyusut dari bawah; footer otomatis naik ke atas keyboard.
+                panel.style.bottom = '0';
+            } else {
+                panel.style.bottom = '';
+            }
+
+            scrollToBottom();
         }
 
         if (window.visualViewport) {
@@ -318,6 +330,32 @@
             closeBtn.addEventListener('click', function () {
                 closePanel(true);
             });
+        }
+
+        // Hapus riwayat chat: kosongkan area pesan, reset sesi n8n,
+        // lalu tampilkan lagi pesan sambutan.
+        function clearChatHistory() {
+            body.innerHTML = '';
+
+            GREETING_MESSAGES.forEach(function (text) {
+                addMessage(text, false);
+            });
+
+            try {
+                window.localStorage.removeItem(SESSION_KEY);
+            } catch (e) {
+                // localStorage tidak tersedia: sesi baru tetap terpakai di memory.
+            }
+
+            scrollToBottom();
+
+            if (input) {
+                input.focus({ preventScroll: true });
+            }
+        }
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', clearChatHistory);
         }
 
         // Tombol Escape
